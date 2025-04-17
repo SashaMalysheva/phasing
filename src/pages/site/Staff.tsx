@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,6 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle, User } from "lucide-react";
 import StaffCard from "@/components/site/StaffCard";
 import SiteStaffCard from "@/components/site/SiteStaffCard";
+import { Badge } from "@/components/ui/badge";
 
 const StaffPage = () => {
   const { user } = useAuth();
@@ -20,9 +22,6 @@ const StaffPage = () => {
   });
   
   const staffStats = analyticsData?.staff_statistics;
-  
-  // Calculate ready staff as those who don't require attention
-  const readyStaff = staffStats ? (staffStats.total_staff - staffStats.staff_requiring_attention.length) : 0;
   
   return (
     <div className="container mx-auto px-4 py-8">
@@ -40,6 +39,43 @@ const StaffPage = () => {
         </div>
       ) : staffStats ? (
         <div className="space-y-6">
+          {/* Staff Requiring Attention Section */}
+          <Card className="bg-white/50 backdrop-blur-sm border-purple-100">
+            <CardHeader>
+              <CardTitle className="text-purple-900">Staff Requiring Attention</CardTitle>
+              <CardDescription>Staff members needing immediate updates or action</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {staffStats.staff_requiring_attention.length === 0 ? (
+                  <div className="text-center p-4 bg-green-50 rounded-lg">
+                    <p className="text-green-600">All staff members are up to date!</p>
+                  </div>
+                ) : (
+                  staffStats.staff_requiring_attention.map((staff, index) => (
+                    <div key={index} className="flex items-start justify-between p-4 bg-purple-50/50 rounded-lg backdrop-blur-sm">
+                      <div>
+                        <h4 className="font-medium text-purple-900">{staff.name}</h4>
+                        <p className="text-sm text-purple-700">{staff.role}</p>
+                        <div className="mt-2 space-y-1">
+                          {staff.needs.map((need, i) => (
+                            <div key={i} className="flex items-center gap-2">
+                              <AlertCircle className="h-4 w-4 text-purple-500" />
+                              <span className="text-sm text-purple-700">{need}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
+                        Action Needed
+                      </Badge>
+                    </div>
+                  ))
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Certification Overview Section */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="md:col-span-2">
