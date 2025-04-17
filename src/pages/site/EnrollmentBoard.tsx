@@ -8,12 +8,12 @@ import { Filter, Plus, RefreshCcw, ArrowLeft, PhoneCall, CheckCircle, X, Clock, 
 import { Badge } from "@/components/ui/badge";
 
 const stats = [
-  { label: "Enrolled Participants", value: "45", change: "+5" },
+  { label: "Enrolled Participants", value: "45" },
   { label: "Enrollment Target", value: "100" },
   { label: "Enrollment Progress", value: "45%" },
-  { label: "Identified Leads", value: "150", change: "+12" },
-  { label: "Ongoing Outreach", value: "95", change: "-3" },
-  { label: "Prescreened", value: "72", change: "+2" }
+  { label: "Identified Leads", value: "150" },
+  { label: "Ongoing Outreach", value: "95" },
+  { label: "Prescreened", value: "72" }
 ];
 
 const EnrollmentBoard = () => {
