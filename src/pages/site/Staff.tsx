@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -10,7 +9,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle } from "lucide-react";
 import StaffCard from "@/components/site/StaffCard";
 
-// Updated interface to match the data structure from the API
+interface StaffMember {
+  name: string;
+  role: string;
+  issues: string[] | null;
+}
+
+// Updated interface to match the API data structure
 interface StaffStatistics {
   total_staff: number;
   role_distribution: Record<string, number>;
@@ -21,11 +26,8 @@ interface StaffStatistics {
     delegation_of_authority: { count: number; percentage: number };
   };
   experience_by_role: Record<string, number>;
-  staff_requiring_attention: Array<{
-    name: string;
-    role: string;
-    needs: string[];
-  }>;
+  qualified_staff: StaffMember[];
+  staff_requiring_attention: StaffMember[];
 }
 
 const StaffPage = () => {
@@ -125,12 +127,21 @@ const StaffPage = () => {
             
             <TabsContent value="all">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {staffStats.staff_requiring_attention && staffStats.staff_requiring_attention.map((staff, index) => (
+                {staffStats.qualified_staff && staffStats.qualified_staff.map((staff, index) => (
                   <StaffCard 
-                    key={`incomplete-${index}`}
+                    key={`qualified-${index}`}
                     name={staff.name}
                     role={staff.role}
-                    issues={staff.needs}
+                    issues={null}
+                    experience={staffStats.experience_by_role[staff.role]}
+                  />
+                ))}
+                {staffStats.staff_requiring_attention && staffStats.staff_requiring_attention.map((staff, index) => (
+                  <StaffCard 
+                    key={`attention-${index}`}
+                    name={staff.name}
+                    role={staff.role}
+                    issues={staff.issues}
                   />
                 ))}
               </div>
@@ -144,7 +155,7 @@ const StaffPage = () => {
                       key={`incomplete-${index}`}
                       name={staff.name}
                       role={staff.role}
-                      issues={staff.needs}
+                      issues={staff.issues}
                     />
                   ))
                 ) : (
@@ -157,15 +168,14 @@ const StaffPage = () => {
             
             <TabsContent value="complete">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {staffStats.staff_requiring_attention && staffStats.staff_requiring_attention.filter(staff => staff.needs.length === 0).length > 0 ? (
-                  staffStats.staff_requiring_attention.filter(staff => staff.needs.length === 0).map((staff, index) => (
+                {staffStats.qualified_staff && staffStats.qualified_staff.length > 0 ? (
+                  staffStats.qualified_staff.map((staff, index) => (
                     <StaffCard 
                       key={`complete-${index}`}
                       name={staff.name}
                       role={staff.role}
-                      issues={[]}
-                      experience={staffStats.experience_by_role ? 
-                        staffStats.experience_by_role[staff.role] : undefined}
+                      issues={null}
+                      experience={staffStats.experience_by_role[staff.role]}
                     />
                   ))
                 ) : (
