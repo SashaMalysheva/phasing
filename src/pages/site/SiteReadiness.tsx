@@ -1,6 +1,7 @@
 
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CustomProgress } from "@/components/ui/custom-progress";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle2, XCircle, AlertTriangle, FileText, Users, Clipboard, Thermometer, Lock, ShieldCheck } from "lucide-react";
@@ -120,42 +121,56 @@ const SiteReadiness: React.FC = () => {
   const pendingItems = totalItems - completedItems;
 
   return (
-    <div className="space-y-8 p-6">
-      {/* Compact Site Readiness Header */}
-      <div className="flex justify-between items-center">
-        <h1 className="text-xl font-semibold text-[#1A1F2C]">Site Readiness Status</h1>
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-2xl font-semibold text-[#1A1F2C] tracking-tight mb-1">Site Readiness Status</h1>
+        <p className="text-[#8E9196] text-sm">
+          Track your site's readiness and requirements for clinical trial participation
+        </p>
       </div>
 
-      {/* Comprehensive Summary Section */}
-      <div className="bg-white rounded-lg border p-6 space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <p className="text-sm text-[#8E9196] mb-2">Overall Readiness</p>
-            <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-bold text-[#16A34A]">{overallScore}%</span>
-            </div>
-            <Progress 
+      {/* Full Width Summary Section */}
+      <div className="w-full bg-white rounded-lg border p-8 space-y-12">
+        <div className="max-w-2xl">
+          <h2 className="text-2xl font-semibold text-[#1A1F2C]">Overall Readiness</h2>
+          <p className="text-[#8E9196] text-sm mb-6">Site preparation progress</p>
+          
+          <div className="space-y-2">
+            <span className="text-6xl font-bold text-[#16A34A]">{overallScore}%</span>
+            <CustomProgress 
               value={overallScore} 
-              className="h-2 mt-2 bg-[#E6E6E6]" 
+              className="h-3" 
+              indicatorClassName="bg-[#16A34A]"
             />
           </div>
+        </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <p className="text-sm text-[#8E9196] mb-2">Completed Items</p>
-            <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-bold text-[#1A1F2C]">{completedItems}</span>
-              <span className="text-sm text-[#8E9196]">of {totalItems}</span>
+            <h3 className="text-xl font-semibold text-[#1A1F2C]">Completed Items</h3>
+            <div className="mt-2 flex items-baseline gap-2">
+              <span className="text-4xl font-bold text-[#1A1F2C]">{completedItems}</span>
+              <span className="text-[#8E9196]">of {totalItems}</span>
             </div>
-            <p className="text-xs text-[#8E9196] mt-1">Successfully validated requirements</p>
+            <p className="text-[#8E9196] text-sm mt-1">Successfully validated requirements</p>
           </div>
 
           <div>
-            <p className="text-sm text-[#8E9196] mb-2">Action Required</p>
-            <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-bold text-[#DC2626]">{pendingItems}</span>
-              <span className="text-sm text-[#8E9196]">items</span>
+            <h3 className="text-xl font-semibold text-[#1A1F2C]">Action Required</h3>
+            <div className="mt-2 flex items-baseline gap-2">
+              <span className="text-4xl font-bold text-[#DC2626]">{pendingItems}</span>
+              <span className="text-[#8E9196]">items</span>
             </div>
-            <p className="text-xs text-[#8E9196] mt-1">Items needing attention</p>
+            <p className="text-[#8E9196] text-sm mt-1">Items needing attention</p>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-semibold text-[#1A1F2C]">Time Estimate</h3>
+            <div className="mt-2 flex items-baseline gap-2">
+              <span className="text-4xl font-bold text-[#F59E0B]">{Math.ceil(pendingItems * 1.5)}</span>
+              <span className="text-[#8E9196]">days</span>
+            </div>
+            <p className="text-[#8E9196] text-sm mt-1">Estimated completion time</p>
           </div>
         </div>
       </div>
