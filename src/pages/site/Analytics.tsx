@@ -202,25 +202,38 @@ const SiteAnalytics = () => {
     );
   }
 
+  // Ensure analytics data is available before proceeding
+  if (!analytics) {
+    return (
+      <Alert className="my-4">
+        <AlertCircle className="h-4 w-4" />
+        <AlertTitle>No Data Available</AlertTitle>
+        <AlertDescription>
+          No analytics data is currently available. Please try again later.
+        </AlertDescription>
+      </Alert>
+    );
+  }
+
   // Transform gender data for chart
-  const genderData = analytics ? Object.entries(analytics.patient_statistics.gender_distribution).map(([gender, data]) => ({
+  const genderData = Object.entries(analytics.patient_statistics.gender_distribution).map(([gender, data]) => ({
     name: formatKeyToLabel(gender),
     value: data.count
-  })) : [];
+  }));
 
   // Transform age data for chart
-  const ageData = analytics ? Object.entries(analytics.patient_statistics.age_distribution).map(([range, data]) => ({
+  const ageData = Object.entries(analytics.patient_statistics.age_distribution).map(([range, data]) => ({
     name: range,
     value: data.count
-  })) : [];
+  }));
 
   // Get document and equipment counts
-  const docStats = analytics ? {
+  const docStats = analytics && analytics.site_readiness && analytics.site_readiness.documentation ? {
     total: Object.keys(analytics.site_readiness.documentation).length,
     ready: Object.values(analytics.site_readiness.documentation).filter(Boolean).length
   } : { total: 0, ready: 0 };
 
-  const equipStats = analytics ? {
+  const equipStats = analytics && analytics.site_readiness && analytics.site_readiness.equipment ? {
     total: Object.keys(analytics.site_readiness.equipment).length,
     ready: Object.values(analytics.site_readiness.equipment).filter(Boolean).length
   } : { total: 0, ready: 0 };
@@ -244,7 +257,7 @@ const SiteAnalytics = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {analytics && analytics.staff_statistics.staff_requiring_attention.length === 0 ? (
+            {analytics.staff_statistics.staff_requiring_attention.length === 0 ? (
               <Alert>
                 <CheckCircle2 className="h-4 w-4" />
                 <AlertTitle>No issues found</AlertTitle>
@@ -255,10 +268,10 @@ const SiteAnalytics = () => {
             ) : (
               <div className="space-y-2">
                 <div className="text-sm text-muted-foreground mb-2">
-                  {analytics?.staff_statistics.staff_requiring_attention.length} of {analytics?.staff_statistics.total_staff} staff members need attention
+                  {analytics.staff_statistics.staff_requiring_attention.length} of {analytics.staff_statistics.total_staff} staff members need attention
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {analytics?.staff_statistics.staff_requiring_attention.map((staff, index) => (
+                  {analytics.staff_statistics.staff_requiring_attention.map((staff, index) => (
                     <div key={index} className="border rounded-md p-3">
                       <h4 className="font-medium">{staff.name}</h4>
                       <p className="text-sm text-muted-foreground">{staff.role}</p>
@@ -289,7 +302,7 @@ const SiteAnalytics = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {analytics && Object.entries(analytics.staff_statistics.certification_status).map(([cert, status]) => (
+                {Object.entries(analytics.staff_statistics.certification_status).map(([cert, status]) => (
                   <div key={cert} className="space-y-1">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium">{formatKeyToLabel(cert)}</span>
@@ -309,7 +322,7 @@ const SiteAnalytics = () => {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Users className="mr-2 h-5 w-5" />
-                Patient Demographics ({analytics?.patient_statistics.total_patients} total)
+                Patient Demographics ({analytics.patient_statistics.total_patients} total)
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -331,26 +344,24 @@ const SiteAnalytics = () => {
                 <div className="h-32">
                   <h3 className="text-sm font-medium mb-1">Gender Distribution</h3>
                   <div className="flex items-center justify-center h-full">
-                    {analytics && (
-                      <div className="flex flex-col items-center">
-                        <div className="flex space-x-4 mb-2">
-                          <div className="flex items-center">
-                            <div className="w-3 h-3 rounded-full bg-blue-500 mr-2"></div>
-                            <span className="text-sm">Male: {analytics.patient_statistics.gender_distribution.male.count} ({analytics.patient_statistics.gender_distribution.male.percentage}%)</span>
-                          </div>
-                          <div className="flex items-center">
-                            <div className="w-3 h-3 rounded-full bg-pink-500 mr-2"></div>
-                            <span className="text-sm">Female: {analytics.patient_statistics.gender_distribution.female.count} ({analytics.patient_statistics.gender_distribution.female.percentage}%)</span>
-                          </div>
+                    <div className="flex flex-col items-center">
+                      <div className="flex space-x-4 mb-2">
+                        <div className="flex items-center">
+                          <div className="w-3 h-3 rounded-full bg-blue-500 mr-2"></div>
+                          <span className="text-sm">Male: {analytics.patient_statistics.gender_distribution.male.count} ({analytics.patient_statistics.gender_distribution.male.percentage}%)</span>
                         </div>
-                        <div className="w-full h-2 bg-gray-200 rounded-full">
-                          <div 
-                            className="h-2 bg-blue-500 rounded-l-full" 
-                            style={{ width: `${analytics.patient_statistics.gender_distribution.male.percentage}%` }}
-                          ></div>
+                        <div className="flex items-center">
+                          <div className="w-3 h-3 rounded-full bg-pink-500 mr-2"></div>
+                          <span className="text-sm">Female: {analytics.patient_statistics.gender_distribution.female.count} ({analytics.patient_statistics.gender_distribution.female.percentage}%)</span>
                         </div>
                       </div>
-                    )}
+                      <div className="w-full h-2 bg-gray-200 rounded-full">
+                        <div 
+                          className="h-2 bg-blue-500 rounded-l-full" 
+                          style={{ width: `${analytics.patient_statistics.gender_distribution.male.percentage}%` }}
+                        ></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -359,75 +370,81 @@ const SiteAnalytics = () => {
         </div>
 
         {/* Site Readiness Overview */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center">
-              <CheckSquare className="mr-2 h-5 w-5" />
-              Site Readiness Overview
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Documentation Status */}
-              <div>
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="text-lg font-medium">Documentation Status</h3>
-                  <span className="text-xl font-bold">{docStats.ready}/{docStats.total}</span>
-                </div>
-                <Progress 
-                  value={(docStats.ready / docStats.total) * 100} 
-                  className="h-2 mb-4"
-                />
+        {analytics.site_readiness && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <CheckSquare className="mr-2 h-5 w-5" />
+                Site Readiness Overview
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Documentation Status */}
+                {analytics.site_readiness.documentation && (
+                  <div>
+                    <div className="flex justify-between items-center mb-2">
+                      <h3 className="text-lg font-medium">Documentation Status</h3>
+                      <span className="text-xl font-bold">{docStats.ready}/{docStats.total}</span>
+                    </div>
+                    <Progress 
+                      value={(docStats.ready / docStats.total) * 100} 
+                      className="h-2 mb-4"
+                    />
+                    
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Document</TableHead>
+                          <TableHead className="w-[100px] text-right">Status</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {Object.entries(analytics.site_readiness.documentation).map(([doc, status]) => (
+                          <TableRow key={doc}>
+                            <TableCell className="font-medium">{formatKeyToLabel(doc)}</TableCell>
+                            <TableCell className="text-right">{getStatusIcon(status)}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                )}
                 
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Document</TableHead>
-                      <TableHead className="w-[100px] text-right">Status</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {analytics && Object.entries(analytics.site_readiness.documentation).map(([doc, status]) => (
-                      <TableRow key={doc}>
-                        <TableCell className="font-medium">{formatKeyToLabel(doc)}</TableCell>
-                        <TableCell className="text-right">{getStatusIcon(status)}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                {/* Equipment Status */}
+                {analytics.site_readiness.equipment && (
+                  <div>
+                    <div className="flex justify-between items-center mb-2">
+                      <h3 className="text-lg font-medium">Equipment Status</h3>
+                      <span className="text-xl font-bold">{equipStats.ready}/{equipStats.total}</span>
+                    </div>
+                    <Progress 
+                      value={(equipStats.ready / equipStats.total) * 100} 
+                      className="h-2 mb-4"
+                    />
+                    
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Equipment</TableHead>
+                          <TableHead className="w-[100px] text-right">Status</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {Object.entries(analytics.site_readiness.equipment).map(([item, status]) => (
+                          <TableRow key={item}>
+                            <TableCell className="font-medium">{formatKeyToLabel(item)}</TableCell>
+                            <TableCell className="text-right">{getStatusIcon(status)}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                )}
               </div>
-              
-              {/* Equipment Status */}
-              <div>
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="text-lg font-medium">Equipment Status</h3>
-                  <span className="text-xl font-bold">{equipStats.ready}/{equipStats.total}</span>
-                </div>
-                <Progress 
-                  value={(equipStats.ready / equipStats.total) * 100} 
-                  className="h-2 mb-4"
-                />
-                
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Equipment</TableHead>
-                      <TableHead className="w-[100px] text-right">Status</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {analytics && Object.entries(analytics.site_readiness.equipment).map(([item, status]) => (
-                      <TableRow key={item}>
-                        <TableCell className="font-medium">{formatKeyToLabel(item)}</TableCell>
-                        <TableCell className="text-right">{getStatusIcon(status)}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );
