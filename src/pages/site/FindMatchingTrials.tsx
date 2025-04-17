@@ -28,21 +28,6 @@ import {
   CalendarClock,
   Activity
 } from "lucide-react";
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from "@/components/ui/table";
 
 const FindMatchingTrials = () => {
   const { user } = useAuth();
@@ -58,24 +43,22 @@ const FindMatchingTrials = () => {
       <header className="mb-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-700 to-purple-500 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold text-gray-900">
               Find Matching Trials
             </h1>
-            <p className="text-muted-foreground mt-1">
+            <p className="text-gray-600 mt-1">
               Discover clinical trials that match your site's capabilities and patient population
             </p>
           </div>
           
-          <div className="flex items-center gap-2">
-            <Button 
-              variant="outline" 
-              onClick={() => refetch()}
-              className="flex items-center"
-            >
-              <RefreshCw className="h-4 w-4 mr-2" />
-              Refresh
-            </Button>
-          </div>
+          <Button 
+            variant="outline" 
+            onClick={() => refetch()}
+            className="flex items-center bg-white hover:bg-gray-50"
+          >
+            <RefreshCw className="h-4 w-4 mr-2" />
+            Refresh
+          </Button>
         </div>
       </header>
       
@@ -84,28 +67,37 @@ const FindMatchingTrials = () => {
           <Skeleton className="h-[500px] w-full rounded-lg" />
         </div>
       ) : isError ? (
-        <Card className="border-destructive/50">
+        <Card className="border-red-200 bg-red-50">
           <CardContent className="flex flex-col items-center justify-center py-10">
-            <div className="rounded-full bg-destructive/10 p-3 mb-4">
-              <AlertCircle className="h-8 w-8 text-destructive" />
+            <div className="rounded-full bg-red-100 p-3 mb-4">
+              <AlertCircle className="h-8 w-8 text-red-600" />
             </div>
-            <h3 className="text-lg font-medium">Error Loading Trials</h3>
-            <p className="text-muted-foreground text-center mb-4 max-w-md">
+            <h3 className="text-lg font-medium text-red-900">Error Loading Trials</h3>
+            <p className="text-red-600 text-center mb-4 max-w-md">
               We couldn't load matching trials. Please check your connection and try again.
             </p>
-            <Button onClick={() => refetch()}>Retry</Button>
+            <Button onClick={() => refetch()} className="bg-red-600 hover:bg-red-700 text-white">Retry</Button>
           </CardContent>
         </Card>
       ) : data?.matching_trials && data.matching_trials.length > 0 ? (
         <Tabs defaultValue="all" className="w-full">
-          <TabsList className="mb-6 bg-purple-100 dark:bg-purple-900/20 p-1">
-            <TabsTrigger value="all" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">
+          <TabsList className="mb-6 p-1 bg-[#F8F9FC]">
+            <TabsTrigger 
+              value="all" 
+              className="data-[state=active]:bg-[#8B5CF6] data-[state=active]:text-white"
+            >
               All Matches ({data.matching_trials.length})
             </TabsTrigger>
-            <TabsTrigger value="high" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">
+            <TabsTrigger 
+              value="high" 
+              className="data-[state=active]:bg-[#8B5CF6] data-[state=active]:text-white"
+            >
               High Match (90%+)
             </TabsTrigger>
-            <TabsTrigger value="medium" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">
+            <TabsTrigger 
+              value="medium" 
+              className="data-[state=active]:bg-[#8B5CF6] data-[state=active]:text-white"
+            >
               Medium Match (70-89%)
             </TabsTrigger>
           </TabsList>
@@ -124,8 +116,7 @@ const FindMatchingTrials = () => {
                 .filter(trial => trial.compatibility_score >= 90)
                 .map((trial) => (
                   <TrialMatchCard key={trial.id} trial={trial} />
-                ))
-              }
+                ))}
             </div>
           </TabsContent>
           
@@ -135,23 +126,22 @@ const FindMatchingTrials = () => {
                 .filter(trial => trial.compatibility_score >= 70 && trial.compatibility_score < 90)
                 .map((trial) => (
                   <TrialMatchCard key={trial.id} trial={trial} />
-                ))
-              }
+                ))}
             </div>
           </TabsContent>
         </Tabs>
       ) : (
-        <Card>
+        <Card className="bg-gray-50 border-gray-200">
           <CardContent className="flex flex-col items-center justify-center py-12">
-            <div className="rounded-full bg-muted p-3 mb-4">
-              <Search className="h-8 w-8 text-muted-foreground" />
+            <div className="rounded-full bg-gray-100 p-3 mb-4">
+              <Search className="h-8 w-8 text-gray-400" />
             </div>
-            <h3 className="text-xl font-medium">No Matching Trials Found</h3>
-            <p className="text-muted-foreground text-center mb-6 max-w-md">
+            <h3 className="text-xl font-medium text-gray-900">No Matching Trials Found</h3>
+            <p className="text-gray-600 text-center mb-6 max-w-md">
               We couldn't find any trials that match your site's capabilities.
               Please check back later or update your site profile.
             </p>
-            <Button onClick={() => refetch()}>
+            <Button onClick={() => refetch()} className="bg-[#8B5CF6] hover:bg-[#7C3AED] text-white">
               <RefreshCw className="h-4 w-4 mr-2" />
               Refresh Search
             </Button>
@@ -162,12 +152,7 @@ const FindMatchingTrials = () => {
   );
 };
 
-// Helper component for trial card
-interface TrialCardProps {
-  trial: any;
-}
-
-const TrialMatchCard: React.FC<TrialCardProps> = ({ trial }) => {
+const TrialMatchCard = ({ trial }: { trial: any }) => {
   const compatibilityScore = Math.round(trial.compatibility_score);
   const scoreColorClass = compatibilityScore >= 90 
     ? "text-green-600" 
@@ -184,17 +169,17 @@ const TrialMatchCard: React.FC<TrialCardProps> = ({ trial }) => {
     : [];
   
   return (
-    <Card className="overflow-hidden border border-purple-100 hover:border-purple-300 transition-all duration-200 shadow-sm hover:shadow">
-      <CardHeader className="pb-2 bg-gradient-to-r from-purple-50 to-white dark:from-purple-950/30 dark:to-gray-900/20">
+    <Card className="overflow-hidden border-gray-200 hover:border-gray-300 transition-all duration-200 shadow-sm hover:shadow bg-white">
+      <CardHeader className="pb-2">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
           <div>
-            <CardTitle className="text-xl text-purple-900 dark:text-purple-300">{trial.name}</CardTitle>
-            <CardDescription className="mt-1">{trial.description}</CardDescription>
+            <CardTitle className="text-xl text-gray-900">{trial.name}</CardTitle>
+            <CardDescription className="mt-1 text-gray-600">{trial.description}</CardDescription>
           </div>
           <div className="flex items-center space-x-4">
             <div className="text-right">
               <div className={`font-bold text-2xl ${scoreColorClass}`}>{compatibilityScore}%</div>
-              <div className="text-sm text-muted-foreground">Match Score</div>
+              <div className="text-sm text-gray-600">Match Score</div>
             </div>
           </div>
         </div>
@@ -204,23 +189,23 @@ const TrialMatchCard: React.FC<TrialCardProps> = ({ trial }) => {
         <div className="space-y-6">
           <div>
             <div className="flex justify-between text-sm mb-1">
-              <span className="flex items-center">
+              <span className="flex items-center text-gray-700">
                 <Users className="h-4 w-4 mr-1" /> Eligible Patients
               </span>
-              <span className="font-medium">
+              <span className="font-medium text-gray-900">
                 {trial.eligible_patient_count}/{trial.total_patient_count}
               </span>
             </div>
             <CustomProgress 
               value={eligibleRatio} 
-              className="h-2 bg-purple-100"
-              indicatorClassName="bg-purple-600"
+              className="h-2 bg-gray-100"
+              indicatorClassName={compatibilityScore >= 90 ? "bg-green-500" : compatibilityScore >= 70 ? "bg-amber-500" : "bg-red-500"}
             />
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div>
-              <h4 className="text-sm font-medium mb-3 flex items-center">
+              <h4 className="text-sm font-medium mb-3 flex items-center text-gray-900">
                 <CheckCircle2 className="h-4 w-4 mr-1.5 text-green-600" /> 
                 Compatibility Highlights
               </h4>
@@ -242,7 +227,7 @@ const TrialMatchCard: React.FC<TrialCardProps> = ({ trial }) => {
             
             {topRejectionReasons.length > 0 && (
               <div>
-                <h4 className="text-sm font-medium mb-3 flex items-center">
+                <h4 className="text-sm font-medium mb-3 flex items-center text-gray-900">
                   <AlertTriangle className="h-4 w-4 mr-1.5 text-amber-600" /> 
                   Top Patient Rejection Factors
                 </h4>
@@ -254,47 +239,23 @@ const TrialMatchCard: React.FC<TrialCardProps> = ({ trial }) => {
               </div>
             )}
           </div>
-          
-          {Object.keys(trial.rejection_reasons || {}).length > 3 && (
-            <div>
-              <h4 className="text-sm font-medium mb-3">All Rejection Reasons</h4>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Criteria</TableHead>
-                    <TableHead className="text-right">Patients Affected</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {Object.entries(trial.rejection_reasons)
-                    .sort((a, b) => (b[1] as number) - (a[1] as number))
-                    .map(([reason, count]) => (
-                      <TableRow key={reason}>
-                        <TableCell className="capitalize">{reason.replace(/_/g, ' ')}</TableCell>
-                        <TableCell className="text-right">{count as number} patients</TableCell>
-                      </TableRow>
-                    ))}
-                </TableBody>
-              </Table>
-            </div>
-          )}
         </div>
       </CardContent>
       
-      <CardFooter className="border-t bg-gradient-to-r from-white to-purple-50 dark:from-gray-900/20 dark:to-purple-950/30 py-4">
+      <CardFooter className="border-t bg-gray-50 py-4">
         <div className="flex w-full justify-between items-center">
-          <Button variant="outline" size="sm" className="text-purple-700 border-purple-200 hover:bg-purple-50">
+          <Button variant="outline" size="sm" className="text-gray-700 border-gray-200 hover:bg-gray-100">
             <FileText className="h-4 w-4 mr-1.5" />
             View Protocol
           </Button>
-          <Button size="sm" className="bg-purple-600 hover:bg-purple-700">Express Interest</Button>
+          <Button size="sm" className="bg-[#8B5CF6] hover:bg-[#7C3AED] text-white">Express Interest</Button>
         </div>
       </CardFooter>
     </Card>
   );
 };
 
-const RejectionReasonBadge: React.FC<{reason: string; count: number}> = ({ reason, count }) => {
+const RejectionReasonBadge = ({ reason, count }: { reason: string; count: number }) => {
   const getReasonIcon = (reason: string) => {
     switch (reason) {
       case 'age':
