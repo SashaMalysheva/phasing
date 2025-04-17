@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { findMatchingTrials } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
@@ -10,11 +10,9 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Progress } from "@/components/ui/progress";
 import { AlertCircle, CheckCircle2, RefreshCw, Search, XCircle } from "lucide-react";
-import SiteTrialMap from "@/components/site/SiteTrialMap";
 
 const FindMatchingTrials = () => {
   const { user } = useAuth();
-  const [viewType, setViewType] = useState<"map" | "list">("map");
   
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['matchingTrials', user?.id],
@@ -41,25 +39,6 @@ const FindMatchingTrials = () => {
             <RefreshCw className="h-4 w-4 mr-2" />
             Refresh
           </Button>
-          
-          <div className="inline-flex items-center rounded-md border border-input bg-background p-1">
-            <Button
-              variant={viewType === "map" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => setViewType("map")}
-              className="rounded-sm px-3"
-            >
-              Map
-            </Button>
-            <Button
-              variant={viewType === "list" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => setViewType("list")}
-              className="rounded-sm px-3"
-            >
-              List
-            </Button>
-          </div>
         </div>
       </div>
       
@@ -87,51 +66,33 @@ const FindMatchingTrials = () => {
           </TabsList>
           
           <TabsContent value="all">
-            {viewType === "map" ? (
-              <SiteTrialMap matchingTrials={data.matching_trials} />
-            ) : (
-              <div className="space-y-4">
-                {data.matching_trials.map((trial) => (
-                  <TrialMatchCard key={trial.id} trial={trial} />
-                ))}
-              </div>
-            )}
+            <div className="space-y-4">
+              {data.matching_trials.map((trial) => (
+                <TrialMatchCard key={trial.id} trial={trial} />
+              ))}
+            </div>
           </TabsContent>
           
           <TabsContent value="high">
-            {viewType === "map" ? (
-              <SiteTrialMap 
-                matchingTrials={data.matching_trials.filter(t => t.compatibility_score >= 90)} 
-              />
-            ) : (
-              <div className="space-y-4">
-                {data.matching_trials
-                  .filter(trial => trial.compatibility_score >= 90)
-                  .map((trial) => (
-                    <TrialMatchCard key={trial.id} trial={trial} />
-                  ))
-                }
-              </div>
-            )}
+            <div className="space-y-4">
+              {data.matching_trials
+                .filter(trial => trial.compatibility_score >= 90)
+                .map((trial) => (
+                  <TrialMatchCard key={trial.id} trial={trial} />
+                ))
+              }
+            </div>
           </TabsContent>
           
           <TabsContent value="medium">
-            {viewType === "map" ? (
-              <SiteTrialMap 
-                matchingTrials={data.matching_trials.filter(
-                  t => t.compatibility_score >= 70 && t.compatibility_score < 90
-                )} 
-              />
-            ) : (
-              <div className="space-y-4">
-                {data.matching_trials
-                  .filter(trial => trial.compatibility_score >= 70 && trial.compatibility_score < 90)
-                  .map((trial) => (
-                    <TrialMatchCard key={trial.id} trial={trial} />
-                  ))
-                }
-              </div>
-            )}
+            <div className="space-y-4">
+              {data.matching_trials
+                .filter(trial => trial.compatibility_score >= 70 && trial.compatibility_score < 90)
+                .map((trial) => (
+                  <TrialMatchCard key={trial.id} trial={trial} />
+                ))
+              }
+            </div>
           </TabsContent>
         </Tabs>
       ) : (
