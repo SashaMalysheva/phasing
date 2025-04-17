@@ -98,22 +98,26 @@ const StaffPage = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {staffStats.staff_requiring_attention && staffStats.staff_requiring_attention.map((staff, index) => (
-                    <div key={index} className="flex items-start p-3 bg-purple-50/50 rounded-lg backdrop-blur-sm">
-                      <div>
-                        <h4 className="text-sm font-medium text-purple-900">{staff.name}</h4>
-                        <p className="text-xs text-purple-700">{staff.role}</p>
-                        <div className="mt-1">
-                          {staff.issues.map((issue, i) => (
-                            <div key={i} className="flex items-center gap-1.5">
-                              <AlertCircle className="h-3 w-3 text-purple-500" />
-                              <span className="text-xs text-purple-700">{issue}</span>
-                            </div>
-                          ))}
+                  {staffStats.staff_requiring_attention && staffStats.staff_requiring_attention.length > 0 ? (
+                    staffStats.staff_requiring_attention.map((staff, index) => (
+                      <div key={index} className="flex items-start p-3 bg-purple-50/50 rounded-lg backdrop-blur-sm">
+                        <div>
+                          <h4 className="text-sm font-medium text-purple-900">{staff.name}</h4>
+                          <p className="text-xs text-purple-700">{staff.role}</p>
+                          <div className="mt-1">
+                            {staff.issues && staff.issues.map((issue, i) => (
+                              <div key={i} className="flex items-center gap-1.5">
+                                <AlertCircle className="h-3 w-3 text-purple-500" />
+                                <span className="text-xs text-purple-700">{issue}</span>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  ) : (
+                    <div className="text-sm text-purple-700">No staff members require attention at this time.</div>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -129,7 +133,7 @@ const StaffPage = () => {
             
             <TabsContent value="all">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {staffStats.staff_requiring_attention.map((staff, index) => (
+                {staffStats.staff_requiring_attention && staffStats.staff_requiring_attention.map((staff, index) => (
                   <StaffCard 
                     key={`incomplete-${index}`}
                     name={staff.name}
@@ -137,7 +141,7 @@ const StaffPage = () => {
                     issues={staff.issues}
                   />
                 ))}
-                {staffStats.qualified_staff.map((staff, index) => (
+                {staffStats.qualified_staff && staffStats.qualified_staff.map((staff, index) => (
                   <StaffCard 
                     key={`complete-${index}`}
                     name={staff.name}
@@ -152,29 +156,41 @@ const StaffPage = () => {
             
             <TabsContent value="incomplete">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {staffStats.staff_requiring_attention.map((staff, index) => (
-                  <StaffCard 
-                    key={`incomplete-${index}`}
-                    name={staff.name}
-                    role={staff.role}
-                    issues={staff.issues}
-                  />
-                ))}
+                {staffStats.staff_requiring_attention && staffStats.staff_requiring_attention.length > 0 ? (
+                  staffStats.staff_requiring_attention.map((staff, index) => (
+                    <StaffCard 
+                      key={`incomplete-${index}`}
+                      name={staff.name}
+                      role={staff.role}
+                      issues={staff.issues}
+                    />
+                  ))
+                ) : (
+                  <div className="col-span-3 text-center p-8">
+                    <p className="text-muted-foreground">No staff members require attention at this time.</p>
+                  </div>
+                )}
               </div>
             </TabsContent>
             
             <TabsContent value="complete">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {staffStats.qualified_staff.map((staff, index) => (
-                  <StaffCard 
-                    key={`complete-${index}`}
-                    name={staff.name}
-                    role={staff.role}
-                    issues={null}
-                    experience={staffStats.average_experience ? 
-                      staffStats.average_experience[staff.role] : undefined}
-                  />
-                ))}
+                {staffStats.qualified_staff && staffStats.qualified_staff.length > 0 ? (
+                  staffStats.qualified_staff.map((staff, index) => (
+                    <StaffCard 
+                      key={`complete-${index}`}
+                      name={staff.name}
+                      role={staff.role}
+                      issues={null}
+                      experience={staffStats.average_experience ? 
+                        staffStats.average_experience[staff.role] : undefined}
+                    />
+                  ))
+                ) : (
+                  <div className="col-span-3 text-center p-8">
+                    <p className="text-muted-foreground">No qualified staff members found.</p>
+                  </div>
+                )}
               </div>
             </TabsContent>
           </Tabs>
