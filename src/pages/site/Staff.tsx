@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -9,12 +10,21 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle, Check } from "lucide-react";
 import StaffCard from "@/components/site/StaffCard";
 
-interface StaffMember {
+// Define interfaces for staff member types
+interface QualifiedStaffMember {
   name: string;
   role: string;
-  issues: string[] | null;
+  issues: null;
   experience?: number;
 }
+
+interface AttentionRequiredStaffMember {
+  name: string;
+  role: string;
+  issues: string[];
+}
+
+type StaffMember = QualifiedStaffMember | AttentionRequiredStaffMember;
 
 // Modified interface to match what the API actually returns
 interface StaffStatistics {
@@ -250,7 +260,7 @@ const StaffPage = () => {
                     name={staff.name}
                     role={staff.role}
                     issues={staff.issues}
-                    experience={staff.experience}
+                    experience={staff.issues === null ? staff.experience : undefined}
                   />
                 ))}
               </div>
