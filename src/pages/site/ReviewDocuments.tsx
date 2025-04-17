@@ -244,8 +244,8 @@ const ReviewDocuments = () => {
       <div className="space-y-8">
         {/* Pending Site Review Section */}
         {pendingSiteReview.length > 0 && (
-          <Card className="border-[#E5DEFF]">
-            <CardHeader className="pb-3 bg-[#E5DEFF]/50 rounded-t-lg">
+          <Card className="border-purple-100/20 bg-gradient-to-b from-[#F5E6FF]/30 to-[#E6D1FF]/20">
+            <CardHeader className="pb-3">
               <CardTitle className="text-xl flex items-center gap-2">
                 <Clock className="h-5 w-5 text-[#6E59A5]" />
                 Pending Site Review ({pendingSiteReview.length})
@@ -298,10 +298,10 @@ const ReviewDocuments = () => {
 
         {/* Draft Documents */}
         {draft.length > 0 && (
-          <Card className="border-gray-200">
-            <CardHeader className="pb-3 bg-gray-50 rounded-t-lg">
+          <Card className="border-purple-200/20 bg-gradient-to-b from-[#E6D1FF]/30 to-[#D6BCFA]/20">
+            <CardHeader className="pb-3">
               <CardTitle className="text-xl flex items-center gap-2">
-                <FileText className="h-5 w-5 text-gray-600" />
+                <FileText className="h-5 w-5 text-[#6E59A5]" />
                 Draft Documents ({draft.length})
               </CardTitle>
             </CardHeader>
@@ -352,10 +352,10 @@ const ReviewDocuments = () => {
 
         {/* Pending Trial Review */}
         {pendingTrialReview.length > 0 && (
-          <Card className="border-blue-200">
-            <CardHeader className="pb-3 bg-blue-50 rounded-t-lg">
+          <Card className="border-purple-300/20 bg-gradient-to-b from-[#D6BCFA]/30 to-[#C5A7F2]/20">
+            <CardHeader className="pb-3">
               <CardTitle className="text-xl flex items-center gap-2">
-                <Clock className="h-5 w-5 text-blue-600" />
+                <Clock className="h-5 w-5 text-[#6E59A5]" />
                 Pending Trial Review ({pendingTrialReview.length})
               </CardTitle>
             </CardHeader>
@@ -406,10 +406,10 @@ const ReviewDocuments = () => {
 
         {/* Completed Documents */}
         {completed.length > 0 && (
-          <Card className="border-green-200">
-            <CardHeader className="pb-3 bg-green-50 rounded-t-lg">
+          <Card className="border-purple-400/20 bg-gradient-to-b from-[#C5A7F2]/30 to-[#B492E6]/20">
+            <CardHeader className="pb-3">
               <CardTitle className="text-xl flex items-center gap-2">
-                <CheckCircle2 className="h-5 w-5 text-green-600" />
+                <CheckCircle2 className="h-5 w-5 text-[#6E59A5]" />
                 Completed Documents ({completed.length})
               </CardTitle>
             </CardHeader>
