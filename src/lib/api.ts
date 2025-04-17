@@ -1,4 +1,3 @@
-
 // Mock API implementation for development
 const API_BASE_URL = "https://api.ubertrial.example"; // This will be replaced with the actual API URL
 
@@ -173,7 +172,10 @@ export const getSiteAnalytics = async (siteId: string) => {
       },
       incomplete_staff: [
         { name: "Dr. Johnson", role: "PI", missing: ["GCP"] },
-        { name: "Sarah Miller", role: "CRC", missing: ["CV", "GCP"] }
+        { name: "Sarah Miller", role: "CRC", missing: ["CV", "GCP"] },
+        { name: "Dr. Thompson", role: "Sub-I", missing: ["CV", "Delegation of Authority"] },
+        { name: "Mark Wilson", role: "Lab", missing: ["GCP", "Delegation of Authority"] },
+        { name: "Dr. Chen", role: "Pharmacist", missing: ["CV", "Delegation of Authority"] }
       ]
     },
     patient_statistics: {
@@ -375,6 +377,7 @@ export const findMatchingTrials = async (siteId: string) => {
         compatibility_score: 91,
         eligible_patients: 22,
         total_patients: 300,
+        location: { lat: 37.7749, lng: -122.4194 },
         compatible_features: ["procedures", "equipment", "languages"],
         incompatible_features: [],
         rejection_reasons: {
@@ -392,6 +395,7 @@ export const findMatchingTrials = async (siteId: string) => {
         compatibility_score: 78,
         eligible_patients: 15,
         total_patients: 300,
+        location: { lat: 40.7128, lng: -74.0060 },
         compatible_features: ["procedures", "languages"],
         incompatible_features: ["equipment", "payment_formats"],
         rejection_reasons: {
@@ -408,6 +412,39 @@ export const findMatchingTrials = async (siteId: string) => {
             }
           }
         ]
+      },
+      {
+        id: "trial_102",
+        name: "Phase 3 Cardiovascular Trial",
+        sponsor_id: "sponsor_1", 
+        sponsor_name: "Helix Biotech",
+        phase: 3,
+        compatibility_score: 85,
+        eligible_patients: 18,
+        total_patients: 300,
+        location: { lat: 51.5074, lng: -0.1278 },
+        compatible_features: ["procedures", "equipment", "facilities"],
+        incompatible_features: ["payment_system"],
+        rejection_reasons: {
+          age: 10,
+          comorbidities: 8
+        }
+      },
+      {
+        id: "trial_103",
+        name: "Phase 2 Oncology Study",
+        sponsor_id: "sponsor_2",
+        sponsor_name: "Quantum Therapeutics",
+        phase: 2,
+        compatibility_score: 94,
+        eligible_patients: 25,
+        total_patients: 300,
+        location: { lat: 48.8566, lng: 2.3522 },
+        compatible_features: ["procedures", "equipment", "facilities", "lab_certifications", "languages"],
+        incompatible_features: [],
+        rejection_reasons: {
+          diagnosis_date: 15
+        }
       }
     ]
   };

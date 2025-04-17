@@ -13,6 +13,8 @@ import SiteLayout from "@/components/site/SiteLayout";
 import Login from "@/pages/Login";
 import SponsorDashboard from "@/pages/sponsor/Dashboard";
 import SiteDashboard from "@/pages/site/Dashboard";
+import StaffPage from "@/pages/site/Staff";
+import FindMatchingTrials from "@/pages/site/FindMatchingTrials";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient({
@@ -59,6 +61,8 @@ const App = () => (
                   <SiteLayout>
                     <Routes>
                       <Route path="dashboard" element={<SiteDashboard />} />
+                      <Route path="staff" element={<StaffPage />} />
+                      <Route path="trials/find" element={<FindMatchingTrials />} />
                       {/* Add other site routes here */}
                       <Route path="*" element={<NotFound />} />
                     </Routes>
