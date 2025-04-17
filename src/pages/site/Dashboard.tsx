@@ -131,40 +131,46 @@ const SiteDashboard = () => {
         ) : trialsData?.trials && trialsData.trials.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {trialsData.trials.map((trial) => (
-              <Card key={trial.id} className="hover:shadow-md transition-shadow">
-                <CardHeader className="pb-4">
+              <Card key={trial.id} className="bg-white hover:shadow-md transition-shadow">
+                <CardHeader className="pb-4 border-b">
                   <div className="flex justify-between items-start">
-                    <CardTitle className="text-xl">{trial.name}</CardTitle>
+                    <CardTitle className="text-xl text-[#6E59A5]">{trial.name}</CardTitle>
                     <TrialStatusBadge status={trial.status} />
                   </div>
                   <p className="text-muted-foreground">{trial.sponsor_name}</p>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="pt-4">
                   {trial.status === "enrollment" && (
                     <div className="space-y-4">
                       <div className="flex justify-between text-sm">
-                        <span>Enrollment Progress</span>
-                        <span className="font-medium">{trial.metrics.enrolled} / {trial.metrics.target}</span>
+                        <span className="text-muted-foreground">Enrollment Progress</span>
+                        <span className="font-medium text-[#6E59A5]">{trial.metrics.enrolled} / {trial.metrics.target}</span>
                       </div>
-                      <Progress value={(trial.metrics.enrolled / trial.metrics.target) * 100} className="h-2" />
+                      <Progress 
+                        value={(trial.metrics.enrolled / trial.metrics.target) * 100} 
+                        className="h-2 bg-purple-100"
+                      />
                       
-                      <div className="grid grid-cols-3 gap-2 mt-4">
+                      <div className="grid grid-cols-3 gap-4 mt-4 p-2 bg-purple-50/50 rounded-md">
                         <div className="text-center">
-                          <div className="text-lg font-medium">{trial.metrics.identified_leads}</div>
+                          <div className="text-lg font-medium text-[#6E59A5]">{trial.metrics.identified_leads}</div>
                           <div className="text-xs text-muted-foreground">Identified</div>
                         </div>
-                        <div className="text-center">
-                          <div className="text-lg font-medium">{trial.metrics.qualified}</div>
+                        <div className="text-center border-x border-purple-100">
+                          <div className="text-lg font-medium text-[#6E59A5]">{trial.metrics.qualified}</div>
                           <div className="text-xs text-muted-foreground">Qualified</div>
                         </div>
                         <div className="text-center">
-                          <div className="text-lg font-medium">{trial.metrics.ongoing_outreach}</div>
+                          <div className="text-lg font-medium text-[#6E59A5]">{trial.metrics.ongoing_outreach}</div>
                           <div className="text-xs text-muted-foreground">Outreach</div>
                         </div>
                       </div>
                       
                       <Link to={`/site/trials/${trial.id}`} className="block w-full">
-                        <Button variant="outline" className="w-full mt-2">
+                        <Button 
+                          variant="outline" 
+                          className="w-full mt-2 border-purple-200 text-[#9b87f5] hover:text-[#6E59A5] hover:bg-purple-50"
+                        >
                           Go to Enrollment Board
                         </Button>
                       </Link>
@@ -175,8 +181,11 @@ const SiteDashboard = () => {
                     <div className="space-y-4">
                       <div className="space-y-2">
                         {trial.documents?.map((doc) => (
-                          <div key={doc.id} className="flex justify-between items-center p-2 rounded-md bg-muted">
-                            <span>{doc.name}</span>
+                          <div 
+                            key={doc.id} 
+                            className="flex justify-between items-center p-2 rounded-md hover:bg-purple-50/50 transition-colors"
+                          >
+                            <span className="text-muted-foreground">{doc.name}</span>
                             {doc.status === "approved" ? (
                               <CheckCircle2 className="text-green-500 h-5 w-5" />
                             ) : doc.status === "pending_signature" ? (
@@ -189,7 +198,10 @@ const SiteDashboard = () => {
                       </div>
                       
                       <Link to={`/site/trials/${trial.id}`} className="block w-full">
-                        <Button variant="outline" className="w-full">
+                        <Button 
+                          variant="outline" 
+                          className="w-full border-purple-200 text-[#9b87f5] hover:text-[#6E59A5] hover:bg-purple-50"
+                        >
                           Review Documents
                         </Button>
                       </Link>
@@ -206,7 +218,9 @@ const SiteDashboard = () => {
                 You're not participating in any trials yet.
               </p>
               <Link to="/site/trials/find">
-                <Button>Find Matching Trials</Button>
+                <Button className="bg-[#9b87f5] hover:bg-[#6E59A5] transition-colors">
+                  Find Matching Trials
+                </Button>
               </Link>
             </CardContent>
           </Card>
