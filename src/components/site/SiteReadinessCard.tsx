@@ -1,7 +1,8 @@
 
 import React from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { CheckCircle2, AlertTriangle, XCircle } from "lucide-react";
+import { CheckCircle2, AlertTriangle, XCircle, ArrowRight } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 import { Link } from "react-router-dom";
 
 interface ReadinessItem {
@@ -38,44 +39,63 @@ const SiteReadinessCard: React.FC<SiteReadinessCardProps> = ({ readiness }) => {
     return Math.round((ready / total) * 100);
   };
 
+  const readyItems = Object.values(readiness).filter(item => item === true).length;
+  const totalItems = Object.keys(readiness).length;
+
   return (
     <Card className="bg-[#F1F0FB] h-full flex flex-col">
       <CardHeader className="pb-4">
         <div className="flex justify-between items-center">
           <span className="text-lg font-semibold text-[#6E59A5]">Site Readiness Status</span>
-          <span className="text-lg font-bold text-[#6E59A5]">{getReadinessPercentage()}%</span>
+          <div className="text-right">
+            <span className="text-lg font-bold text-[#6E59A5]">{getReadinessPercentage()}%</span>
+          </div>
         </div>
-        <p className="text-sm text-muted-foreground">
-          This site maintains constant readiness. Average startup time: 2 days.
-        </p>
+        <div className="flex justify-between text-sm mb-2">
+          <span className="text-muted-foreground">Ready Items</span>
+          <span className="text-[#6E59A5]">{readyItems}/{totalItems}</span>
+        </div>
+        <Progress value={getReadinessPercentage()} className="h-2 bg-purple-100" />
       </CardHeader>
       <CardContent className="flex-grow space-y-4">
-        <div className="space-y-2">
-          {Object.entries(readiness).map(([key, value]) => (
-            <div key={key} className="flex justify-between items-center p-2 rounded hover:bg-muted">
-              <span className="text-sm">{readinessLabels[key] || key}</span>
-              {getStatusIcon(value)}
-            </div>
-          ))}
+        <div>
+          <h4 className="text-sm font-medium text-[#6E59A5] mb-2">Readiness Status</h4>
+          <div className="space-y-2">
+            {Object.entries(readiness).map(([key, value]) => (
+              <div key={key} className="flex justify-between items-center text-sm text-muted-foreground">
+                <span>{readinessLabels[key] || key}</span>
+                {getStatusIcon(value)}
+              </div>
+            ))}
+          </div>
         </div>
         
         <div className="mt-4 pt-4 border-t">
-          <p className="text-sm font-medium mb-2">Action Items:</p>
-          <ul className="space-y-1 text-sm text-muted-foreground">
+          <h4 className="text-sm font-medium text-[#6E59A5] mb-2">Action Items</h4>
+          <div className="space-y-2">
             {Object.entries(readiness)
               .filter(([_, value]) => value !== true)
               .map(([key]) => (
-                <li key={`action-${key}`} className="flex items-center">
-                  • Update {readinessLabels[key] || key} documentation
-                </li>
-              ))
-            }
-          </ul>
+                <div key={`action-${key}`} className="text-sm">
+                  <div className="text-muted-foreground">
+                    Missing: Update {readinessLabels[key] || key}
+                  </div>
+                </div>
+              ))}
+          </div>
         </div>
       </CardContent>
+      
+      <div className="p-4 border-t flex justify-between items-center">
+        <Link 
+          to="/site/readiness" 
+          className="flex items-center text-sm text-[#9b87f5] hover:text-[#8B5CF6]"
+        >
+          View Full Readiness Report <ArrowRight className="ml-2 h-4 w-4" />
+        </Link>
+      </div>
     </Card>
   );
 };
 
 export default SiteReadinessCard;
-
