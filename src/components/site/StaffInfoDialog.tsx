@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { FileText, CheckCircle, AlertCircle } from "lucide-react";
@@ -53,7 +54,7 @@ const StaffInfoDialog = ({ isOpen, onClose, staffMember }: StaffInfoDialogProps)
               {staffMember.issues ? "Needs Update" : "Ready"}
             </Badge>
           </DialogTitle>
-          <p className="text-muted-foreground mt-1">{staffMember.role}</p>
+          <DialogDescription className="text-muted-foreground mt-1">{staffMember.role}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 mt-4">
