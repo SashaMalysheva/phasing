@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
@@ -48,13 +47,13 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({ children }) => {
   const menuItems = [
     {
       icon: ClipboardList,
-      label: "Trials",
+      label: "Overview",
       path: "/site/dashboard",
       tooltip: "Overview",
     },
     {
       icon: BarChart3,
-      label: "Analytics",
+      label: "Patient Analytics",
       path: "/site/analytics",
       tooltip: "Patient Analytics",
     },
@@ -65,13 +64,13 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({ children }) => {
     },
     {
       icon: Users,
-      label: "Staff Panel",
+      label: "Staff Analytics",
       path: "/site/staff",
       tooltip: "Staff Analytics",
     },
     {
       icon: BookOpen,
-      label: "Site Readiness Details",
+      label: "Site Details",
       path: "/site/readiness",
       tooltip: "Site Details",
     },
