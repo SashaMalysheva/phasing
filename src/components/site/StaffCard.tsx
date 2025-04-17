@@ -98,4 +98,3 @@ const StaffCard: React.FC<StaffCardProps> = ({
 };
 
 export default StaffCard;
-

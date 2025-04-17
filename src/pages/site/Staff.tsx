@@ -14,6 +14,7 @@ interface StaffMember {
   name: string;
   role: string;
   issues: string[] | null;
+  experience?: number;
 }
 
 // Modified interface to match what the API actually returns
@@ -132,7 +133,7 @@ const StaffPage = () => {
     ];
   }, [staffStats]);
 
-  // Create the staff requiring attention data based on exact data provided
+  // Create the staff requiring attention data exactly as provided
   const staffRequiringAttention = React.useMemo(() => {
     if (!staffStats) return [];
     
@@ -151,36 +152,6 @@ const StaffPage = () => {
         name: "Staff Member 48",
         role: "PI",
         issues: ["Missing GCP certification", "Medical license"]
-      },
-      {
-        name: "Dr. John Smith",
-        role: "Principal Investigator",
-        issues: []
-      },
-      {
-        name: "Dr. Sarah Johnson",
-        role: "Sub-Investigator",
-        issues: []
-      },
-      {
-        name: "Staff Member 3",
-        role: "Pharmacist",
-        issues: ["GCP certification"]
-      },
-      {
-        name: "Staff Member 7",
-        role: "Pharmacist",
-        issues: ["GCP certification"]
-      },
-      {
-        name: "Staff Member 9",
-        role: "Sub-I",
-        issues: []
-      },
-      {
-        name: "Staff Member 10",
-        role: "Sub-I",
-        issues: ["GCP certification"]
       }
     ];
   }, [staffStats]);
@@ -279,7 +250,7 @@ const StaffPage = () => {
                     experience={staff.experience}
                   />
                 ))}
-                {staffRequiringAttention && staffRequiringAttention.map((staff, index) => (
+                {staffRequiringAttention.map((staff, index) => (
                   <StaffCard 
                     key={`attention-${index}`}
                     name={staff.name}
@@ -292,7 +263,7 @@ const StaffPage = () => {
             
             <TabsContent value="incomplete">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {staffRequiringAttention && staffRequiringAttention.length > 0 ? (
+                {staffRequiringAttention.length > 0 ? (
                   staffRequiringAttention.map((staff, index) => (
                     <StaffCard 
                       key={`incomplete-${index}`}
@@ -344,4 +315,3 @@ const StaffPage = () => {
 };
 
 export default StaffPage;
-
