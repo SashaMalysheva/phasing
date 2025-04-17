@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -124,41 +123,51 @@ const SiteReadiness: React.FC = () => {
       </div>
 
       {/* Summary Row */}
-      <div className="grid grid-cols-4 gap-4">
-        <Card className="bg-white col-span-2">
-          <CardContent className="pt-6">
-            <div className="flex items-center justify-between">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <Card className="bg-white col-span-1">
+          <CardContent className="py-6">
+            <div className="space-y-6">
               <div>
-                <h3 className="text-lg font-semibold text-[#1A1F2C] mb-1">Overall Readiness</h3>
+                <h3 className="text-xl font-semibold text-[#1A1F2C]">Overall Readiness</h3>
                 <p className="text-sm text-[#8E9196]">Site preparation progress</p>
               </div>
-              <div className="text-right">
-                <span className="text-2xl font-bold text-[#16A34A]">{overallScore}%</span>
-                <Progress value={overallScore} className="w-32 h-2 bg-[#E6E6E6]" />
+              <div className="space-y-2">
+                <div className="flex justify-between items-baseline">
+                  <span className="text-4xl font-bold text-[#16A34A]">{overallScore}%</span>
+                </div>
+                <Progress value={overallScore} className="h-2 bg-[#E6E6E6]" indicatorClassName="bg-[#16A34A]" />
               </div>
             </div>
           </CardContent>
         </Card>
+
         <Card className="bg-white">
-          <CardContent className="pt-6">
-            <div>
-              <h3 className="text-lg font-semibold text-[#1A1F2C] mb-1">Completed Items</h3>
-              <div className="flex items-center gap-2">
+          <CardContent className="py-6">
+            <div className="space-y-2">
+              <h3 className="text-xl font-semibold text-[#1A1F2C]">Completed Items</h3>
+              <div className="flex items-baseline gap-3">
                 <CheckCircle2 className="h-5 w-5 text-[#16A34A]" />
-                <span className="text-2xl font-bold">{statusCounts.complete || 0}</span>
-                <span className="text-[#8E9196]">of {Object.values(statusCounts).reduce((a, b) => a + b, 0)}</span>
+                <span className="text-4xl font-bold">{statusCounts.complete || 0}</span>
+                <span className="text-[#8E9196] text-lg">of {Object.values(statusCounts).reduce((a, b) => a + b, 0)}</span>
+              </div>
+              <div className="text-[#8E9196] text-sm mt-2">
+                Successfully completed requirements
               </div>
             </div>
           </CardContent>
         </Card>
+
         <Card className="bg-white">
-          <CardContent className="pt-6">
-            <div>
-              <h3 className="text-lg font-semibold text-[#1A1F2C] mb-1">Action Required</h3>
-              <div className="flex items-center gap-2">
+          <CardContent className="py-6">
+            <div className="space-y-2">
+              <h3 className="text-xl font-semibold text-[#1A1F2C]">Action Required</h3>
+              <div className="flex items-baseline gap-3">
                 <AlertTriangle className="h-5 w-5 text-[#F59E0B]" />
-                <span className="text-2xl font-bold">{(statusCounts.incomplete || 0) + (statusCounts.warning || 0)}</span>
-                <span className="text-[#8E9196]">items</span>
+                <span className="text-4xl font-bold">{(statusCounts.incomplete || 0) + (statusCounts.warning || 0)}</span>
+                <span className="text-[#8E9196] text-lg">items</span>
+              </div>
+              <div className="text-[#8E9196] text-sm mt-2">
+                Items needing attention
               </div>
             </div>
           </CardContent>
