@@ -676,7 +676,7 @@ const ReviewDocuments = () => {
               {selectedDocument && formatDocumentType(selectedDocument.document_type)}
             </DialogTitle>
             <DialogDescription>
-              {getStatusBadge(selectedDocument?.status || "")}
+              {selectedDocument ? getStatusBadge(selectedDocument.status) : null}
             </DialogDescription>
           </DialogHeader>
           
