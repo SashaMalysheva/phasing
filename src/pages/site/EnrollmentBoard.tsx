@@ -1,11 +1,11 @@
 
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
-import { Filter, Plus, RefreshCcw, Edit, Users } from "lucide-react";
+import { Filter, Plus, RefreshCcw, ArrowLeft, PhoneCall, CheckCircle, X, Clock } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const EnrollmentBoard = () => {
@@ -22,9 +22,53 @@ const EnrollmentBoard = () => {
     { label: "Prescreened", value: "72", change: "+2" }
   ];
 
+  const candidateData = {
+    notEligible: [
+      { name: "Patricia Jones", source: "Previous Patient" },
+      { name: "Robert Davis", source: "EHR" },
+      { name: "Susan Thomas", source: "EHR" },
+      { name: "Richard White", source: "Social Media" }
+    ],
+    identifiedLead: [
+      { name: "James Smith", source: "Community Outreach" },
+      { name: "Mary Williams", source: "Doctor Referral" },
+      { name: "John Brown", source: "Social Media" }
+    ],
+    qualified: [],
+    ongoingOutreach: [
+      { 
+        name: "Jennifer Davis", 
+        source: "EHR",
+        prescreened: true,
+        lastAttempt: "Mar 11, 7:50 AM",
+        nextCall: "Mar 14, 7:50 AM",
+        previousCalls: 4,
+        visited: false
+      },
+      {
+        name: "Linda Taylor",
+        source: "EHR",
+        prescreened: true,
+        lastAttempt: "Mar 11, 7:50 AM",
+        nextCall: "Mar 14, 7:50 AM",
+        previousCalls: 2,
+        visited: false
+      }
+    ]
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
+        <Link to="/site/dashboard" className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-4">
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back to Dashboard
+        </Link>
+        
+        <div className="inline-flex items-center px-2 py-1 bg-blue-50 text-blue-700 rounded text-sm mb-4">
+          Active Trial
+        </div>
+
         <h1 className="text-2xl font-bold text-gray-900 mb-2">
           {selectedTrial}
           <div className="float-right space-x-2">
@@ -114,27 +158,69 @@ const EnrollmentBoard = () => {
           </div>
 
           <div className="grid grid-cols-4 gap-4">
-            {['Not Eligible', 'Identified Lead', 'Qualified', 'Ongoing Outreach'].map((stage, index) => (
-              <div key={stage} className="bg-white rounded-lg border p-4">
+            {[
+              { title: 'Not Eligible', data: candidateData.notEligible, count: '4 candidates' },
+              { title: 'Identified Lead', data: candidateData.identifiedLead, count: '3 candidates', desc: 'Potential candidates identified from various sources' },
+              { title: 'Qualified', data: candidateData.qualified, count: '0 candidates', desc: 'Candidates approved for further contact' },
+              { title: 'Ongoing Outreach', data: candidateData.ongoingOutreach, count: '2 candidates', desc: 'Active contact with voice agent' }
+            ].map((column) => (
+              <div key={column.title} className="bg-white rounded-lg border p-4">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-medium text-gray-900">{stage}</h3>
+                  <div>
+                    <h3 className="font-medium text-gray-900">{column.title}</h3>
+                    <p className="text-sm text-gray-500 mt-1">{column.count}</p>
+                    {column.desc && <p className="text-sm text-gray-400 italic">{column.desc}</p>}
+                  </div>
                   <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
                     <Plus className="h-4 w-4" />
                   </Button>
                 </div>
-                <div className="text-sm text-gray-500 mb-4">
-                  {index === 0 && '2 candidates'}
-                  {index === 1 && '3 candidates identified from various sources'}
-                  {index === 2 && '2 candidates approved for further contact'}
-                  {index === 3 && '3 candidates active contact with voice agent'}
-                </div>
+                
                 <Separator className="mb-4" />
-                {/* Placeholder for candidate cards */}
-                <div className="space-y-2">
-                  <div className="p-3 bg-gray-50 rounded-md">
-                    <div className="font-medium">Sample Candidate</div>
-                    <div className="text-sm text-gray-500">Source: Patient Portal</div>
-                  </div>
+
+                <div className="space-y-3">
+                  {column.data.map((candidate, idx) => (
+                    <div key={idx} className="p-3 bg-gray-50 rounded-md">
+                      <div className="font-medium">{candidate.name}</div>
+                      <div className="text-sm text-gray-500">Source: {candidate.source}</div>
+                      
+                      {column.title === 'Ongoing Outreach' && (
+                        <>
+                          <div className="flex items-center gap-2 mt-2">
+                            <span className="inline-flex items-center px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">
+                              <CheckCircle className="h-3 w-3 mr-1" /> Prescreened
+                            </span>
+                            <span className="inline-flex items-center px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs">
+                              <X className="h-3 w-3 mr-1" /> No Visit
+                            </span>
+                          </div>
+                          <div className="mt-2 space-y-1 text-sm">
+                            <div className="text-red-600">
+                              <Clock className="h-3 w-3 inline mr-1" />
+                              Last attempt: {candidate.lastAttempt}
+                            </div>
+                            <div className="text-blue-600">
+                              <Clock className="h-3 w-3 inline mr-1" />
+                              Next call: {candidate.nextCall}
+                            </div>
+                            <div className="text-gray-500">
+                              {candidate.previousCalls} previous calls
+                            </div>
+                          </div>
+                          <Button className="w-full mt-3" variant="secondary">
+                            <PhoneCall className="h-4 w-4 mr-2" />
+                            Call Patient
+                          </Button>
+                        </>
+                      )}
+                    </div>
+                  ))}
+                  
+                  {column.data.length === 0 && (
+                    <div className="text-center text-gray-500 py-4">
+                      No candidates in this stage
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
