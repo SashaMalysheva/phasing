@@ -48,7 +48,7 @@ const StaffCard: React.FC<StaffCardProps> = ({
                 <User className="h-5 w-5 text-gray-500" />
               </div>
               <div>
-                <h3 className="font-medium text-[#6E59A5]">{name}</h3>
+                <h3 className="font-medium text-black">{name}</h3>
                 <p className="text-sm text-muted-foreground">{role}</p>
               </div>
             </div>
@@ -84,9 +84,9 @@ const StaffCard: React.FC<StaffCardProps> = ({
 
           {!hasIssues && experience !== undefined && (
             <div className="text-sm mt-2">
-              <div className="flex items-center text-muted-foreground">
-                <span className="font-medium mr-2 text-[#6E59A5]">Experience:</span> 
-                <span className="text-[#6E59A5]">{experience} years</span>
+              <div className="flex items-center text-black">
+                <span className="font-medium mr-2 text-black">Experience:</span> 
+                <span className="text-black">{experience} years</span>
               </div>
             </div>
           )}
