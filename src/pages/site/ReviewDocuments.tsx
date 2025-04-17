@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { format } from "date-fns";
@@ -786,4 +787,16 @@ const ReviewDocuments = () => {
               </Button>
               <Button 
                 type="submit"
-                className="bg-[#6E59A5]
+                className="bg-[#6E59A5] hover:bg-[#8B5CF6]"
+              >
+                Upload
+              </Button>
+            </div>
+          </form>
+        </SheetContent>
+      </Sheet>
+    </div>
+  );
+};
+
+export default ReviewDocuments;
