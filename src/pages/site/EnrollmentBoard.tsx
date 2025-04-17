@@ -199,34 +199,34 @@ const EnrollmentBoard = () => {
                 title: 'Not Eligible', 
                 count: '4 candidates', 
                 data: candidateData.notEligible,
-                className: 'bg-purple-50/50 border border-purple-100' 
+                className: 'bg-gray-50 border border-gray-100' 
               },
               { 
                 title: 'Identified Lead', 
                 count: '3 candidates', 
                 data: candidateData.identifiedLead,
-                className: 'bg-purple-100/50 border border-purple-200' 
+                className: 'bg-gray-100/50 border border-gray-200' 
               },
               { 
                 title: 'Qualified', 
                 count: '0 candidates', 
                 data: candidateData.qualified,
-                className: 'bg-purple-200/50 border border-purple-300' 
+                className: 'bg-gray-200/50 border border-gray-300' 
               },
               { 
                 title: 'Ongoing Outreach', 
                 count: '2 candidates', 
                 data: candidateData.ongoingOutreach,
-                className: 'bg-purple-300/50 border border-purple-400' 
+                className: 'bg-gray-300/50 border border-gray-400' 
               }
             ].map((column) => (
               <div key={column.title} className={`rounded-lg border ${column.className}`}>
-                <div className="p-4 border-b border-purple-100 flex items-center justify-between">
+                <div className="p-4 border-b border-gray-100 flex items-center justify-between">
                   <div>
-                    <h3 className="font-medium text-purple-900">{column.title}</h3>
-                    <p className="text-sm text-purple-600">{column.count}</p>
+                    <h3 className="font-medium text-gray-900">{column.title}</h3>
+                    <p className="text-sm text-gray-600">{column.count}</p>
                   </div>
-                  <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-purple-600 hover:text-purple-700">
+                  <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-gray-600 hover:text-gray-700">
                     <Plus className="h-4 w-4" />
                   </Button>
                 </div>
@@ -235,10 +235,10 @@ const EnrollmentBoard = () => {
                   {column.data.map((candidate, idx) => (
                     <div 
                       key={idx} 
-                      className="p-4 bg-white rounded-lg shadow-sm border border-purple-100"
+                      className="p-4 bg-white rounded-lg shadow-sm border border-gray-100"
                     >
-                      <div className="font-medium text-purple-900">{candidate.name}</div>
-                      <div className="text-sm text-purple-600">Source: {candidate.source}</div>
+                      <div className="font-medium text-gray-900">{candidate.name}</div>
+                      <div className="text-sm text-gray-600">Source: {candidate.source}</div>
 
                       {'status' in candidate && (
                         <div className="flex gap-2 mt-2 justify-end">
@@ -260,14 +260,14 @@ const EnrollmentBoard = () => {
                           <div 
                             className={`p-1 rounded-full ${
                               candidate.status.approved 
-                                ? 'bg-purple-50' 
+                                ? 'bg-gray-50' 
                                 : 'bg-gray-50'
                             }`}
                           >
                             <CheckCircle 
                               className={`h-4 w-4 ${
                                 candidate.status.approved 
-                                  ? 'text-purple-400' 
+                                  ? 'text-gray-400' 
                                   : 'text-gray-300'
                               }`} 
                             />
@@ -278,7 +278,7 @@ const EnrollmentBoard = () => {
                       {'prescreened' in candidate && (
                         <>
                           <div className="flex items-center gap-2 mt-2">
-                            <Badge className="bg-purple-50 text-purple-600 hover:bg-purple-100 flex items-center gap-1">
+                            <Badge className="bg-gray-50 text-gray-600 hover:bg-gray-100 flex items-center gap-1">
                               <CheckCircle className="h-3 w-3" />
                               Prescreened
                             </Badge>
@@ -288,19 +288,19 @@ const EnrollmentBoard = () => {
                             </Badge>
                           </div>
                           <div className="mt-2 space-y-1.5 text-sm">
-                            <div className="text-red-400 flex items-center gap-1">
+                            <div className="text-gray-500 flex items-center gap-1">
                               <Clock className="h-3 w-3" />
                               Last attempt: {candidate.lastAttempt}
                             </div>
-                            <div className="text-purple-500 flex items-center gap-1">
+                            <div className="text-gray-500 flex items-center gap-1">
                               <Clock className="h-3 w-3" />
                               Next call: {candidate.nextCall}
                             </div>
-                            <div className="text-purple-400">
+                            <div className="text-gray-500">
                               {candidate.previousCalls} previous calls
                             </div>
                           </div>
-                          <Button variant="outline" className="w-full mt-3 bg-purple-50 hover:bg-purple-100 border-purple-200 text-purple-600">
+                          <Button variant="outline" className="w-full mt-3 bg-gray-50 hover:bg-gray-100 border-gray-200 text-gray-600">
                             <PhoneCall className="h-4 w-4 mr-2" />
                             Call Patient
                           </Button>
@@ -310,7 +310,7 @@ const EnrollmentBoard = () => {
                   ))}
                   
                   {column.data.length === 0 && (
-                    <div className="text-center text-purple-400 py-4">
+                    <div className="text-center text-gray-400 py-4">
                       No candidates in this stage
                     </div>
                   )}
