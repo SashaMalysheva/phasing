@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -58,17 +59,17 @@ const SiteAnalytics = () => {
             <div>
               <div className="flex justify-between text-sm mb-2">
                 <span>Overall Readiness</span>
-                <span className="font-medium">{analytics.site_readiness.overall_percentage}%</span>
+                <span className="font-medium">{analytics.site_readiness?.overall_percentage || 0}%</span>
               </div>
-              <Progress value={analytics.site_readiness.overall_percentage} className="h-2" />
+              <Progress value={analytics.site_readiness?.overall_percentage || 0} className="h-2" />
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {Object.entries(analytics.site_readiness.categories).map(([category, value]) => (
+              {analytics.site_readiness?.categories && Object.entries(analytics.site_readiness.categories).map(([category, value]) => (
                 <div key={category} className="bg-muted/50 p-4 rounded-lg">
                   <div className="text-sm text-muted-foreground mb-2 capitalize">{category.replace(/_/g, ' ')}</div>
-                  <div className="text-2xl font-bold mb-1">{value.percentage}%</div>
-                  <Progress value={value.percentage} className="h-1.5" />
+                  <div className="text-2xl font-bold mb-1">{(value as any)?.percentage || 0}%</div>
+                  <Progress value={(value as any)?.percentage || 0} className="h-1.5" />
                 </div>
               ))}
             </div>
@@ -87,10 +88,10 @@ const SiteAnalytics = () => {
             <div>
               <h3 className="text-lg font-medium mb-2">Age Distribution</h3>
               <div className="space-y-2">
-                {Object.entries(analytics.patient_demographics.age_distribution).map(([range, percentage]) => (
+                {analytics.patient_demographics?.age_distribution && Object.entries(analytics.patient_demographics.age_distribution).map(([range, percentage]) => (
                   <div key={range} className="flex justify-between items-center">
                     <span className="text-sm">{range}</span>
-                    <span className="text-sm font-medium">{percentage}%</span>
+                    <span className="text-sm font-medium">{String(percentage)}%</span>
                     <div className="w-1/2 bg-muted rounded-full h-2 ml-2">
                       <div 
                         className="bg-primary h-2 rounded-full" 
@@ -105,10 +106,10 @@ const SiteAnalytics = () => {
             <div>
               <h3 className="text-lg font-medium mb-2">Gender Distribution</h3>
               <div className="grid grid-cols-2 gap-4">
-                {Object.entries(analytics.patient_demographics.gender_distribution).map(([gender, percentage]) => (
+                {analytics.patient_demographics?.gender_distribution && Object.entries(analytics.patient_demographics.gender_distribution).map(([gender, percentage]) => (
                   <div key={gender} className="bg-muted/50 p-4 rounded-lg text-center">
                     <div className="text-sm text-muted-foreground mb-1 capitalize">{gender}</div>
-                    <div className="text-2xl font-bold">{percentage}%</div>
+                    <div className="text-2xl font-bold">{String(percentage)}%</div>
                   </div>
                 ))}
               </div>
@@ -120,10 +121,10 @@ const SiteAnalytics = () => {
                 <div>
                   <div className="flex justify-between text-sm mb-1">
                     <span>Current Enrollment</span>
-                    <span>{analytics.enrollment_statistics.current}/{analytics.enrollment_statistics.target}</span>
+                    <span>{analytics.enrollment_statistics?.current || 0}/{analytics.enrollment_statistics?.target || 0}</span>
                   </div>
                   <Progress 
-                    value={(analytics.enrollment_statistics.current / analytics.enrollment_statistics.target) * 100} 
+                    value={((analytics.enrollment_statistics?.current || 0) / (analytics.enrollment_statistics?.target || 1)) * 100} 
                     className="h-2"
                   />
                 </div>
@@ -131,11 +132,11 @@ const SiteAnalytics = () => {
                 <div className="grid grid-cols-2 gap-2">
                   <div className="bg-muted/50 p-3 rounded-lg">
                     <div className="text-sm text-muted-foreground">Screening Failure</div>
-                    <div className="text-xl font-bold">{analytics.enrollment_statistics.screening_failure_rate}%</div>
+                    <div className="text-xl font-bold">{analytics.enrollment_statistics?.screening_failure_rate || 0}%</div>
                   </div>
                   <div className="bg-muted/50 p-3 rounded-lg">
                     <div className="text-sm text-muted-foreground">Dropout Rate</div>
-                    <div className="text-xl font-bold">{analytics.enrollment_statistics.dropout_rate}%</div>
+                    <div className="text-xl font-bold">{analytics.enrollment_statistics?.dropout_rate || 0}%</div>
                   </div>
                 </div>
               </div>
@@ -155,7 +156,7 @@ const SiteAnalytics = () => {
             <div>
               <h3 className="text-lg font-medium mb-2">Essential Documents</h3>
               <div className="space-y-2">
-                {Object.entries(analytics.documentation_status.essential_documents).map(([doc, status]) => (
+                {analytics.documentation_status?.essential_documents && Object.entries(analytics.documentation_status.essential_documents).map(([doc, status]) => (
                   <div key={doc} className="flex justify-between items-center p-2 bg-muted/30 rounded-md">
                     <span className="text-sm capitalize">{doc.replace(/_/g, ' ')}</span>
                     <span className={`text-xs px-2 py-1 rounded-full ${
@@ -163,7 +164,7 @@ const SiteAnalytics = () => {
                       status === 'pending' ? 'bg-amber-100 text-amber-800' : 
                       'bg-red-100 text-red-800'
                     }`}>
-                      {status}
+                      {String(status)}
                     </span>
                   </div>
                 ))}
@@ -173,7 +174,7 @@ const SiteAnalytics = () => {
             <div>
               <h3 className="text-lg font-medium mb-2">Regulatory Filings</h3>
               <div className="space-y-2">
-                {Object.entries(analytics.documentation_status.regulatory_filings).map(([filing, status]) => (
+                {analytics.documentation_status?.regulatory_filings && Object.entries(analytics.documentation_status.regulatory_filings).map(([filing, status]) => (
                   <div key={filing} className="flex justify-between items-center p-2 bg-muted/30 rounded-md">
                     <span className="text-sm capitalize">{filing.replace(/_/g, ' ')}</span>
                     <span className={`text-xs px-2 py-1 rounded-full ${
@@ -182,7 +183,7 @@ const SiteAnalytics = () => {
                       status === 'pending' ? 'bg-amber-100 text-amber-800' : 
                       'bg-red-100 text-red-800'
                     }`}>
-                      {status}
+                      {String(status)}
                     </span>
                   </div>
                 ))}

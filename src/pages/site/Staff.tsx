@@ -23,6 +23,9 @@ const StaffPage = () => {
   
   const staffStats = analyticsData?.staff_statistics;
   
+  // Calculate the number of ready staff members
+  const readyStaff = staffStats ? staffStats.total_staff - staffStats.staff_requiring_attention.length : 0;
+  
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
