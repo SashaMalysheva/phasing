@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -7,6 +6,8 @@ import {
   Tooltip, Legend, ResponsiveContainer 
 } from 'recharts';
 import { Activity, Users, Thermometer, Heart, Pill, TestTube } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
+import { CustomProgress } from '@/components/ui/custom-progress';
 
 interface PatientStatisticsProps {
   patientStats: {
@@ -301,4 +302,3 @@ const PatientStatistics: React.FC<PatientStatisticsProps> = ({ patientStats }) =
 };
 
 export default PatientStatistics;
-
