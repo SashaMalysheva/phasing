@@ -238,7 +238,7 @@ const StaffPage = () => {
                           <div className="mt-1">
                             {staff.issues && staff.issues.map((issue, i) => (
                               <div key={i} className="flex items-center gap-1.5">
-                                <AlertCircle className="h-3 w-3 text-purple-500" />
+                                <AlertCircle className="h-3 w-3 text-[#9b87f5]" />
                                 <span className="text-xs text-purple-700">{issue}</span>
                               </div>
                             ))}

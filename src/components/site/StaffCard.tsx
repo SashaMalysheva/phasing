@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { AlertTriangle, CheckCircle, User } from "lucide-react";
+import { AlertCircle, CheckCircle, User } from "lucide-react";
 import StaffInfoDialog from "./StaffInfoDialog";
 
 interface StaffCardProps {
@@ -28,18 +28,22 @@ const StaffCard: React.FC<StaffCardProps> = ({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   
   const displayIssues = issues && issues.length > 0 ? issues : null;
+  const hasIssues = !!displayIssues;
 
   return (
     <>
       <Card 
-        className={`${displayIssues ? "border-[#ea384c] bg-white" : ""} cursor-pointer hover:shadow-md transition-shadow`}
+        className={`
+          ${hasIssues ? "border-[#9b87f5] bg-white" : "bg-white"} 
+          cursor-pointer hover:shadow-md transition-shadow
+        `}
         onClick={() => setIsDialogOpen(true)}
       >
         <CardContent className="pt-4">
           <div className="flex justify-between items-start mb-3">
             <div className="flex items-center">
-              <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
-                <User className="h-5 w-5 text-primary" />
+              <div className="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                <User className="h-5 w-5 text-gray-500" />
               </div>
               <div>
                 <h3 className="font-medium">{name}</h3>
@@ -47,24 +51,24 @@ const StaffCard: React.FC<StaffCardProps> = ({
               </div>
             </div>
             
-            {!displayIssues ? (
+            {!hasIssues ? (
               <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
                 <CheckCircle className="h-3 w-3 mr-1" />
                 Ready
               </Badge>
             ) : (
-              <Badge variant="outline" className="text-[#ea384c] border-[#ea384c]">
-                <AlertTriangle className="h-3 w-3 mr-1" />
+              <Badge variant="outline" className="bg-white text-[#9b87f5] border-[#9b87f5]">
+                <AlertCircle className="h-3 w-3 mr-1" />
                 Needs Update
               </Badge>
             )}
           </div>
           
-          {displayIssues && (
+          {hasIssues && (
             <div className="space-y-2">
-              <div className="flex flex-wrap gap-1">
+              <div className="flex flex-wrap gap-1.5 mt-2">
                 {displayIssues.map((item, i) => (
-                  <Badge key={i} variant="outline" className="bg-white border-[#ea384c] text-[#ea384c]">
+                  <Badge key={i} variant="outline" className="bg-white border-[#9b87f5] text-[#9b87f5]">
                     {item}
                   </Badge>
                 ))}
@@ -72,8 +76,8 @@ const StaffCard: React.FC<StaffCardProps> = ({
             </div>
           )}
 
-          {!displayIssues && experience !== undefined && (
-            <div className="text-sm">
+          {!hasIssues && experience !== undefined && (
+            <div className="text-sm mt-2">
               <div className="flex items-center text-muted-foreground">
                 <span className="font-medium mr-2">Experience:</span> {experience} years
               </div>
