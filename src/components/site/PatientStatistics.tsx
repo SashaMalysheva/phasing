@@ -57,33 +57,16 @@ const PatientStatistics: React.FC<PatientStatisticsProps> = ({ patientStats }) =
               </div>
             </div>
             
-            {/* Enrollment Status */}
+            {/* Gender Distribution */}
             <div>
-              <h3 className="text-lg font-medium mb-2">Enrollment Status</h3>
-              <div className="space-y-4">
-                <div>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span>Current Enrollment</span>
-                    <span>15/30</span>
+              <h3 className="text-lg font-medium mb-2">Gender Distribution</h3>
+              <div className="grid grid-cols-2 gap-4">
+                {Object.entries(patientStats.gender_distribution).map(([gender, data]) => (
+                  <div key={gender} className="bg-[#F1F0FB] p-4 rounded-lg text-center">
+                    <div className="text-sm text-muted-foreground mb-1 capitalize">{formatKeyToLabel(gender)}</div>
+                    <div className="text-2xl font-bold">{data.percentage}%</div>
                   </div>
-                  <div className="w-full bg-[#F1F0FB] rounded-full h-2">
-                    <div 
-                      className="bg-primary h-2 rounded-full" 
-                      style={{ width: '50%' }}
-                    />
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="bg-[#F1F0FB] p-3 rounded-lg">
-                    <div className="text-sm text-muted-foreground">Screening Failure</div>
-                    <div className="text-xl font-bold">12%</div>
-                  </div>
-                  <div className="bg-[#F1F0FB] p-3 rounded-lg">
-                    <div className="text-sm text-muted-foreground">Dropout Rate</div>
-                    <div className="text-xl font-bold">5%</div>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
