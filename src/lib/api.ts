@@ -205,8 +205,31 @@ export const getSiteAnalytics = async (siteId: string) => {
           name: "Staff Member 3",
           role: "Pharmacist",
           needs: ["GCP certification", "Role update or reassignment"]
+        },
+        {
+          name: "Staff Member 7",
+          role: "Pharmacist",
+          needs: ["GCP certification", "Role update or reassignment"]
+        },
+        {
+          name: "Staff Member 9",
+          role: "Sub-I",
+          needs: ["Role update or reassignment"]
+        },
+        {
+          name: "Staff Member 10",
+          role: "Sub-I",
+          needs: ["GCP certification", "Role update or reassignment"]
         }
       ]
+    },
+    site_readiness: {
+      data_privacy_policy: true,
+      source_agreement: true,
+      sops_storage_monitoring: "warning",
+      eregulatory_binders: true,
+      source_templates: false,
+      iata_certification: true
     },
     patient_statistics: {
       total_patients: 300,

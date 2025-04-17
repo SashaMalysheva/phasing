@@ -37,6 +37,9 @@ const StaffPage = () => {
   
   const staffStats = analyticsData?.staff_statistics;
   
+  // Calculate ready staff as those who don't require attention
+  const readyStaff = staffStats ? (staffStats.total_staff - staffStats.staff_requiring_attention.length) : 0;
+  
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
@@ -66,22 +69,22 @@ const StaffPage = () => {
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <span className="font-medium">Ready Staff Members</span>
-                    <span>{staffStats.ready_staff}/{staffStats.total_staff}</span>
+                    <span>{readyStaff}/{staffStats.total_staff}</span>
                   </div>
                   <Progress 
-                    value={(staffStats.ready_staff / staffStats.total_staff) * 100} 
+                    value={(readyStaff / staffStats.total_staff) * 100} 
                     className="h-2 mb-6"
                   />
                   
                   <div className="space-y-4">
-                    {Object.entries(staffStats.certifications).map(([cert, status]) => (
+                    {Object.entries(staffStats.certification_status).map(([cert, status]) => (
                       <div key={cert}>
                         <div className="flex justify-between items-center mb-1">
                           <span className="text-sm">{cert.replace(/_/g, ' ')}</span>
-                          <span className="text-sm">{status.complete}/{status.total}</span>
+                          <span className="text-sm">{status.count}/{staffStats.total_staff} ({status.percentage}%)</span>
                         </div>
                         <Progress 
-                          value={(status.complete / status.total) * 100} 
+                          value={status.percentage} 
                           className="h-2"
                         />
                       </div>
@@ -92,11 +95,11 @@ const StaffPage = () => {
                 <div>
                   <h3 className="font-medium mb-4">Experience by Role</h3>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    {Object.entries(staffStats.staff_by_role).map(([role, data]) => (
+                    {Object.entries(staffStats.experience_by_role).map(([role, years]) => (
                       <div key={role} className="bg-muted rounded-lg p-3 text-center">
                         <div className="font-medium">{role}</div>
                         <div className="text-xs text-muted-foreground">
-                          {data.count} staff • {data.avg_experience} yrs avg
+                          {staffStats.role_distribution[role] || 0} staff • {years} yrs avg
                         </div>
                       </div>
                     ))}
@@ -123,14 +126,14 @@ const StaffPage = () => {
             
             <TabsContent value="all">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Show all staff here */}
-                {staffStats.incomplete_staff.map((staff, index) => (
+                {/* Show staff needing updates */}
+                {staffStats.staff_requiring_attention.map((staff, index) => (
                   <StaffCard 
                     key={`incomplete-${index}`}
                     name={staff.name}
                     role={staff.role}
                     isComplete={false}
-                    missingItems={staff.missing}
+                    missingItems={staff.needs}
                   />
                 ))}
                 {/* Add some dummy complete staff */}
@@ -151,13 +154,13 @@ const StaffPage = () => {
             
             <TabsContent value="incomplete">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {staffStats.incomplete_staff.map((staff, index) => (
+                {staffStats.staff_requiring_attention.map((staff, index) => (
                   <StaffCard 
                     key={`incomplete-${index}`}
                     name={staff.name}
                     role={staff.role}
                     isComplete={false}
-                    missingItems={staff.missing}
+                    missingItems={staff.needs}
                   />
                 ))}
               </div>

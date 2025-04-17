@@ -3,40 +3,36 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 
-interface StaffRole {
-  count: number;
-  avg_experience: number;
-}
-
-interface Certification {
-  complete: number;
-  total: number;
-}
-
-interface IncompleteStaff {
-  name: string;
-  role: string;
-  missing: string[];
-}
-
-interface StaffStatistics {
-  total_staff: number;
-  ready_staff: number;
-  staff_by_role: {
-    [key: string]: StaffRole;
+// Updated interfaces to match the API response structure
+interface StaffStatisticsProps {
+  staffStats: {
+    total_staff: number;
+    role_distribution: Record<string, number>;
+    certification_status: {
+      cv_uploaded: { count: number; percentage: number };
+      gcp_certified: { count: number; percentage: number };
+      medical_license: { count: number; percentage: number };
+      delegation_of_authority: { count: number; percentage: number };
+    };
+    experience_by_role: Record<string, number>;
+    staff_requiring_attention: {
+      name: string;
+      role: string;
+      needs: string[];
+    }[];
   };
-  certifications: {
-    [key: string]: Certification;
-  };
-  incomplete_staff: IncompleteStaff[];
 }
 
-interface SiteStaffCardProps {
-  staffStats: StaffStatistics;
-}
+const SiteStaffCard: React.FC<StaffStatisticsProps> = ({ staffStats }) => {
+  // Calculate ready staff as those who don't require attention
+  const readyStaff = staffStats.total_staff - staffStats.staff_requiring_attention.length;
+  const readyPercentage = (readyStaff / staffStats.total_staff) * 100;
 
-const SiteStaffCard: React.FC<SiteStaffCardProps> = ({ staffStats }) => {
-  const readyPercentage = (staffStats.ready_staff / staffStats.total_staff) * 100;
+  // Transform experience data to prepare for display
+  const experienceData = Object.entries(staffStats.experience_by_role).map(([role, years]) => ({
+    role,
+    years
+  }));
 
   return (
     <Card>
@@ -51,7 +47,7 @@ const SiteStaffCard: React.FC<SiteStaffCardProps> = ({ staffStats }) => {
           <div>
             <div className="flex justify-between text-sm mb-1">
               <span>Ready Staff</span>
-              <span>{staffStats.ready_staff}/{staffStats.total_staff} Staff Members</span>
+              <span>{readyStaff}/{staffStats.total_staff} Staff Members</span>
             </div>
             <Progress value={readyPercentage} className="h-2" />
           </div>
@@ -59,13 +55,13 @@ const SiteStaffCard: React.FC<SiteStaffCardProps> = ({ staffStats }) => {
           <div>
             <h4 className="text-sm font-medium mb-2">Certification Status</h4>
             <div className="space-y-1">
-              {Object.entries(staffStats.certifications).map(([cert, status]) => (
+              {Object.entries(staffStats.certification_status).map(([cert, status]) => (
                 <div key={cert} className="grid grid-cols-4 text-sm items-center">
-                  <span className="col-span-2">{cert}</span>
-                  <span className="text-right">{status.complete}/{status.total}</span>
+                  <span className="col-span-2">{cert.replace(/_/g, ' ')}</span>
+                  <span className="text-right">{status.count}/{staffStats.total_staff}</span>
                   <span className="pl-2">
                     <Progress 
-                      value={(status.complete / status.total) * 100} 
+                      value={status.percentage} 
                       className="h-2"
                     />
                   </span>
@@ -77,27 +73,32 @@ const SiteStaffCard: React.FC<SiteStaffCardProps> = ({ staffStats }) => {
           <div>
             <h4 className="text-sm font-medium mb-2">Experience by Role</h4>
             <div className="grid grid-cols-3 gap-2">
-              {Object.entries(staffStats.staff_by_role).map(([role, data]) => (
+              {experienceData.map(({ role, years }) => (
                 <div key={role} className="text-center p-2 bg-muted rounded-md">
                   <div className="font-medium">{role}</div>
                   <div className="text-xs text-muted-foreground">
-                    {data.count} staff • {data.avg_experience} yrs avg
+                    {staffStats.role_distribution[role] || 0} staff • {years} yrs avg
                   </div>
                 </div>
               ))}
             </div>
           </div>
           
-          {staffStats.incomplete_staff.length > 0 && (
+          {staffStats.staff_requiring_attention.length > 0 && (
             <div className="mt-4 pt-4 border-t">
               <h4 className="text-sm font-medium mb-2">Staff Needing Updates</h4>
               <div className="space-y-1 text-sm">
-                {staffStats.incomplete_staff.map((staff, index) => (
+                {staffStats.staff_requiring_attention.slice(0, 5).map((staff, index) => (
                   <div key={index} className="flex justify-between text-muted-foreground">
                     <span>{staff.name} ({staff.role})</span>
-                    <span>Missing: {staff.missing.join(', ')}</span>
+                    <span>Missing: {staff.needs.join(', ')}</span>
                   </div>
                 ))}
+                {staffStats.staff_requiring_attention.length > 5 && (
+                  <div className="text-xs text-muted-foreground text-center mt-2">
+                    +{staffStats.staff_requiring_attention.length - 5} more staff need updates
+                  </div>
+                )}
               </div>
             </div>
           )}

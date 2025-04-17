@@ -47,6 +47,16 @@ const SiteDashboard = () => {
     }
   }, [invitationsData]);
 
+  // Create a mock site readiness object for the SiteReadinessCard
+  const siteReadiness = {
+    data_privacy_policy: true,
+    source_agreement: true,
+    sops_storage_monitoring: "warning",
+    eregulatory_binders: true,
+    source_templates: false,
+    iata_certification: true
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Pending Invitations Modal */}
@@ -99,7 +109,7 @@ const SiteDashboard = () => {
         <div className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">Site Readiness Overview</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <SiteReadinessCard readiness={analyticsData.site_readiness} />
+            <SiteReadinessCard readiness={siteReadiness} />
             <SiteStaffCard staffStats={analyticsData.staff_statistics} />
           </div>
         </div>
