@@ -120,4 +120,3 @@ const PatientStatistics: React.FC<PatientStatisticsProps> = ({ patientStats }) =
 };
 
 export default PatientStatistics;
-
