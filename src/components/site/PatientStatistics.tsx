@@ -15,7 +15,7 @@ interface PatientStatisticsProps {
     gender_distribution: Record<string, { count: number; percentage: number }>;
     ethnicity_distribution: Record<string, { count: number; percentage: number }>;
     prior_therapies: Record<string, { count: number; percentage: number }>;
-    lab_results: {
+    lab_results_distribution?: {
       platelets: Record<string, { count: number; percentage: number }>;
       hemoglobin: Record<string, { count: number; percentage: number }>;
       neutrophils: Record<string, { count: number; percentage: number }>;
@@ -155,30 +155,30 @@ const PatientStatistics: React.FC<PatientStatisticsProps> = ({ patientStats }) =
       </Card>
 
       {/* Lab Results Section */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center">
-            <TestTube className="mr-2 h-5 w-5" />
-            Laboratory Results
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Tabs defaultValue="platelets">
-            <TabsList className="mb-4">
-              <TabsTrigger value="platelets">Platelets</TabsTrigger>
-              <TabsTrigger value="hemoglobin">Hemoglobin</TabsTrigger>
-              <TabsTrigger value="neutrophils">Neutrophils</TabsTrigger>
-              <TabsTrigger value="liver">Liver Function</TabsTrigger>
-              <TabsTrigger value="kidney">Kidney Function</TabsTrigger>
-            </TabsList>
-            
-            {Object.entries(patientStats.lab_results).map(([category, data]) => (
-              <TabsContent key={category} value={category}>
+      {patientStats.lab_results_distribution && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <TestTube className="mr-2 h-5 w-5" />
+              Laboratory Results
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Tabs defaultValue="platelets">
+              <TabsList className="mb-4">
+                <TabsTrigger value="platelets">Platelets</TabsTrigger>
+                <TabsTrigger value="hemoglobin">Hemoglobin</TabsTrigger>
+                <TabsTrigger value="neutrophils">Neutrophils</TabsTrigger>
+                <TabsTrigger value="liver">Liver Function</TabsTrigger>
+                <TabsTrigger value="kidney">Kidney Function</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="platelets">
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
-                        data={transformLabData(data)}
+                        data={transformLabData(patientStats.lab_results_distribution.platelets)}
                         cx="50%"
                         cy="50%"
                         labelLine={true}
@@ -187,7 +187,7 @@ const PatientStatistics: React.FC<PatientStatisticsProps> = ({ patientStats }) =
                         fill="#8884d8"
                         dataKey="value"
                       >
-                        {transformLabData(data).map((entry, index) => (
+                        {transformLabData(patientStats.lab_results_distribution.platelets).map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
@@ -196,12 +196,109 @@ const PatientStatistics: React.FC<PatientStatisticsProps> = ({ patientStats }) =
                   </ResponsiveContainer>
                 </div>
               </TabsContent>
-            ))}
-          </Tabs>
-        </CardContent>
-      </Card>
+              
+              <TabsContent value="hemoglobin">
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={transformLabData(patientStats.lab_results_distribution.hemoglobin)}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={true}
+                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                        outerRadius={80}
+                        fill="#8884d8"
+                        dataKey="value"
+                      >
+                        {transformLabData(patientStats.lab_results_distribution.hemoglobin).map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip formatter={(value) => [`${value} patients`, 'Count']} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="neutrophils">
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={transformLabData(patientStats.lab_results_distribution.neutrophils)}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={true}
+                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                        outerRadius={80}
+                        fill="#8884d8"
+                        dataKey="value"
+                      >
+                        {transformLabData(patientStats.lab_results_distribution.neutrophils).map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip formatter={(value) => [`${value} patients`, 'Count']} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="liver">
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={transformLabData(patientStats.lab_results_distribution.liver_function)}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={true}
+                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                        outerRadius={80}
+                        fill="#8884d8"
+                        dataKey="value"
+                      >
+                        {transformLabData(patientStats.lab_results_distribution.liver_function).map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip formatter={(value) => [`${value} patients`, 'Count']} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="kidney">
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={transformLabData(patientStats.lab_results_distribution.kidney_function)}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={true}
+                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                        outerRadius={80}
+                        fill="#8884d8"
+                        dataKey="value"
+                      >
+                        {transformLabData(patientStats.lab_results_distribution.kidney_function).map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip formatter={(value) => [`${value} patients`, 'Count']} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };
 
 export default PatientStatistics;
+
