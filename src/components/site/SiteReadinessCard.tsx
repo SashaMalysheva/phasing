@@ -46,23 +46,23 @@ const SiteReadinessCard: React.FC<SiteReadinessCardProps> = ({ readiness }) => {
     <Card className="bg-white h-full flex flex-col">
       <CardHeader className="pb-4">
         <div className="flex justify-between items-center">
-          <span className="text-lg font-semibold text-[#6E59A5]">Site Readiness Status</span>
+          <span className="text-lg font-semibold text-black">Site Readiness Status</span>
           <div className="text-right">
-            <span className="text-lg font-bold text-[#6E59A5]">{getReadinessPercentage()}%</span>
+            <span className="text-lg font-bold text-black">{getReadinessPercentage()}%</span>
           </div>
         </div>
         <div className="flex justify-between text-sm mb-2">
-          <span className="text-muted-foreground">Ready Items</span>
-          <span className="text-[#6E59A5]">{readyItems}/{totalItems}</span>
+          <span className="text-gray-600">Ready Items</span>
+          <span className="text-black">{readyItems}/{totalItems}</span>
         </div>
         <Progress value={getReadinessPercentage()} className="h-2 bg-purple-100" />
       </CardHeader>
       <CardContent className="flex-grow space-y-4">
         <div>
-          <h4 className="text-sm font-medium text-[#6E59A5] mb-2">Readiness Status</h4>
+          <h4 className="text-sm font-medium text-black mb-2">Readiness Status</h4>
           <div className="space-y-2">
             {Object.entries(readiness).map(([key, value]) => (
-              <div key={key} className="flex justify-between items-center text-sm text-muted-foreground">
+              <div key={key} className="flex justify-between items-center text-sm text-gray-600">
                 <span>{readinessLabels[key] || key}</span>
                 {getStatusIcon(value)}
               </div>
@@ -71,13 +71,13 @@ const SiteReadinessCard: React.FC<SiteReadinessCardProps> = ({ readiness }) => {
         </div>
         
         <div className="mt-4 pt-4 border-t">
-          <h4 className="text-sm font-medium text-[#6E59A5] mb-2">Action Items</h4>
+          <h4 className="text-sm font-medium text-black mb-2">Action Items</h4>
           <div className="space-y-2">
             {Object.entries(readiness)
               .filter(([_, value]) => value !== true)
               .map(([key]) => (
                 <div key={`action-${key}`} className="text-sm">
-                  <div className="text-muted-foreground">
+                  <div className="text-gray-600">
                     Missing: Update {readinessLabels[key] || key}
                   </div>
                 </div>

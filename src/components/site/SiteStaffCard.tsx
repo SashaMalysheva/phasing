@@ -32,24 +32,24 @@ const SiteStaffCard: React.FC<StaffStatisticsProps> = ({ staffStats }) => {
     <Card className="bg-white h-full flex flex-col">
       <CardHeader className="pb-4">
         <div className="flex justify-between items-center">
-          <span className="text-lg font-semibold text-[#6E59A5]">Staff Readiness</span>
-          <span className="text-xl font-bold text-[#6E59A5]">{Math.round(readyPercentage)}%</span>
+          <span className="text-lg font-semibold text-black">Staff Readiness</span>
+          <span className="text-xl font-bold text-black">{Math.round(readyPercentage)}%</span>
         </div>
         <div className="flex justify-between text-sm mb-2">
-          <span className="text-muted-foreground">Ready Staff</span>
-          <span className="text-[#6E59A5]">{readyStaff}/{staffStats.total_staff}</span>
+          <span className="text-gray-600">Ready Staff</span>
+          <span className="text-black">{readyStaff}/{staffStats.total_staff}</span>
         </div>
         <Progress value={readyPercentage} className="h-2 bg-purple-100" />
       </CardHeader>
       
       <CardContent className="flex-grow space-y-4">
         <div>
-          <h4 className="text-sm font-medium text-[#6E59A5] mb-2">Certification Status</h4>
+          <h4 className="text-sm font-medium text-black mb-2">Certification Status</h4>
           <div className="space-y-2">
             {Object.entries(staffStats.certification_status).map(([cert, status]) => (
-              <div key={cert} className="flex justify-between text-sm text-muted-foreground">
+              <div key={cert} className="flex justify-between text-sm text-gray-600">
                 <span className="capitalize">{cert.replace(/_/g, ' ')}</span>
-                <span className="text-[#6E59A5]">{status.count}/{staffStats.total_staff}</span>
+                <span className="text-black">{status.count}/{staffStats.total_staff}</span>
               </div>
             ))}
           </div>
@@ -57,12 +57,12 @@ const SiteStaffCard: React.FC<StaffStatisticsProps> = ({ staffStats }) => {
         
         {staffStats.staff_requiring_attention.length > 0 && (
           <div className="mt-4 pt-4 border-t">
-            <h4 className="text-sm font-medium text-[#6E59A5] mb-2">Staff Needing Updates</h4>
+            <h4 className="text-sm font-medium text-black mb-2">Staff Needing Updates</h4>
             <div className="space-y-2">
               {staffStats.staff_requiring_attention.slice(0, 3).map((staff, index) => (
                 <div key={index} className="text-sm">
-                  <div className="font-medium text-[#6E59A5]">{staff.name}</div>
-                  <div className="text-muted-foreground text-xs">
+                  <div className="font-medium text-black">{staff.name}</div>
+                  <div className="text-gray-600 text-xs">
                     Missing: {staff.needs.join(', ')}
                   </div>
                 </div>

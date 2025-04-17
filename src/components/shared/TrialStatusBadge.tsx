@@ -11,21 +11,21 @@ const TrialStatusBadge: React.FC<TrialStatusBadgeProps> = ({ status }) => {
   switch (status) {
     case "enrollment":
       return (
-        <Badge className="bg-[#E5DEFF] text-[#6E59A5] hover:bg-[#E5DEFF] cursor-default">
+        <Badge className="bg-[#E5DEFF] text-black hover:bg-[#E5DEFF] cursor-default">
           <Users className="h-3 w-3 mr-1" />
           Enrollment
         </Badge>
       );
     case "document_review":
       return (
-        <Badge className="bg-[#F3EFFF] text-[#7E69AB] hover:bg-[#F3EFFF] cursor-default">
+        <Badge className="bg-[#F3EFFF] text-black hover:bg-[#F3EFFF] cursor-default">
           <FileText className="h-3 w-3 mr-1" />
           Document Review
         </Badge>
       );
     case "idle":
       return (
-        <Badge variant="outline" className="text-muted-foreground cursor-default">
+        <Badge variant="outline" className="text-gray-600 cursor-default">
           <Clock className="h-3 w-3 mr-1" />
           Idle
         </Badge>
@@ -36,4 +36,3 @@ const TrialStatusBadge: React.FC<TrialStatusBadgeProps> = ({ status }) => {
 };
 
 export default TrialStatusBadge;
-

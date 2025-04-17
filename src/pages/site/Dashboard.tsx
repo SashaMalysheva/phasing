@@ -121,7 +121,6 @@ const SiteDashboard = () => {
         </div>
       </div>
       
-      {/* Site Readiness Overview */}
       {isLoadingAnalytics ? (
         <div className="mb-8">
           <Skeleton className="h-8 w-48 mb-4" />
@@ -131,22 +130,19 @@ const SiteDashboard = () => {
           </div>
         </div>
       ) : analyticsData && (
-        <div className="mb-8">
-          <h2 className="text-2xl font-semibold text-black mb-4">Site Readiness Overview</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <SiteReadinessCard readiness={siteReadiness} />
-            </div>
-            <div>
-              <SiteStaffCard staffStats={analyticsData.staff_statistics} />
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div>
+            <SiteReadinessCard readiness={siteReadiness} />
+          </div>
+          <div>
+            <SiteStaffCard staffStats={analyticsData.staff_statistics} />
           </div>
         </div>
       )}
       
       {/* Trials section */}
       <div className="mb-8">
-        <h2 className="text-2xl font-semibold text-black mb-4">Your Active Trials</h2>
+        <h2 className="text-xl font-semibold text-black mb-4">Trials</h2>
         
         {isLoadingTrials ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
