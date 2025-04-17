@@ -10,27 +10,26 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle } from "lucide-react";
 import StaffCard from "@/components/site/StaffCard";
 
-// Define correct types to match the data structure
+// Define correct types to match the data structure from the API
 interface StaffStatistics {
   total_staff: number;
   role_distribution: Record<string, number>;
-  certification_stats: {
-    cv_uploaded: number;
-    gcp_certified: number;
-    medical_license: number;
-    delegation_of_authority: number;
-    total_staff: number;
+  certification_status: {
+    cv_uploaded: { count: number; percentage: number };
+    gcp_certified: { count: number; percentage: number };
+    medical_license: { count: number; percentage: number };
+    delegation_of_authority: { count: number; percentage: number };
   };
-  average_experience: Record<string, number>;
+  experience_by_role: Record<string, number>;
+  staff_requiring_attention: Array<{
+    name: string;
+    role: string;
+    needs: string[];
+  }>;
   qualified_staff: Array<{
     name: string;
     role: string;
     issues: null;
-  }>;
-  staff_requiring_attention: Array<{
-    name: string;
-    role: string;
-    issues: string[];
   }>;
 }
 
@@ -71,18 +70,16 @@ const StaffPage = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {staffStats.certification_stats && Object.entries(staffStats.certification_stats).map(([cert, count]) => {
-                    if (cert === "total_staff") return null;
-                    const percentage = (Number(count) / staffStats.certification_stats.total_staff) * 100;
+                  {staffStats.certification_status && Object.entries(staffStats.certification_status).map(([cert, status]) => {
                     return (
                       <div key={cert}>
                         <div className="flex justify-between items-center mb-1">
                           <span className="text-xs text-purple-800 capitalize">{cert.replace(/_/g, ' ')}</span>
                           <span className="text-xs text-purple-600">
-                            {count}/{staffStats.certification_stats.total_staff} ({Math.round(percentage)}%)
+                            {status.count}/{staffStats.total_staff} ({Math.round(status.percentage)}%)
                           </span>
                         </div>
-                        <Progress value={percentage} className="h-1.5 bg-purple-100" />
+                        <Progress value={status.percentage} className="h-1.5 bg-purple-100" />
                       </div>
                     );
                   })}
@@ -104,7 +101,7 @@ const StaffPage = () => {
                         <h4 className="text-sm font-medium text-purple-900">{staff.name}</h4>
                         <p className="text-xs text-purple-700">{staff.role}</p>
                         <div className="mt-1">
-                          {staff.issues?.map((issue, i) => (
+                          {staff.needs?.map((issue, i) => (
                             <div key={i} className="flex items-center gap-1.5">
                               <AlertCircle className="h-3 w-3 text-purple-500" />
                               <span className="text-xs text-purple-700">{issue}</span>
@@ -134,7 +131,7 @@ const StaffPage = () => {
                     key={`incomplete-${index}`}
                     name={staff.name}
                     role={staff.role}
-                    issues={staff.issues}
+                    issues={staff.needs}
                   />
                 ))}
                 {staffStats.qualified_staff && staffStats.qualified_staff.map((staff, index) => (
@@ -143,8 +140,8 @@ const StaffPage = () => {
                     name={staff.name}
                     role={staff.role}
                     issues={null}
-                    experience={staffStats.average_experience ? 
-                      staffStats.average_experience[staff.role] : undefined}
+                    experience={staffStats.experience_by_role ? 
+                      staffStats.experience_by_role[staff.role] : undefined}
                   />
                 ))}
               </div>
@@ -157,7 +154,7 @@ const StaffPage = () => {
                     key={`incomplete-${index}`}
                     name={staff.name}
                     role={staff.role}
-                    issues={staff.issues}
+                    issues={staff.needs}
                   />
                 ))}
               </div>
@@ -171,8 +168,8 @@ const StaffPage = () => {
                     name={staff.name}
                     role={staff.role}
                     issues={null}
-                    experience={staffStats.average_experience ? 
-                      staffStats.average_experience[staff.role] : undefined}
+                    experience={staffStats.experience_by_role ? 
+                      staffStats.experience_by_role[staff.role] : undefined}
                   />
                 ))}
               </div>
