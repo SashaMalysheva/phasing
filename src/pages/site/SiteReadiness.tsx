@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -72,6 +71,19 @@ const readinessCategories = [
   }
 ];
 
+const StatusIcon = ({ status }: { status: string }) => {
+  switch (status) {
+    case "complete":
+      return <CheckCircle2 className="h-5 w-5 text-[#16A34A]" />;
+    case "incomplete":
+      return <XCircle className="h-5 w-5 text-[#DC2626]" />;
+    case "warning":
+      return <AlertTriangle className="h-5 w-5 text-[#F59E0B]" />;
+    default:
+      return null;
+  }
+};
+
 const CategoryIcon = ({ id }: { id: string }) => {
   switch (id) {
     case "documents":
@@ -84,19 +96,6 @@ const CategoryIcon = ({ id }: { id: string }) => {
       return <Users className="h-5 w-5" />;
     default:
       return <ShieldCheck className="h-5 w-5" />;
-  }
-};
-
-const StatusIcon = ({ status }: { status: string }) => {
-  switch (status) {
-    case "complete":
-      return <CheckCircle2 className="h-4 w-4 text-[#16A34A]" />;
-    case "incomplete":
-      return <XCircle className="h-4 w-4 text-[#DC2626]" />;
-    case "warning":
-      return <AlertTriangle className="h-4 w-4 text-[#F59E0B]" />;
-    default:
-      return null;
   }
 };
 
@@ -159,28 +158,8 @@ const SiteReadiness: React.FC = () => {
               <div className="space-y-2">
                 {category.items.map(item => (
                   <div key={item.id} className="flex items-center justify-between p-2 rounded-md hover:bg-[#F1F0FB] text-sm">
-                    <div className="flex items-center gap-2">
-                      <StatusIcon status={item.status} />
-                      <span className="text-[#1A1F2C]">{item.name}</span>
-                    </div>
-                    <Badge
-                      variant={
-                        item.status === "complete" ? "default" : 
-                        item.status === "warning" ? "outline" :
-                        "destructive"
-                      }
-                      className={`text-xs px-2 py-0.5 rounded-full ${
-                        item.status === "complete" 
-                          ? "bg-[#F1F0FB] text-[#6E59A5] hover:bg-[#F1F0FB] hover:text-[#6E59A5] border-0"
-                          : item.status === "warning"
-                          ? "bg-[#FFF7ED] text-[#F59E0B] hover:bg-[#FFF7ED] hover:text-[#F59E0B] border-0"
-                          : "bg-[#FEF2F2] text-[#DC2626] hover:bg-[#FEF2F2] hover:text-[#DC2626] border-0"
-                      }`}
-                    >
-                      {item.status === "complete" ? "Complete" : 
-                       item.status === "warning" ? "Attention Needed" : 
-                       "Incomplete"}
-                    </Badge>
+                    <span className="text-[#1A1F2C]">{item.name}</span>
+                    <StatusIcon status={item.status} />
                   </div>
                 ))}
               </div>
