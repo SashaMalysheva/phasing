@@ -10,7 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle } from "lucide-react";
 import StaffCard from "@/components/site/StaffCard";
 
-// Define correct types to match the data structure from the API
+// Updated interface to match the data structure from the API
 interface StaffStatistics {
   total_staff: number;
   role_distribution: Record<string, number>;
