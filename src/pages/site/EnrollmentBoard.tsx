@@ -132,11 +132,6 @@ const EnrollmentBoard = () => {
             </Select>
           </div>
 
-          <div className="px-4 py-2 bg-gray-50 text-gray-700 rounded-md text-sm flex items-center">
-            <span className="mr-2">•</span>
-            Active Trial & Site Selected
-          </div>
-
           <Button variant="outline" size="sm" className="ml-auto">
             <Filter className="h-4 w-4 mr-2" />
             Filter
