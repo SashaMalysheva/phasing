@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -156,6 +155,11 @@ const StaffPage = () => {
     ];
   }, [staffStats]);
 
+  // Sort all staff so that attention-needed staff appears first
+  const allStaff = React.useMemo(() => {
+    return [...staffRequiringAttention, ...qualifiedStaff];
+  }, [staffRequiringAttention, qualifiedStaff]);
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
@@ -231,7 +235,6 @@ const StaffPage = () => {
             </Card>
           </div>
           
-          {/* Staff Members List */}
           <Tabs defaultValue="all" className="w-full">
             <TabsList className="mb-4">
               <TabsTrigger value="all">All Staff</TabsTrigger>
@@ -241,21 +244,13 @@ const StaffPage = () => {
             
             <TabsContent value="all">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {qualifiedStaff.map((staff, index) => (
+                {allStaff.map((staff, index) => (
                   <StaffCard 
-                    key={`qualified-${index}`}
-                    name={staff.name}
-                    role={staff.role}
-                    issues={null}
-                    experience={staff.experience}
-                  />
-                ))}
-                {staffRequiringAttention.map((staff, index) => (
-                  <StaffCard 
-                    key={`attention-${index}`}
+                    key={`staff-${index}`}
                     name={staff.name}
                     role={staff.role}
                     issues={staff.issues}
+                    experience={staff.experience}
                   />
                 ))}
               </div>

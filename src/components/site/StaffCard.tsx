@@ -32,7 +32,7 @@ const StaffCard: React.FC<StaffCardProps> = ({
   return (
     <>
       <Card 
-        className={`${displayIssues ? "border-amber-200 bg-amber-50/50" : ""} cursor-pointer hover:shadow-md transition-shadow`}
+        className={`${displayIssues ? "border-[#ea384c] bg-white" : ""} cursor-pointer hover:shadow-md transition-shadow`}
         onClick={() => setIsDialogOpen(true)}
       >
         <CardContent className="pt-4">
@@ -53,7 +53,7 @@ const StaffCard: React.FC<StaffCardProps> = ({
                 Ready
               </Badge>
             ) : (
-              <Badge variant="outline" className="text-amber-600 border-amber-200">
+              <Badge variant="outline" className="text-[#ea384c] border-[#ea384c]">
                 <AlertTriangle className="h-3 w-3 mr-1" />
                 Needs Update
               </Badge>
@@ -64,7 +64,7 @@ const StaffCard: React.FC<StaffCardProps> = ({
             <div className="space-y-2">
               <div className="flex flex-wrap gap-1">
                 {displayIssues.map((item, i) => (
-                  <Badge key={i} variant="outline" className="bg-white">
+                  <Badge key={i} variant="outline" className="bg-white border-[#ea384c] text-[#ea384c]">
                     {item}
                   </Badge>
                 ))}

@@ -50,7 +50,7 @@ const StaffInfoDialog = ({ isOpen, onClose, staffMember }: StaffInfoDialogProps)
           <DialogTitle className="text-xl font-semibold flex items-center justify-between">
             {staffMember.name}
             <Badge variant={staffMember.issues ? "outline" : "default"} 
-                  className={staffMember.issues ? "bg-amber-50 text-amber-700 border-amber-200" : "bg-green-100 text-green-800"}>
+                  className={staffMember.issues ? "bg-white text-[#ea384c] border-[#ea384c]" : "bg-green-100 text-green-800"}>
               {staffMember.issues ? "Needs Update" : "Ready"}
             </Badge>
           </DialogTitle>
