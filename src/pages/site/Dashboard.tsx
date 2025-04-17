@@ -147,10 +147,12 @@ const SiteDashboard = () => {
               >
                 <CardHeader className="pb-4 border-b">
                   <div className="flex justify-between items-start">
-                    <CardTitle className="text-xl text-[#6E59A5]">{trial.name}</CardTitle>
+                    <div>
+                      <CardTitle className="text-xl text-[#6E59A5]">{trial.name}</CardTitle>
+                      <p className="text-muted-foreground">{trial.sponsor_name}</p>
+                    </div>
                     <TrialStatusBadge status={trial.status} />
                   </div>
-                  <p className="text-muted-foreground">{trial.sponsor_name}</p>
                 </CardHeader>
                 <CardContent className="pt-4">
                   {trial.status === "enrollment" && (
@@ -182,24 +184,28 @@ const SiteDashboard = () => {
                   )}
                   
                   {trial.status === "document_review" && (
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        {trial.documents?.map((doc) => (
-                          <div 
-                            key={doc.id} 
-                            className="flex justify-between items-center p-2 rounded-md hover:bg-purple-50/50 transition-colors"
-                          >
-                            <span className="text-muted-foreground">{doc.name}</span>
-                            {doc.status === "approved" ? (
-                              <CheckCircle2 className="text-green-500 h-5 w-5" />
-                            ) : doc.status === "pending_signature" ? (
-                              <AlertTriangle className="text-amber-500 h-5 w-5" />
-                            ) : (
-                              <XCircle className="text-red-500 h-5 w-5" />
-                            )}
-                          </div>
-                        ))}
-                      </div>
+                    <div className="space-y-2">
+                      <div className="text-sm text-muted-foreground mb-4">Document Statuses:</div>
+                      {[
+                        "DRAFT",
+                        "PENDING_SITE_REVIEW",
+                        "PENDING_TRIAL_REVIEW",
+                        "SITE_SIGNED",
+                        "TRIAL_SIGNED",
+                        "COMPLETED"
+                      ].map((status) => (
+                        <div 
+                          key={status} 
+                          className="flex justify-between items-center p-2 rounded-md hover:bg-purple-50/50"
+                        >
+                          <span className="text-sm text-muted-foreground">
+                            {status.toLowerCase()
+                              .split('_')
+                              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                              .join(' ')}
+                          </span>
+                        </div>
+                      ))}
                     </div>
                   )}
                 </CardContent>
