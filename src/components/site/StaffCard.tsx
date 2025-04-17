@@ -1,16 +1,14 @@
 
 import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { AlertTriangle, CheckCircle, Edit, User } from "lucide-react";
-import StaffDocumentDialog from "./StaffDocumentDialog";
+import { AlertTriangle, CheckCircle, User } from "lucide-react";
+import StaffInfoDialog from "./StaffInfoDialog";
 
 interface StaffCardProps {
   name: string;
   role: string;
-  isComplete: boolean;
-  missingItems?: string[];
+  issues: string[] | null;
   experience?: number;
   documents?: {
     cv_uploaded: boolean;
@@ -23,21 +21,18 @@ interface StaffCardProps {
 const StaffCard: React.FC<StaffCardProps> = ({
   name,
   role,
-  isComplete,
-  missingItems = [],
+  issues,
   experience,
-  documents = {
-    cv_uploaded: true,
-    gcp_certification: true,
-    medical_license: true,
-    delegation_of_authority: true,
-  },
+  documents,
 }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
     <>
-      <Card className={isComplete ? "" : "border-amber-200 bg-amber-50/50"}>
+      <Card 
+        className={`${issues ? "border-amber-200 bg-amber-50/50" : ""} cursor-pointer hover:shadow-md transition-shadow`}
+        onClick={() => setIsDialogOpen(true)}
+      >
         <CardContent className="pt-4">
           <div className="flex justify-between items-start mb-3">
             <div className="flex items-center">
@@ -50,7 +45,7 @@ const StaffCard: React.FC<StaffCardProps> = ({
               </div>
             </div>
             
-            {isComplete ? (
+            {!issues ? (
               <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
                 <CheckCircle className="h-3 w-3 mr-1" />
                 Ready
@@ -63,11 +58,10 @@ const StaffCard: React.FC<StaffCardProps> = ({
             )}
           </div>
           
-          {!isComplete && missingItems.length > 0 && (
-            <div className="space-y-2 mb-3">
-              <div className="text-sm font-medium text-amber-700">Missing:</div>
+          {issues && issues.length > 0 && (
+            <div className="space-y-2">
               <div className="flex flex-wrap gap-1">
-                {missingItems.map((item, i) => (
+                {issues.map((item, i) => (
                   <Badge key={i} variant="outline" className="bg-white">
                     {item}
                   </Badge>
@@ -76,33 +70,25 @@ const StaffCard: React.FC<StaffCardProps> = ({
             </div>
           )}
 
-          {isComplete && (
-            <div className="text-sm mb-3">
+          {!issues && experience && (
+            <div className="text-sm">
               <div className="flex items-center text-muted-foreground">
                 <span className="font-medium mr-2">Experience:</span> {experience} years
               </div>
             </div>
           )}
-          
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="w-full"
-            onClick={() => setIsDialogOpen(true)}
-          >
-            <Edit className="h-3 w-3 mr-2" />
-            View Documents
-          </Button>
         </CardContent>
       </Card>
 
-      <StaffDocumentDialog
+      <StaffInfoDialog
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
         staffMember={{
-          full_name: name,
+          name,
           role,
-          ...documents,
+          issues,
+          documents,
+          experience,
         }}
       />
     </>

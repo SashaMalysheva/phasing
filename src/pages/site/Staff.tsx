@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -9,7 +8,6 @@ import { getSiteAnalytics } from "@/lib/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle } from "lucide-react";
 import StaffCard from "@/components/site/StaffCard";
-import { Badge } from "@/components/ui/badge";
 
 const StaffPage = () => {
   const { user } = useAuth();
@@ -21,24 +19,6 @@ const StaffPage = () => {
   });
   
   const staffStats = analyticsData?.staff_statistics;
-
-  const staffNeedingAttention = [
-    {
-      name: "Dr. John Smith",
-      role: "Principal Investigator",
-      needs: ["Role update or reassignment"]
-    },
-    {
-      name: "Dr. Sarah Johnson",
-      role: "Sub-Investigator",
-      needs: ["Role update or reassignment"]
-    },
-    {
-      name: "Staff Member 3",
-      role: "Pharmacist",
-      needs: ["GCP certification"]
-    }
-  ];
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -65,17 +45,21 @@ const StaffPage = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {Object.entries(staffStats.certification_status).map(([cert, status]) => (
-                    <div key={cert}>
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="text-xs text-purple-800 capitalize">{cert.replace(/_/g, ' ')}</span>
-                        <span className="text-xs text-purple-600">
-                          {status.count}/{staffStats.total_staff} ({status.percentage}%)
-                        </span>
+                  {Object.entries(staffStats.certification_stats).map(([cert, count]) => {
+                    if (cert === "total_staff") return null;
+                    const percentage = (Number(count) / staffStats.certification_stats.total_staff) * 100;
+                    return (
+                      <div key={cert}>
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-xs text-purple-800 capitalize">{cert.replace(/_/g, ' ')}</span>
+                          <span className="text-xs text-purple-600">
+                            {count}/{staffStats.certification_stats.total_staff} ({Math.round(percentage)}%)
+                          </span>
+                        </div>
+                        <Progress value={percentage} className="h-1.5 bg-purple-100" />
                       </div>
-                      <Progress value={status.percentage} className="h-1.5 bg-purple-100" />
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </CardContent>
             </Card>
@@ -88,16 +72,16 @@ const StaffPage = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {staffNeedingAttention.map((staff, index) => (
+                  {staffStats.staff_requiring_attention.map((staff, index) => (
                     <div key={index} className="flex items-start p-3 bg-purple-50/50 rounded-lg backdrop-blur-sm">
                       <div>
                         <h4 className="text-sm font-medium text-purple-900">{staff.name}</h4>
                         <p className="text-xs text-purple-700">{staff.role}</p>
                         <div className="mt-1">
-                          {staff.needs.map((need, i) => (
+                          {staff.issues?.map((issue, i) => (
                             <div key={i} className="flex items-center gap-1.5">
                               <AlertCircle className="h-3 w-3 text-purple-500" />
-                              <span className="text-xs text-purple-700">{need}</span>
+                              <span className="text-xs text-purple-700">{issue}</span>
                             </div>
                           ))}
                         </div>
@@ -118,86 +102,51 @@ const StaffPage = () => {
             </TabsList>
             
             <TabsContent value="all">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Show staff needing updates */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {staffStats.staff_requiring_attention.map((staff, index) => (
                   <StaffCard 
                     key={`incomplete-${index}`}
                     name={staff.name}
                     role={staff.role}
-                    isComplete={false}
-                    missingItems={staff.needs}
-                    documents={{
-                      cv_uploaded: false,
-                      gcp_certification: false,
-                      medical_license: false,
-                      delegation_of_authority: false,
-                    }}
+                    issues={staff.issues}
                   />
                 ))}
-                {/* Add some dummy complete staff */}
-                <StaffCard 
-                  name="Dr. Alice Roberts"
-                  role="PI"
-                  isComplete={true}
-                  experience={15}
-                />
-                <StaffCard 
-                  name="James Wilson"
-                  role="CRC"
-                  isComplete={true}
-                  experience={8}
-                />
+                {staffStats.qualified_staff.map((staff, index) => (
+                  <StaffCard 
+                    key={`complete-${index}`}
+                    name={staff.name}
+                    role={staff.role}
+                    issues={null}
+                    experience={staffStats.average_experience[staff.role as keyof typeof staffStats.average_experience]}
+                  />
+                ))}
               </div>
             </TabsContent>
             
             <TabsContent value="incomplete">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {staffStats.staff_requiring_attention.map((staff, index) => (
                   <StaffCard 
                     key={`incomplete-${index}`}
                     name={staff.name}
                     role={staff.role}
-                    isComplete={false}
-                    missingItems={staff.needs}
-                    documents={{
-                      cv_uploaded: false,
-                      gcp_certification: false,
-                      medical_license: false,
-                      delegation_of_authority: false,
-                    }}
+                    issues={staff.issues}
                   />
                 ))}
               </div>
             </TabsContent>
             
             <TabsContent value="complete">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Just some dummy complete staff */}
-                <StaffCard 
-                  name="Dr. Alice Roberts"
-                  role="PI"
-                  isComplete={true}
-                  experience={15}
-                />
-                <StaffCard 
-                  name="James Wilson"
-                  role="CRC"
-                  isComplete={true}
-                  experience={8}
-                />
-                <StaffCard 
-                  name="Dr. Michael Chen"
-                  role="Sub-I"
-                  isComplete={true}
-                  experience={12}
-                />
-                <StaffCard 
-                  name="Lisa Jackson"
-                  role="Lab"
-                  isComplete={true}
-                  experience={5}
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {staffStats.qualified_staff.map((staff, index) => (
+                  <StaffCard 
+                    key={`complete-${index}`}
+                    name={staff.name}
+                    role={staff.role}
+                    issues={null}
+                    experience={staffStats.average_experience[staff.role as keyof typeof staffStats.average_experience]}
+                  />
+                ))}
               </div>
             </TabsContent>
           </Tabs>
