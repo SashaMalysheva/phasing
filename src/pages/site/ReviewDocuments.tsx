@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { format } from "date-fns";
@@ -337,7 +336,7 @@ const ReviewDocuments = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-[#6E59A5] mb-6">Document Review</h1>
+      <h1 className="text-3xl font-bold text-black mb-6">Document Review</h1>
       <p className="text-muted-foreground mb-8">
         Review and manage documents for trial ID: {trialId}
       </p>
@@ -361,7 +360,6 @@ const ReviewDocuments = () => {
                   <TableRow>
                     <TableHead>Document Type</TableHead>
                     <TableHead>Last Updated</TableHead>
-                    <TableHead>Status</TableHead>
                     <TableHead className="w-[100px]">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -374,7 +372,6 @@ const ReviewDocuments = () => {
                     >
                       <TableCell className="font-medium">{formatDocumentType(doc.document_type)}</TableCell>
                       <TableCell>{format(new Date(doc.updated_at), "MMM d, yyyy")}</TableCell>
-                      <TableCell>{getStatusBadge(doc.status)}</TableCell>
                       <TableCell>
                         <Button 
                           variant="outline" 
@@ -415,7 +412,6 @@ const ReviewDocuments = () => {
                   <TableRow>
                     <TableHead>Document Type</TableHead>
                     <TableHead>Last Updated</TableHead>
-                    <TableHead>Status</TableHead>
                     <TableHead className="w-[100px]">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -428,7 +424,6 @@ const ReviewDocuments = () => {
                     >
                       <TableCell className="font-medium">{formatDocumentType(doc.document_type)}</TableCell>
                       <TableCell>{format(new Date(doc.updated_at), "MMM d, yyyy")}</TableCell>
-                      <TableCell>{getStatusBadge(doc.status)}</TableCell>
                       <TableCell>
                         <Button 
                           variant="outline" 
@@ -469,7 +464,6 @@ const ReviewDocuments = () => {
                   <TableRow>
                     <TableHead>Document Type</TableHead>
                     <TableHead>Last Updated</TableHead>
-                    <TableHead>Status</TableHead>
                     <TableHead className="w-[100px]">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -482,7 +476,6 @@ const ReviewDocuments = () => {
                     >
                       <TableCell className="font-medium">{formatDocumentType(doc.document_type)}</TableCell>
                       <TableCell>{format(new Date(doc.updated_at), "MMM d, yyyy")}</TableCell>
-                      <TableCell>{getStatusBadge(doc.status)}</TableCell>
                       <TableCell>
                         <Button 
                           variant="outline" 
@@ -523,7 +516,6 @@ const ReviewDocuments = () => {
                   <TableRow>
                     <TableHead>Document Type</TableHead>
                     <TableHead>Last Updated</TableHead>
-                    <TableHead>Status</TableHead>
                     <TableHead className="w-[100px]">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -536,7 +528,6 @@ const ReviewDocuments = () => {
                     >
                       <TableCell className="font-medium">{formatDocumentType(doc.document_type)}</TableCell>
                       <TableCell>{format(new Date(doc.updated_at), "MMM d, yyyy")}</TableCell>
-                      <TableCell>{getStatusBadge(doc.status)}</TableCell>
                       <TableCell>
                         <Button 
                           variant="outline" 
@@ -577,7 +568,6 @@ const ReviewDocuments = () => {
                   <TableRow>
                     <TableHead>Document Type</TableHead>
                     <TableHead>Last Updated</TableHead>
-                    <TableHead>Status</TableHead>
                     <TableHead className="w-[100px]">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -590,7 +580,6 @@ const ReviewDocuments = () => {
                     >
                       <TableCell className="font-medium">{formatDocumentType(doc.document_type)}</TableCell>
                       <TableCell>{format(new Date(doc.updated_at), "MMM d, yyyy")}</TableCell>
-                      <TableCell>{getStatusBadge(doc.status)}</TableCell>
                       <TableCell>
                         <Button 
                           variant="outline" 
@@ -631,7 +620,6 @@ const ReviewDocuments = () => {
                   <TableRow>
                     <TableHead>Document Type</TableHead>
                     <TableHead>Last Updated</TableHead>
-                    <TableHead>Status</TableHead>
                     <TableHead className="w-[100px]">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -644,7 +632,6 @@ const ReviewDocuments = () => {
                     >
                       <TableCell className="font-medium">{formatDocumentType(doc.document_type)}</TableCell>
                       <TableCell>{format(new Date(doc.updated_at), "MMM d, yyyy")}</TableCell>
-                      <TableCell>{getStatusBadge(doc.status)}</TableCell>
                       <TableCell>
                         <Button 
                           variant="outline" 
@@ -799,16 +786,4 @@ const ReviewDocuments = () => {
               </Button>
               <Button 
                 type="submit"
-                className="bg-[#6E59A5] hover:bg-[#8B5CF6]"
-              >
-                <Upload className="h-4 w-4 mr-2" /> Upload
-              </Button>
-            </div>
-          </form>
-        </SheetContent>
-      </Sheet>
-    </div>
-  );
-};
-
-export default ReviewDocuments;
+                className="bg-[#6E59A5]
