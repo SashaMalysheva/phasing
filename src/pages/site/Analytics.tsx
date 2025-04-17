@@ -52,7 +52,7 @@ const SiteAnalytics = () => {
         </p>
       </div>
 
-      <PatientStatistics patientStats={analytics.patient_stats} />
+      <PatientStatistics patientStats={analytics.patient_statistics} />
     </div>
   );
 };
