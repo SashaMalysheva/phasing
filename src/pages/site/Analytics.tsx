@@ -7,6 +7,7 @@ import { getSiteAnalytics } from "@/lib/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle } from "lucide-react";
 import PatientStatistics from "@/components/site/PatientStatistics";
+import ClinicalSummary from "@/components/site/ClinicalSummary";
 
 const SiteAnalytics = () => {
   const { user } = useAuth();
@@ -51,6 +52,9 @@ const SiteAnalytics = () => {
       {analytics.patient_statistics && (
         <PatientStatistics patientStats={analytics.patient_statistics} />
       )}
+
+      {/* Clinical Summary */}
+      <ClinicalSummary />
     </div>
   );
 };
