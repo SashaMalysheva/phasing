@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -226,7 +225,7 @@ const SiteReadiness: React.FC = () => {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        {readinessCategories.slice(2, 4).map(category => (
+        {readinessCategories.slice(2, 4).reverse().map(category => (
           <Card key={category.id}>
             <CardHeader>
               <div className="flex items-center justify-between">
