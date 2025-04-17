@@ -139,11 +139,11 @@ const EnrollmentBoard = () => {
       <div className="grid grid-cols-6 gap-4 mb-8">
         {stats.map((stat, index) => (
           <Card key={index} className="p-4">
-            <div className="text-sm text-gray-500 mb-1">{stat.label}</div>
+            <div className="text-sm text-gray-500 mb-2">{stat.label}</div>
             <div className="flex items-baseline">
-              <div className="text-2xl font-medium">{stat.value}</div>
+              <div className="text-2xl font-semibold">{stat.value}</div>
               {stat.change && (
-                <span className={`ml-2 text-sm ${stat.change.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
+                <span className={`ml-2 text-sm font-medium ${stat.change.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
                   {stat.change}
                 </span>
               )}
@@ -217,7 +217,7 @@ const EnrollmentBoard = () => {
                       <div className="text-sm text-gray-500 mt-1">Source: {candidate.source}</div>
 
                       {'status' in candidate && (
-                        <div className="flex gap-2 mt-2">
+                        <div className="flex gap-2 mt-2 justify-end">
                           <div className={`p-1 rounded-full ${candidate.status.failed ? 'bg-red-100' : ''}`}>
                             <X className={`h-4 w-4 ${candidate.status.failed ? 'text-red-600' : ''}`} />
                           </div>
