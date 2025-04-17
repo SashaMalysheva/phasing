@@ -43,12 +43,6 @@ const SiteAnalytics = () => {
     );
   }
 
-  // Create a patient stats object that matches the expected structure in PatientStatistics
-  const patientStats = {
-    ...analytics.patient_statistics,
-    lab_results_distribution: analytics.patient_statistics.lab_results_distribution
-  };
-
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div>
@@ -58,10 +52,9 @@ const SiteAnalytics = () => {
         </p>
       </div>
 
-      <PatientStatistics patientStats={patientStats} />
+      <PatientStatistics patientStats={analytics.patient_stats} />
     </div>
   );
 };
 
 export default SiteAnalytics;
-
