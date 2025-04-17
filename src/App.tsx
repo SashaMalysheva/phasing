@@ -1,28 +1,4 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider } from "@/context/AuthContext";
-import ProtectedRoute from "@/components/shared/ProtectedRoute";
-import SponsorLayout from "@/components/sponsor/SponsorLayout";
-import SiteLayout from "@/components/site/SiteLayout";
-
-// Pages
-import Login from "@/pages/Login";
-import SponsorDashboard from "@/pages/sponsor/Dashboard";
-import SponsorAnalytics from "@/pages/sponsor/Analytics";
-import SponsorSettings from "@/pages/sponsor/Settings"; 
-import SponsorFindSites from "@/pages/sponsor/FindSites";
-import SponsorCreateTrial from "@/pages/sponsor/CreateTrial";
-import SiteDashboard from "@/pages/site/Dashboard";
-import SiteAnalytics from "@/pages/site/Analytics";
-import SiteSettings from "@/pages/site/Settings";
-import StaffPage from "@/pages/site/Staff";
-import SiteReadiness from "@/pages/site/SiteReadiness";
-import FindMatchingTrials from "@/pages/site/FindMatchingTrials";
-import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient({
   defaultOptions: {
