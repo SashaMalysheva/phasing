@@ -65,6 +65,23 @@ const SiteDashboard = () => {
     }
   };
 
+  // Mock document status counts
+  const documentStatusCounts = {
+    draft: 3,
+    pending_site_review: 5,
+    pending_trial_review: 2,
+    site_signed: 4,
+    trial_signed: 1,
+    completed: 8
+  };
+
+  const formatStatusLabel = (status: string) => {
+    return status
+      .split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Pending Invitations Modal */}
@@ -184,28 +201,23 @@ const SiteDashboard = () => {
                   )}
                   
                   {trial.status === "document_review" && (
-                    <div className="space-y-2">
-                      <div className="text-sm text-muted-foreground mb-4">Document Statuses:</div>
-                      {[
-                        "DRAFT",
-                        "PENDING_SITE_REVIEW",
-                        "PENDING_TRIAL_REVIEW",
-                        "SITE_SIGNED",
-                        "TRIAL_SIGNED",
-                        "COMPLETED"
-                      ].map((status) => (
-                        <div 
-                          key={status} 
-                          className="flex justify-between items-center p-2 rounded-md hover:bg-purple-50/50"
-                        >
-                          <span className="text-sm text-muted-foreground">
-                            {status.toLowerCase()
-                              .split('_')
-                              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                              .join(' ')}
-                          </span>
-                        </div>
-                      ))}
+                    <div className="space-y-4">
+                      <div className="text-sm text-muted-foreground mb-2">Document Statuses:</div>
+                      <div className="grid grid-cols-2 gap-3">
+                        {Object.entries(documentStatusCounts).map(([status, count]) => (
+                          <div 
+                            key={status}
+                            className="flex items-center justify-between p-2 rounded-md bg-purple-50/30 hover:bg-purple-50/50 transition-colors"
+                          >
+                            <span className="text-sm text-muted-foreground">
+                              {formatStatusLabel(status)}
+                            </span>
+                            <span className="font-medium text-[#6E59A5] min-w-[2rem] text-center">
+                              {count}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </CardContent>
