@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -76,7 +77,7 @@ const StatusIcon = ({ status }: { status: string }) => {
     case "complete":
       return <CheckCircle2 className="h-5 w-5 text-[#16A34A]" />;
     case "incomplete":
-      return <XCircle className="h-5 w-5 text-[#DC2626]" />;
+      return <XCircle className="h-5 w-5 text-[#6E59A5]" />;
     case "warning":
       return <AlertTriangle className="h-5 w-5 text-[#F59E0B]" />;
     default:
@@ -141,7 +142,7 @@ const SiteReadiness: React.FC = () => {
                   <div className="flex justify-between items-center mb-2">
                     <div className="text-xs text-[#8E9196]">Required Items</div>
                     <Badge 
-                      variant={category.progress >= 85 ? "default" : category.progress >= 60 ? "outline" : "destructive"}
+                      variant="outline"
                       className="text-xs rounded-full bg-[#F1F0FB] text-[#6E59A5] hover:bg-[#F1F0FB] hover:text-[#6E59A5] border-0"
                     >
                       {category.progress}% Complete
@@ -149,7 +150,7 @@ const SiteReadiness: React.FC = () => {
                   </div>
                   <Progress 
                     value={category.progress} 
-                    className="h-2 bg-[#F1F0FB] [&>div]:bg-[#9b87f5]"
+                    className="h-2 bg-[#E6E6E6]"
                   />
                 </div>
               </div>
