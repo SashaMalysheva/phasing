@@ -52,7 +52,7 @@ interface Document {
   id: string;
   site_trial_id: string;
   document_type: string;
-  status: string;
+  status: "draft" | "pending_site_review" | "pending_trial_review" | "site_signed" | "trial_signed" | "completed";
   document_url: string | null;
   updated_at: string;
 }
@@ -64,87 +64,41 @@ const ReviewDocuments = () => {
   const [isUploadOpen, setIsUploadOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
-  // Mock documents data
+  // Updated mock documents data to reflect new statuses and counts
   const documents: Document[] = [
+    // Draft Documents (3)
     {
-      "id": "d1b2c3d4-e5f6-4a5b-8c7d-9e0f1a2b3c4d",
+      "id": "draft1",
       "site_trial_id": trialId || "",
       "document_type": "confidentiality_agreement",
-      "status": "completed",
-      "document_url": "https://example.com/docs/ca.pdf",
-      "updated_at": "2024-01-10T14:30:00Z"
-    },
-    {
-      "id": "e2c3d4e5-f6a7-4b5c-9d0e-1f2a3b4c5d6e",
-      "site_trial_id": trialId || "",
-      "document_type": "feasibility_questionnaire",
-      "status": "completed",
-      "document_url": "https://example.com/docs/fq.pdf",
-      "updated_at": "2024-01-11T15:45:00Z"
-    },
-    {
-      "id": "f3d4e5f6-a7b8-4c5d-0e1f-2a3b4c5d6e7f",
-      "site_trial_id": trialId || "",
-      "document_type": "site_qualification",
-      "status": "completed",
-      "document_url": "https://example.com/docs/sq.pdf",
-      "updated_at": "2024-01-12T16:20:00Z"
-    },
-    {
-      "id": "a4b5c6d7-e8f9-4a5b-8c7d-9e0f1a2b3c4d",
-      "site_trial_id": trialId || "",
-      "document_type": "budget_agreement",
-      "status": "completed",
-      "document_url": "https://example.com/docs/ba.pdf",
-      "updated_at": "2024-01-13T17:00:00Z"
-    },
-    {
-      "id": "b5c6d7e8-f9a0-4b5c-9d0e-1f2a3b4c5d6e",
-      "site_trial_id": trialId || "",
-      "document_type": "clinical_agreement",
-      "status": "completed",
-      "document_url": "https://example.com/docs/cla.pdf",
-      "updated_at": "2024-01-14T18:00:00Z"
-    },
-    {
-      "id": "c6d7e8f9-a0b1-4c5d-0e1f-2a3b4c5d6e7f",
-      "site_trial_id": trialId || "",
-      "document_type": "confidentiality_agreement",
-      "status": "pending_trial_review",
-      "document_url": "https://example.com/docs/ca2.pdf",
-      "updated_at": "2024-01-14T10:00:00Z"
-    },
-    {
-      "id": "d7e8f9a0-b1c2-4d5e-1f2a-3b4c5d6e7f8a",
-      "site_trial_id": trialId || "",
-      "document_type": "feasibility_questionnaire",
-      "status": "pending_trial_review",
-      "document_url": "https://example.com/docs/fq2.pdf",
-      "updated_at": "2024-01-15T11:30:00Z"
-    },
-    {
-      "id": "e8f9a0b1-c2d3-4e5f-2a3b-4c5d6e7f8a9b",
-      "site_trial_id": trialId || "",
-      "document_type": "site_qualification",
-      "status": "draft",
-      "document_url": null,
-      "updated_at": "2024-01-15T12:00:00Z"
-    },
-    {
-      "id": "f9a0b1c2-d3e4-4f5a-3b4c-5d6e7f8a9b0c",
-      "site_trial_id": trialId || "",
-      "document_type": "budget_agreement",
-      "status": "draft",
-      "document_url": null,
-      "updated_at": "2024-01-15T13:00:00Z"
-    },
-    {
-      "id": "a0b1c2d3-e4f5-4a5b-4c5d-6e7f8a9b0c1d",
-      "site_trial_id": trialId || "",
-      "document_type": "clinical_agreement",
       "status": "draft",
       "document_url": null,
       "updated_at": "2024-01-15T14:00:00Z"
+    },
+    {
+      "id": "draft2",
+      "site_trial_id": trialId || "",
+      "document_type": "feasibility_questionnaire",
+      "status": "draft",
+      "document_url": null,
+      "updated_at": "2024-01-15T14:00:00Z"
+    },
+    {
+      "id": "draft3",
+      "site_trial_id": trialId || "",
+      "document_type": "site_qualification",
+      "status": "draft",
+      "document_url": null,
+      "updated_at": "2024-01-15T14:00:00Z"
+    },
+    // Pending Site Review (5)
+    {
+      "id": "pending_site1",
+      "site_trial_id": trialId || "",
+      "document_type": "budget_agreement",
+      "status": "pending_site_review",
+      "document_url": "https://example.com/docs/ba.pdf",
+      "updated_at": "2024-01-16T10:00:00Z"
     },
     {
       "id": "b1c2d3e4-f5a6-4b5c-5d6e-7f8a9b0c1d2e",
@@ -161,14 +115,176 @@ const ReviewDocuments = () => {
       "status": "pending_site_review",
       "document_url": null,
       "updated_at": "2024-01-16T11:00:00Z"
-    }
+    },
+    {
+      "id": "d7e8f9a0-b1c2-4d5e-1f2a-3b4c5d6e7f8a",
+      "site_trial_id": trialId || "",
+      "document_type": "feasibility_questionnaire",
+      "status": "pending_site_review",
+      "document_url": "https://example.com/docs/fq2.pdf",
+      "updated_at": "2024-01-15T11:30:00Z"
+    },
+    {
+      "id": "e8f9a0b1-c2d3-4e5f-2a3b-4c5d6e7f8a9b",
+      "site_trial_id": trialId || "",
+      "document_type": "site_qualification",
+      "status": "pending_site_review",
+      "document_url": null,
+      "updated_at": "2024-01-15T12:00:00Z"
+    },
+    // Pending Trial Review (2)
+    {
+      "id": "f3d4e5f6-a7b8-4c5d-0e1f-2a3b4c5d6e7f",
+      "site_trial_id": trialId || "",
+      "document_type": "site_qualification",
+      "status": "pending_trial_review",
+      "document_url": "https://example.com/docs/sq.pdf",
+      "updated_at": "2024-01-12T16:20:00Z"
+    },
+    {
+      "id": "c6d7e8f9-a0b1-4c5d-0e1f-2a3b4c5d6e7f",
+      "site_trial_id": trialId || "",
+      "document_type": "confidentiality_agreement",
+      "status": "pending_trial_review",
+      "document_url": "https://example.com/docs/ca2.pdf",
+      "updated_at": "2024-01-14T10:00:00Z"
+    },
+    // Site Signed (4)
+    {
+      "id": "site_signed1",
+      "site_trial_id": trialId || "",
+      "document_type": "budget_agreement",
+      "status": "site_signed",
+      "document_url": "https://example.com/docs/ba.pdf",
+      "updated_at": "2024-01-13T17:00:00Z"
+    },
+    {
+      "id": "site_signed2",
+      "site_trial_id": trialId || "",
+      "document_type": "clinical_agreement",
+      "status": "site_signed",
+      "document_url": "https://example.com/docs/cla.pdf",
+      "updated_at": "2024-01-14T18:00:00Z"
+    },
+    {
+      "id": "site_signed3",
+      "site_trial_id": trialId || "",
+      "document_type": "confidentiality_agreement",
+      "status": "site_signed",
+      "document_url": "https://example.com/docs/ca2.pdf",
+      "updated_at": "2024-01-14T10:00:00Z"
+    },
+    {
+      "id": "site_signed4",
+      "site_trial_id": trialId || "",
+      "document_type": "feasibility_questionnaire",
+      "status": "site_signed",
+      "document_url": "https://example.com/docs/fq2.pdf",
+      "updated_at": "2024-01-15T11:30:00Z"
+    },
+    // Trial Signed (1)
+    {
+      "id": "trial_signed1",
+      "site_trial_id": trialId || "",
+      "document_type": "clinical_agreement",
+      "status": "trial_signed",
+      "document_url": "https://example.com/docs/cla.pdf",
+      "updated_at": "2024-01-14T18:00:00Z"
+    },
+    // Completed (8)
+    {
+      "id": "completed1",
+      "site_trial_id": trialId || "",
+      "document_type": "confidentiality_agreement",
+      "status": "completed",
+      "document_url": "https://example.com/docs/ca.pdf",
+      "updated_at": "2024-01-10T14:30:00Z"
+    },
+    {
+      "id": "completed2",
+      "site_trial_id": trialId || "",
+      "document_type": "feasibility_questionnaire",
+      "status": "completed",
+      "document_url": "https://example.com/docs/fq.pdf",
+      "updated_at": "2024-01-11T15:45:00Z"
+    },
+    {
+      "id": "completed3",
+      "site_trial_id": trialId || "",
+      "document_type": "site_qualification",
+      "status": "completed",
+      "document_url": "https://example.com/docs/sq.pdf",
+      "updated_at": "2024-01-12T16:20:00Z"
+    },
+    {
+      "id": "completed4",
+      "site_trial_id": trialId || "",
+      "document_type": "budget_agreement",
+      "status": "completed",
+      "document_url": "https://example.com/docs/ba.pdf",
+      "updated_at": "2024-01-13T17:00:00Z"
+    },
+    {
+      "id": "completed5",
+      "site_trial_id": trialId || "",
+      "document_type": "clinical_agreement",
+      "status": "completed",
+      "document_url": "https://example.com/docs/cla.pdf",
+      "updated_at": "2024-01-14T18:00:00Z"
+    },
+    {
+      "id": "completed6",
+      "site_trial_id": trialId || "",
+      "document_type": "confidentiality_agreement",
+      "status": "completed",
+      "document_url": "https://example.com/docs/ca2.pdf",
+      "updated_at": "2024-01-14T10:00:00Z"
+    },
+    {
+      "id": "completed7",
+      "site_trial_id": trialId || "",
+      "document_type": "feasibility_questionnaire",
+      "status": "completed",
+      "document_url": "https://example.com/docs/fq2.pdf",
+      "updated_at": "2024-01-15T11:30:00Z"
+    },
+    {
+      "id": "completed8",
+      "site_trial_id": trialId || "",
+      "document_type": "site_qualification",
+      "status": "completed",
+      "document_url": null,
+      "updated_at": "2024-01-15T12:00:00Z"
+    },
   ];
 
-  // Group documents by status
-  const pendingSiteReview = documents.filter(doc => doc.status === "pending_site_review");
+  // Updated document filtering
   const draft = documents.filter(doc => doc.status === "draft");
+  const pendingSiteReview = documents.filter(doc => doc.status === "pending_site_review");
   const pendingTrialReview = documents.filter(doc => doc.status === "pending_trial_review");
+  const siteSigned = documents.filter(doc => doc.status === "site_signed");
+  const trialSigned = documents.filter(doc => doc.status === "trial_signed");
   const completed = documents.filter(doc => doc.status === "completed");
+
+  // Update getStatusBadge function
+  const getStatusBadge = (status: Document['status']) => {
+    switch (status) {
+      case "completed":
+        return <Badge className="bg-[#ebf7f5] text-green-800">Completed</Badge>;
+      case "pending_site_review":
+        return <Badge className="bg-[#fcf7f8] text-[#6E59A5]">Pending Site Review</Badge>;
+      case "pending_trial_review":
+        return <Badge className="bg-[#fcf7fb] text-blue-800">Pending Trial Review</Badge>;
+      case "draft":
+        return <Badge className="bg-[#faf7fc] text-gray-800">Draft</Badge>;
+      case "site_signed":
+        return <Badge className="bg-[#ebf0f7] text-indigo-800">Site Signed</Badge>;
+      case "trial_signed":
+        return <Badge className="bg-[#ebf6f7] text-cyan-800">Trial Signed</Badge>;
+      default:
+        return <Badge>{status}</Badge>;
+    }
+  };
 
   // Format document type for display
   const formatDocumentType = (type: string) => {
@@ -176,22 +292,6 @@ const ReviewDocuments = () => {
       .split('_')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
-  };
-
-  // Get status badge
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "completed":
-        return <Badge className="bg-green-100 text-green-800 hover:bg-green-200">Completed</Badge>;
-      case "pending_site_review":
-        return <Badge className="bg-[#E5DEFF] text-[#6E59A5] hover:bg-[#E5DEFF]/80">Pending Site Review</Badge>;
-      case "pending_trial_review":
-        return <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200">Pending Trial Review</Badge>;
-      case "draft":
-        return <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-200">Draft</Badge>;
-      default:
-        return <Badge>{status}</Badge>;
-    }
   };
 
   // Handle document click
@@ -242,9 +342,63 @@ const ReviewDocuments = () => {
       </p>
       
       <div className="space-y-8">
+        {/* Draft Documents Section */}
+        {draft.length > 0 && (
+          <Card className="border border-gray-100 bg-[#faf7fc]">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-xl flex items-center gap-2">
+                <FileText className="h-5 w-5 text-[#6E59A5]" />
+                Draft ({draft.length})
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-4">
+              <p className="text-sm text-muted-foreground mb-4">
+                These documents need to be completed or uploaded.
+              </p>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Document Type</TableHead>
+                    <TableHead>Last Updated</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead className="w-[100px]">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {draft.map((doc) => (
+                    <TableRow 
+                      key={doc.id} 
+                      className="cursor-pointer hover:bg-gray-50/50"
+                      onClick={() => handleDocumentClick(doc)}
+                    >
+                      <TableCell className="font-medium">{formatDocumentType(doc.document_type)}</TableCell>
+                      <TableCell>{format(new Date(doc.updated_at), "MMM d, yyyy")}</TableCell>
+                      <TableCell>{getStatusBadge(doc.status)}</TableCell>
+                      <TableCell>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedDocument(doc);
+                            handleUpload();
+                          }}
+                          className="text-gray-600 border-gray-200 hover:bg-gray-50"
+                        >
+                          <FileUp className="h-4 w-4 mr-1" /> Upload
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Pending Site Review Section */}
         {pendingSiteReview.length > 0 && (
-          <Card className="border border-gray-100 bg-[#fcf7fc]">
+          <Card className="border border-gray-100 bg-[#fcf7f8]">
             <CardHeader className="pb-3">
               <CardTitle className="text-xl flex items-center gap-2">
                 <Clock className="h-5 w-5 text-[#6E59A5]" />
@@ -296,63 +450,9 @@ const ReviewDocuments = () => {
           </Card>
         )}
 
-        {/* Draft Documents */}
-        {draft.length > 0 && (
-          <Card className="border border-gray-100 bg-[#faf7fc]">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-xl flex items-center gap-2">
-                <FileText className="h-5 w-5 text-[#6E59A5]" />
-                Draft Documents ({draft.length})
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-4">
-              <p className="text-sm text-muted-foreground mb-4">
-                These documents need to be completed or uploaded.
-              </p>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Document Type</TableHead>
-                    <TableHead>Last Updated</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="w-[100px]">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {draft.map((doc) => (
-                    <TableRow 
-                      key={doc.id} 
-                      className="cursor-pointer hover:bg-gray-50/50"
-                      onClick={() => handleDocumentClick(doc)}
-                    >
-                      <TableCell className="font-medium">{formatDocumentType(doc.document_type)}</TableCell>
-                      <TableCell>{format(new Date(doc.updated_at), "MMM d, yyyy")}</TableCell>
-                      <TableCell>{getStatusBadge(doc.status)}</TableCell>
-                      <TableCell>
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedDocument(doc);
-                            handleUpload();
-                          }}
-                          className="text-gray-600 border-gray-200 hover:bg-gray-50"
-                        >
-                          <FileUp className="h-4 w-4 mr-1" /> Upload
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Pending Trial Review */}
+        {/* Pending Trial Review Section */}
         {pendingTrialReview.length > 0 && (
-          <Card className="border border-gray-100 bg-[#f8f7fc]">
+          <Card className="border border-gray-100 bg-[#fcf7fb]">
             <CardHeader className="pb-3">
               <CardTitle className="text-xl flex items-center gap-2">
                 <Clock className="h-5 w-5 text-[#6E59A5]" />
@@ -404,9 +504,117 @@ const ReviewDocuments = () => {
           </Card>
         )}
 
-        {/* Completed Documents */}
+        {/* Site Signed Section */}
+        {siteSigned.length > 0 && (
+          <Card className="border border-gray-100 bg-[#ebf0f7]">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-xl flex items-center gap-2">
+                <CheckCircle2 className="h-5 w-5 text-[#6E59A5]" />
+                Site Signed ({siteSigned.length})
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-4">
+              <p className="text-sm text-muted-foreground mb-4">
+                These documents have been signed by the site.
+              </p>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Document Type</TableHead>
+                    <TableHead>Last Updated</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead className="w-[100px]">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {siteSigned.map((doc) => (
+                    <TableRow 
+                      key={doc.id} 
+                      className="cursor-pointer hover:bg-indigo-50/50"
+                      onClick={() => handleDocumentClick(doc)}
+                    >
+                      <TableCell className="font-medium">{formatDocumentType(doc.document_type)}</TableCell>
+                      <TableCell>{format(new Date(doc.updated_at), "MMM d, yyyy")}</TableCell>
+                      <TableCell>{getStatusBadge(doc.status)}</TableCell>
+                      <TableCell>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedDocument(doc);
+                            handleDownload();
+                          }}
+                          className="text-indigo-600 border-indigo-200 hover:bg-indigo-50"
+                        >
+                          <Download className="h-4 w-4 mr-1" /> Download
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Trial Signed Section */}
+        {trialSigned.length > 0 && (
+          <Card className="border border-gray-100 bg-[#ebf6f7]">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-xl flex items-center gap-2">
+                <CheckCircle2 className="h-5 w-5 text-[#6E59A5]" />
+                Trial Signed ({trialSigned.length})
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-4">
+              <p className="text-sm text-muted-foreground mb-4">
+                These documents have been signed by the trial sponsor.
+              </p>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Document Type</TableHead>
+                    <TableHead>Last Updated</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead className="w-[100px]">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {trialSigned.map((doc) => (
+                    <TableRow 
+                      key={doc.id} 
+                      className="cursor-pointer hover:bg-cyan-50/50"
+                      onClick={() => handleDocumentClick(doc)}
+                    >
+                      <TableCell className="font-medium">{formatDocumentType(doc.document_type)}</TableCell>
+                      <TableCell>{format(new Date(doc.updated_at), "MMM d, yyyy")}</TableCell>
+                      <TableCell>{getStatusBadge(doc.status)}</TableCell>
+                      <TableCell>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedDocument(doc);
+                            handleDownload();
+                          }}
+                          className="text-cyan-600 border-cyan-200 hover:bg-cyan-50"
+                        >
+                          <Download className="h-4 w-4 mr-1" /> Download
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Completed Section */}
         {completed.length > 0 && (
-          <Card className="border border-gray-100 bg-[#f7f7fc]">
+          <Card className="border border-gray-100 bg-[#ebf7f5]">
             <CardHeader className="pb-3">
               <CardTitle className="text-xl flex items-center gap-2">
                 <CheckCircle2 className="h-5 w-5 text-[#6E59A5]" />
@@ -568,38 +776,4 @@ const ReviewDocuments = () => {
                 <p className="text-sm text-muted-foreground mb-1">
                   Drag & drop your file here or click to browse
                 </p>
-                <p className="text-xs text-muted-foreground">
-                  Supports PDF, DOCX, JPG up to 10MB
-                </p>
-                <input id="file" type="file" className="hidden" />
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="notes">Notes (Optional)</Label>
-              <Input id="notes" placeholder="Add any relevant notes..." />
-            </div>
-            
-            <div className="flex justify-end gap-2 pt-4">
-              <Button 
-                type="button" 
-                variant="outline" 
-                onClick={() => setIsUploadOpen(false)}
-              >
-                Cancel
-              </Button>
-              <Button 
-                type="submit" 
-                className="bg-[#6E59A5] hover:bg-[#8B5CF6]"
-              >
-                Upload
-              </Button>
-            </div>
-          </form>
-        </SheetContent>
-      </Sheet>
-    </div>
-  );
-};
-
-export default ReviewDocuments;
+                <p className="text-xs text-muted-foreground
