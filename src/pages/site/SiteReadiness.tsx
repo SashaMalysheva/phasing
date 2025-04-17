@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle2, XCircle, AlertTriangle, FileText, Users, Clipboard, Thermometer, Lock, ShieldCheck } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const readinessCategories = [
   {
@@ -135,7 +136,7 @@ const SiteReadiness: React.FC = () => {
                 <div className="flex justify-between items-baseline">
                   <span className="text-4xl font-bold text-[#16A34A]">{overallScore}%</span>
                 </div>
-                <Progress value={overallScore} className="h-2 bg-[#E6E6E6]" indicatorClassName="bg-[#16A34A]" />
+                <Progress value={overallScore} className="h-2 bg-[#E6E6E6]" />
               </div>
             </div>
           </CardContent>
@@ -175,7 +176,7 @@ const SiteReadiness: React.FC = () => {
       </div>
 
       {/* Readiness Categories Grid */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {readinessCategories.map(category => (
           <Card key={category.id} className="bg-white">
             <CardHeader className="pb-2">
