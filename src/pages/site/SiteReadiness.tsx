@@ -1,7 +1,6 @@
 import React from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle2, XCircle, AlertTriangle, FileText, Users, Clipboard, Thermometer, Lock, ShieldCheck } from "lucide-react";
 import SiteReadinessCard from "@/components/site/SiteReadinessCard";
@@ -91,24 +90,22 @@ const CategoryIcon = ({ id }: { id: string }) => {
 const StatusIcon = ({ status }: { status: string }) => {
   switch (status) {
     case "complete":
-      return <CheckCircle2 className="h-5 w-5 text-green-500" />;
+      return <CheckCircle2 className="h-4 w-4 text-[#16A34A]" />;
     case "incomplete":
-      return <XCircle className="h-5 w-5 text-red-500" />;
+      return <XCircle className="h-4 w-4 text-[#DC2626]" />;
     case "warning":
-      return <AlertTriangle className="h-5 w-5 text-amber-500" />;
+      return <AlertTriangle className="h-4 w-4 text-[#F59E0B]" />;
     default:
       return null;
   }
 };
 
 const SiteReadiness: React.FC = () => {
-  // Calculate overall readiness score
   const overallScore = Math.round(
     readinessCategories.reduce((sum, category) => sum + category.progress, 0) / 
     readinessCategories.length
   );
   
-  // Count items by status
   const statusCounts = readinessCategories.flatMap(category => category.items).reduce(
     (counts, item) => {
       counts[item.status] = (counts[item.status] || 0) + 1;
@@ -116,102 +113,106 @@ const SiteReadiness: React.FC = () => {
     },
     {} as Record<string, number>
   );
-  
-  // Create a readiness object for the SiteReadinessCard component
-  const siteReadiness = {
-    data_privacy_policy: true,
-    source_agreement: true,
-    sops_storage_monitoring: "warning",
-    eregulatory_binders: true,
-    source_templates: false,
-    iata_certification: true
-  };
-  
+
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Site Readiness Details</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-2xl font-semibold text-[#1A1F2C] tracking-tight mb-1">Site Readiness Details</h1>
+        <p className="text-[#8E9196] text-sm">
           Track your site's readiness status for clinical trial participation.
         </p>
       </div>
-      
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Overall Readiness</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold mb-2">{overallScore}%</div>
-            <Progress value={overallScore} className="h-2" />
+
+      <div className="grid gap-4 md:grid-cols-4">
+        <Card className="bg-white">
+          <CardContent className="pt-6">
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-[#8E9196]">Overall Readiness</h3>
+              <div className="text-3xl font-semibold text-[#1A1F2C]">{overallScore}%</div>
+              <Progress value={overallScore} className="h-2 bg-[#F1F0FB]" />
+            </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Complete Items</CardTitle>
-          </CardHeader>
-          <CardContent className="flex items-center">
-            <CheckCircle2 className="h-8 w-8 text-green-500 mr-2" />
-            <div className="text-3xl font-bold">{statusCounts.complete || 0}</div>
+        <Card className="bg-white">
+          <CardContent className="pt-6">
+            <div className="flex items-center space-x-3">
+              <CheckCircle2 className="h-8 w-8 text-[#16A34A]" />
+              <div>
+                <h3 className="text-sm font-medium text-[#8E9196]">Complete Items</h3>
+                <div className="text-3xl font-semibold text-[#1A1F2C]">{statusCounts.complete || 0}</div>
+              </div>
+            </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Warning Items</CardTitle>
-          </CardHeader>
-          <CardContent className="flex items-center">
-            <AlertTriangle className="h-8 w-8 text-amber-500 mr-2" />
-            <div className="text-3xl font-bold">{statusCounts.warning || 0}</div>
+        <Card className="bg-white">
+          <CardContent className="pt-6">
+            <div className="flex items-center space-x-3">
+              <AlertTriangle className="h-8 w-8 text-[#F59E0B]" />
+              <div>
+                <h3 className="text-sm font-medium text-[#8E9196]">Warning Items</h3>
+                <div className="text-3xl font-semibold text-[#1A1F2C]">{statusCounts.warning || 0}</div>
+              </div>
+            </div>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Incomplete Items</CardTitle>
-          </CardHeader>
-          <CardContent className="flex items-center">
-            <XCircle className="h-8 w-8 text-red-500 mr-2" />
-            <div className="text-3xl font-bold">{statusCounts.incomplete || 0}</div>
+        <Card className="bg-white">
+          <CardContent className="pt-6">
+            <div className="flex items-center space-x-3">
+              <XCircle className="h-8 w-8 text-[#DC2626]" />
+              <div>
+                <h3 className="text-sm font-medium text-[#8E9196]">Incomplete Items</h3>
+                <div className="text-3xl font-semibold text-[#1A1F2C]">{statusCounts.incomplete || 0}</div>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-4">
         {readinessCategories.map(category => (
-          <Card key={category.id}>
-            <CardHeader>
-              <div className="flex items-center justify-between">
+          <Card key={category.id} className="bg-white">
+            <CardHeader className="pb-2">
+              <div className="space-y-2">
                 <div className="flex items-center">
-                  <div className="mr-2 bg-primary/10 p-2 rounded-full">
+                  <div className="mr-2 bg-[#F1F0FB] p-2 rounded-full">
                     <CategoryIcon id={category.id} />
                   </div>
                   <div>
-                    <CardTitle>{category.title}</CardTitle>
-                    <CardDescription>{category.description}</CardDescription>
+                    <CardTitle className="text-base font-semibold text-[#1A1F2C]">{category.title}</CardTitle>
+                    <p className="text-xs text-[#8E9196]">{category.description}</p>
                   </div>
                 </div>
-                <Badge variant={category.progress >= 85 ? "default" : category.progress >= 60 ? "outline" : "destructive"}>
-                  {category.progress}% Complete
-                </Badge>
+                <div className="flex justify-between items-center">
+                  <div className="text-xs text-[#8E9196]">Status of required items</div>
+                  <Badge 
+                    variant={category.progress >= 85 ? "default" : category.progress >= 60 ? "outline" : "destructive"}
+                    className="text-xs px-2 py-0.5 rounded-full"
+                  >
+                    {category.progress}% Complete
+                  </Badge>
+                </div>
+                <Progress value={category.progress} className="h-1.5 bg-[#F1F0FB]" />
               </div>
             </CardHeader>
             <CardContent>
-              <Progress value={category.progress} className="h-2 mb-4" />
-              
-              <div className="space-y-2">
+              <div className="space-y-1">
                 {category.items.map(item => (
-                  <div key={item.id} className="flex items-center justify-between p-2 rounded-md hover:bg-muted">
+                  <div key={item.id} className="flex items-center justify-between p-2 rounded-md hover:bg-[#F1F0FB] text-sm">
                     <div className="flex items-center">
                       <StatusIcon status={item.status} />
-                      <span className="ml-2">{item.name}</span>
+                      <span className="ml-2 text-[#1A1F2C]">{item.name}</span>
                     </div>
-                    <Badge variant={
-                      item.status === "complete" ? "default" : 
-                      item.status === "warning" ? "outline" :
-                      "destructive"
-                    }>
+                    <Badge
+                      variant={
+                        item.status === "complete" ? "default" : 
+                        item.status === "warning" ? "outline" :
+                        "destructive"
+                      }
+                      className="text-xs px-2 py-0.5 rounded-full"
+                    >
                       {item.status === "complete" ? "Complete" : 
                        item.status === "warning" ? "Attention Needed" : 
                        "Incomplete"}
