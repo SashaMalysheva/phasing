@@ -95,8 +95,8 @@ const SiteDashboard = () => {
       
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-[#6E59A5]">Site Overview</h1>
-          <p className="text-muted-foreground">Welcome, {user?.name || 'Site Admin'}</p>
+          <h1 className="text-3xl font-bold text-black">Site Overview</h1>
+          <p className="text-gray-600">Welcome, {user?.name || 'Site Admin'}</p>
         </div>
         
         <div className="flex gap-4">
@@ -132,7 +132,7 @@ const SiteDashboard = () => {
         </div>
       ) : analyticsData && (
         <div className="mb-8">
-          <h2 className="text-2xl font-semibold text-[#6E59A5] mb-4">Site Readiness Overview</h2>
+          <h2 className="text-2xl font-semibold text-black mb-4">Site Readiness Overview</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <SiteReadinessCard readiness={siteReadiness} />
@@ -146,7 +146,7 @@ const SiteDashboard = () => {
       
       {/* Trials section */}
       <div className="mb-8">
-        <h2 className="text-2xl font-semibold text-[#6E59A5] mb-4">Your Active Trials</h2>
+        <h2 className="text-2xl font-semibold text-black mb-4">Your Active Trials</h2>
         
         {isLoadingTrials ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -165,8 +165,8 @@ const SiteDashboard = () => {
                 <CardHeader className="pb-4 border-b">
                   <div className="flex justify-between items-start">
                     <div>
-                      <CardTitle className="text-xl text-[#6E59A5]">{trial.name}</CardTitle>
-                      <p className="text-muted-foreground">{trial.sponsor_name}</p>
+                      <CardTitle className="text-xl text-black">{trial.name}</CardTitle>
+                      <p className="text-gray-600">{trial.sponsor_name}</p>
                     </div>
                     <TrialStatusBadge status={trial.status} />
                   </div>
