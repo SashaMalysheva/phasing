@@ -170,6 +170,15 @@ const StaffPage = () => {
     return [...staffRequiringAttention, ...qualifiedStaff];
   }, [staffRequiringAttention, qualifiedStaff]);
 
+  // Helper to safely access experience property based on staff type
+  const getStaffExperience = (staff: StaffMember): number | undefined => {
+    // Only qualified staff have experience property
+    if (staff.issues === null && 'experience' in staff) {
+      return staff.experience;
+    }
+    return undefined;
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
@@ -260,7 +269,7 @@ const StaffPage = () => {
                     name={staff.name}
                     role={staff.role}
                     issues={staff.issues}
-                    experience={staff.issues === null ? staff.experience : undefined}
+                    experience={getStaffExperience(staff)}
                   />
                 ))}
               </div>
@@ -275,7 +284,7 @@ const StaffPage = () => {
                       name={staff.name}
                       role={staff.role}
                       issues={staff.issues}
-                      experience={undefined}
+                      experience={getStaffExperience(staff)}
                     />
                   ))
                 ) : (
@@ -294,8 +303,8 @@ const StaffPage = () => {
                       key={`complete-${index}`}
                       name={staff.name}
                       role={staff.role}
-                      issues={null}
-                      experience={staff.experience}
+                      issues={staff.issues}
+                      experience={getStaffExperience(staff)}
                     />
                   ))
                 ) : (
