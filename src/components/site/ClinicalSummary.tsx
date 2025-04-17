@@ -92,31 +92,29 @@ const ClinicalSummary: React.FC = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-6">
+            <div className="space-y-4">
               {Object.values(mockLabResults).map((labResult) => (
-                <div key={labResult.name}>
-                  <h3 className="text-sm font-medium mb-2">{labResult.name}</h3>
-                  <div className="space-y-2">
-                    {labResult.categories.map((category) => (
-                      <div key={category.name} className="flex justify-between items-center">
-                        <span className="text-sm">{category.name}</span>
-                        <span className="text-sm font-medium">{category.percentage}%</span>
-                        <div className="w-1/2 bg-[#F1F0FB] rounded-full h-2 ml-2">
-                          <div 
-                            className="bg-primary h-2 rounded-full" 
-                            style={{ width: `${category.percentage}%` }}
-                          />
-                        </div>
-                      </div>
-                    ))}
+                <div key={labResult.name} className="flex items-center justify-between">
+                  <span className="text-sm font-medium w-1/3">{labResult.name}</span>
+                  <div className="flex-1 flex items-center gap-2">
+                    <div className="w-full bg-[#F1F0FB] rounded-full h-2">
+                      <div 
+                        className="bg-primary h-2 rounded-full" 
+                        style={{ width: `${labResult.categories[0].percentage}%` }}
+                      />
+                    </div>
+                    <span className="text-sm w-12 text-right">{labResult.categories[0].percentage}%</span>
                   </div>
                 </div>
               ))}
+              <div className="text-xs text-muted-foreground mt-2">
+                * Percentages show normal range values
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Treatment History */}
+        {/* Treatment History - keep existing implementation */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
