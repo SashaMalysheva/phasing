@@ -40,21 +40,21 @@ const StaffPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Certification Status Card */}
             <Card className="bg-white/50 backdrop-blur-sm border-purple-100">
-              <CardHeader>
-                <CardTitle className="text-purple-900">Certification Status</CardTitle>
-                <CardDescription>Overall staff readiness and credential completion</CardDescription>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg text-purple-900">Certification Status</CardTitle>
+                <CardDescription className="text-sm">Overall staff readiness and credential completion</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {Object.entries(staffStats.certification_status).map(([cert, status]) => (
                     <div key={cert}>
                       <div className="flex justify-between items-center mb-1">
-                        <span className="text-sm text-purple-800 capitalize">{cert.replace(/_/g, ' ')}</span>
-                        <span className="text-sm text-purple-600">
+                        <span className="text-xs text-purple-800 capitalize">{cert.replace(/_/g, ' ')}</span>
+                        <span className="text-xs text-purple-600">
                           {status.count}/{staffStats.total_staff} ({status.percentage}%)
                         </span>
                       </div>
-                      <Progress value={status.percentage} className="h-2 bg-purple-100" />
+                      <Progress value={status.percentage} className="h-1.5 bg-purple-100" />
                     </div>
                   ))}
                 </div>
@@ -63,12 +63,12 @@ const StaffPage = () => {
 
             {/* Staff Requiring Attention Card */}
             <Card className="bg-white/50 backdrop-blur-sm border-purple-100">
-              <CardHeader>
-                <CardTitle className="text-purple-900">Staff Requiring Attention</CardTitle>
-                <CardDescription>Staff members needing immediate updates or action</CardDescription>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg text-purple-900">Staff Requiring Attention</CardTitle>
+                <CardDescription className="text-sm">Staff members needing immediate updates</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {[
                     {
                       name: "Dr. John Smith",
@@ -86,22 +86,19 @@ const StaffPage = () => {
                       needs: ["GCP certification", "Role update or reassignment"]
                     }
                   ].map((staff, index) => (
-                    <div key={index} className="flex items-start justify-between p-4 bg-purple-50/50 rounded-lg backdrop-blur-sm">
+                    <div key={index} className="flex items-start justify-between p-3 bg-purple-50/50 rounded-lg backdrop-blur-sm">
                       <div>
-                        <h4 className="font-medium text-purple-900">{staff.name}</h4>
-                        <p className="text-sm text-purple-700">{staff.role}</p>
-                        <div className="mt-2 space-y-1">
+                        <h4 className="text-sm font-medium text-purple-900">{staff.name}</h4>
+                        <p className="text-xs text-purple-700">{staff.role}</p>
+                        <div className="mt-1">
                           {staff.needs.map((need, i) => (
-                            <div key={i} className="flex items-center gap-2">
-                              <AlertCircle className="h-4 w-4 text-purple-500" />
-                              <span className="text-sm text-purple-700">{need}</span>
+                            <div key={i} className="flex items-center gap-1.5">
+                              <AlertCircle className="h-3 w-3 text-purple-500" />
+                              <span className="text-xs text-purple-700">{need}</span>
                             </div>
                           ))}
                         </div>
                       </div>
-                      <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
-                        Action Needed
-                      </Badge>
                     </div>
                   ))}
                 </div>
