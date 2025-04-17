@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -245,7 +246,7 @@ const CreateTrial: React.FC = () => {
       <Separator />
 
       <div className="flex justify-end">
-        <Button variant="primary">Create Trial</Button>
+        <Button variant="default">Create Trial</Button>
       </div>
     </div>
   );

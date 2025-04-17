@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -117,6 +118,16 @@ const SiteReadiness: React.FC = () => {
     {} as Record<string, number>
   );
   
+  // Create a readiness object for the SiteReadinessCard component
+  const siteReadiness = {
+    data_privacy_policy: true,
+    source_agreement: true,
+    sops_storage_monitoring: "warning",
+    eregulatory_binders: true,
+    source_templates: false,
+    iata_certification: true
+  };
+  
   return (
     <div className="space-y-6">
       <div>
@@ -126,7 +137,7 @@ const SiteReadiness: React.FC = () => {
         </p>
       </div>
       
-      <SiteReadinessCard />
+      <SiteReadinessCard readiness={siteReadiness} />
       
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         <Card>
