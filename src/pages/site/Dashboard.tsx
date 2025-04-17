@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { SearchIcon, ArrowRight } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,6 +16,7 @@ import { AlertTriangle, CheckCircle2, XCircle } from "lucide-react";
 
 const SiteDashboard = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [showInvitations, setShowInvitations] = useState(false);
   
   // Fetch site analytics
@@ -54,6 +55,14 @@ const SiteDashboard = () => {
     eregulatory_binders: true,
     source_templates: false,
     iata_certification: true
+  };
+
+  const handleTrialClick = (trial: any) => {
+    if (trial.status === "enrollment") {
+      navigate(`/site/trials/${trial.id}/enrollment`);
+    } else if (trial.status === "document_review") {
+      navigate(`/site/trials/${trial.id}/documents`);
+    }
   };
 
   return (
@@ -131,7 +140,11 @@ const SiteDashboard = () => {
         ) : trialsData?.trials && trialsData.trials.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {trialsData.trials.map((trial) => (
-              <Card key={trial.id} className="bg-white hover:shadow-md transition-shadow">
+              <Card 
+                key={trial.id} 
+                className="bg-white hover:shadow-md transition-shadow cursor-pointer"
+                onClick={() => handleTrialClick(trial)}
+              >
                 <CardHeader className="pb-4 border-b">
                   <div className="flex justify-between items-start">
                     <CardTitle className="text-xl text-[#6E59A5]">{trial.name}</CardTitle>
@@ -165,15 +178,6 @@ const SiteDashboard = () => {
                           <div className="text-xs text-muted-foreground">Outreach</div>
                         </div>
                       </div>
-                      
-                      <Link to={`/site/trials/${trial.id}`} className="block w-full">
-                        <Button 
-                          variant="outline" 
-                          className="w-full mt-2 border-purple-200 text-[#9b87f5] hover:text-[#6E59A5] hover:bg-purple-50"
-                        >
-                          Go to Enrollment Board
-                        </Button>
-                      </Link>
                     </div>
                   )}
                   
@@ -196,15 +200,6 @@ const SiteDashboard = () => {
                           </div>
                         ))}
                       </div>
-                      
-                      <Link to={`/site/trials/${trial.id}`} className="block w-full">
-                        <Button 
-                          variant="outline" 
-                          className="w-full border-purple-200 text-[#9b87f5] hover:text-[#6E59A5] hover:bg-purple-50"
-                        >
-                          Review Documents
-                        </Button>
-                      </Link>
                     </div>
                   )}
                 </CardContent>

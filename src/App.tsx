@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -29,6 +28,8 @@ import SiteSettings from '@/pages/site/Settings';
 import StaffPage from '@/pages/site/Staff';
 import SiteReadiness from '@/pages/site/SiteReadiness';
 import FindMatchingTrials from '@/pages/site/FindMatchingTrials';
+import EnrollmentBoard from '@/pages/site/EnrollmentBoard';
+import ReviewDocuments from '@/pages/site/ReviewDocuments';
 
 // Import components
 import ProtectedRoute from '@/components/shared/ProtectedRoute';
@@ -85,6 +86,8 @@ const App = () => (
                       <Route path="staff" element={<StaffPage />} />
                       <Route path="readiness" element={<SiteReadiness />} />
                       <Route path="trials/find" element={<FindMatchingTrials />} />
+                      <Route path="trials/:trialId/enrollment" element={<EnrollmentBoard />} />
+                      <Route path="trials/:trialId/documents" element={<ReviewDocuments />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </SiteLayout>
