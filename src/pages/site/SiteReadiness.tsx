@@ -75,11 +75,11 @@ const readinessCategories = [
 const StatusIcon = ({ status }: { status: string }) => {
   switch (status) {
     case "complete":
-      return <CheckCircle2 className="h-4 w-4 text-[#16A34A]" />;
+      return <CheckCircle2 className="h-5 w-5 text-[#16A34A]" />;
     case "incomplete":
-      return <XCircle className="h-4 w-4 text-[#DC2626]" />;
+      return <XCircle className="h-5 w-5 text-[#DC2626]" />;
     case "warning":
-      return <AlertTriangle className="h-4 w-4 text-[#F59E0B]" />;
+      return <AlertTriangle className="h-5 w-5 text-[#F59E0B]" />;
     default:
       return null;
   }
@@ -121,6 +121,48 @@ const SiteReadiness: React.FC = () => {
         <p className="text-[#8E9196] text-sm">
           Track your site's readiness and requirements for clinical trial participation
         </p>
+      </div>
+
+      {/* Summary Row */}
+      <div className="grid grid-cols-4 gap-4">
+        <Card className="bg-white col-span-2">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-semibold text-[#1A1F2C] mb-1">Overall Readiness</h3>
+                <p className="text-sm text-[#8E9196]">Site preparation progress</p>
+              </div>
+              <div className="text-right">
+                <span className="text-2xl font-bold text-[#16A34A]">{overallScore}%</span>
+                <Progress value={overallScore} className="w-32 h-2 bg-[#E6E6E6]" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-white">
+          <CardContent className="pt-6">
+            <div>
+              <h3 className="text-lg font-semibold text-[#1A1F2C] mb-1">Completed Items</h3>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-5 w-5 text-[#16A34A]" />
+                <span className="text-2xl font-bold">{statusCounts.complete || 0}</span>
+                <span className="text-[#8E9196]">of {Object.values(statusCounts).reduce((a, b) => a + b, 0)}</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-white">
+          <CardContent className="pt-6">
+            <div>
+              <h3 className="text-lg font-semibold text-[#1A1F2C] mb-1">Action Required</h3>
+              <div className="flex items-center gap-2">
+                <AlertTriangle className="h-5 w-5 text-[#F59E0B]" />
+                <span className="text-2xl font-bold">{(statusCounts.incomplete || 0) + (statusCounts.warning || 0)}</span>
+                <span className="text-[#8E9196]">items</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Readiness Categories Grid */}
