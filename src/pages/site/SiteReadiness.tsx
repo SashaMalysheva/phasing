@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CustomProgress } from "@/components/ui/custom-progress";
@@ -129,11 +128,10 @@ const SiteReadiness: React.FC = () => {
         </p>
       </div>
 
-      {/* Full Width Summary Section */}
       <div className="w-full bg-white rounded-lg border p-6 space-y-8">
         <div className="max-w-2xl">
           <div className="space-y-1">
-            <span className="text-3xl font-bold text-black">{overallScore}%</span>
+            <span className="text-2xl font-bold text-black">{overallScore}%</span>
             <CustomProgress 
               value={overallScore} 
               className="h-2 bg-black" 
@@ -146,7 +144,7 @@ const SiteReadiness: React.FC = () => {
           <div>
             <h3 className="text-sm font-semibold text-[#1A1F2C]">Completed Items</h3>
             <div className="mt-1 flex items-baseline gap-2">
-              <span className="text-2xl font-bold text-black">{completedItems}</span>
+              <span className="text-xl font-bold text-black">{completedItems}</span>
               <span className="text-[#8E9196] text-xs">of {totalItems}</span>
             </div>
             <p className="text-[#8E9196] text-xs mt-1">Successfully validated requirements</p>
@@ -155,7 +153,7 @@ const SiteReadiness: React.FC = () => {
           <div>
             <h3 className="text-sm font-semibold text-[#1A1F2C]">Action Required</h3>
             <div className="mt-1 flex items-baseline gap-2">
-              <span className="text-2xl font-bold text-black">{pendingItems}</span>
+              <span className="text-xl font-bold text-black">{pendingItems}</span>
               <span className="text-[#8E9196] text-xs">items</span>
             </div>
             <p className="text-[#8E9196] text-xs mt-1">Items needing attention</p>
@@ -164,7 +162,7 @@ const SiteReadiness: React.FC = () => {
           <div>
             <h3 className="text-sm font-semibold text-[#1A1F2C]">Time Estimate</h3>
             <div className="mt-1 flex items-baseline gap-2">
-              <span className="text-2xl font-bold text-[#D6BCFA]">{Math.ceil(pendingItems * 1.5)}</span>
+              <span className="text-xl font-bold text-[#D6BCFA]">{Math.ceil(pendingItems * 1.5)}</span>
               <span className="text-[#8E9196] text-xs">days</span>
             </div>
             <p className="text-[#8E9196] text-xs mt-1">Estimated completion time</p>
@@ -172,7 +170,6 @@ const SiteReadiness: React.FC = () => {
         </div>
       </div>
 
-      {/* Readiness Categories Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {readinessCategories.map(category => (
           <Card key={category.id} className="bg-white">
@@ -222,4 +219,3 @@ const SiteReadiness: React.FC = () => {
 };
 
 export default SiteReadiness;
-
