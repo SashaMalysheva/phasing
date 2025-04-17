@@ -275,6 +275,7 @@ const StaffPage = () => {
                       name={staff.name}
                       role={staff.role}
                       issues={staff.issues}
+                      experience={undefined}
                     />
                   ))
                 ) : (
