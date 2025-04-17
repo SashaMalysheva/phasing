@@ -8,14 +8,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Filter, Plus, RefreshCcw, ArrowLeft, PhoneCall, CheckCircle, X, Clock, Edit, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
-// Update stats to use softer color indicators
 const stats = [
-  { label: "Enrolled Participants", value: "45", change: "+5", color: "bg-[#F2FCE2]" },
-  { label: "Enrollment Target", value: "100", color: "bg-[#FEF7CD]" },
-  { label: "Enrollment Progress", value: "45%", color: "bg-[#D3E4FD]" },
-  { label: "Identified Leads", value: "150", change: "+12", color: "bg-[#E5DEFF]" },
-  { label: "Ongoing Outreach", value: "95", change: "-3", color: "bg-[#FEC6A1]" },
-  { label: "Prescreened", value: "72", change: "+2", color: "bg-[#FFDEE2]" }
+  { label: "Enrolled Participants", value: "45", change: "+5" },
+  { label: "Enrollment Target", value: "100" },
+  { label: "Enrollment Progress", value: "45%" },
+  { label: "Identified Leads", value: "150", change: "+12" },
+  { label: "Ongoing Outreach", value: "95", change: "-3" },
+  { label: "Prescreened", value: "72", change: "+2" }
 ];
 
 const EnrollmentBoard = () => {
@@ -150,17 +149,17 @@ const EnrollmentBoard = () => {
         {stats.map((stat, index) => (
           <Card 
             key={index} 
-            className={`p-4 shadow-sm rounded-lg ${stat.color} hover:shadow-md transition-shadow duration-300 border border-gray-100`}
+            className="p-4 shadow-sm rounded-lg bg-white hover:shadow-md transition-shadow duration-300 border border-gray-100"
           >
-            <div className="text-sm text-gray-700 mb-2">{stat.label}</div>
+            <div className="text-sm text-gray-500 mb-2">{stat.label}</div>
             <div className="flex items-baseline">
-              <div className="text-2xl font-semibold text-gray-900">{stat.value}</div>
+              <div className="text-2xl font-semibold">{stat.value}</div>
               {stat.change && (
                 <span 
                   className={`ml-2 text-sm font-medium ${
                     stat.change.startsWith('+') 
-                      ? 'text-green-700' 
-                      : 'text-red-700'
+                      ? 'text-green-600' 
+                      : 'text-red-600'
                   }`}
                 >
                   {stat.change}
