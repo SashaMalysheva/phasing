@@ -189,25 +189,25 @@ const EnrollmentBoard = () => {
                 title: 'Not Eligible', 
                 count: '4 candidates', 
                 data: candidateData.notEligible,
-                className: 'bg-gradient-to-b from-[#FFDEE2]/20 to-[#E5DEFF]/30 border-pink-100/20' 
+                className: 'bg-gradient-to-b from-[#FFF0F2]/10 to-[#F1E6FF]/20 border-pink-50/20' 
               },
               { 
                 title: 'Identified Lead', 
                 count: '3 candidates', 
                 data: candidateData.identifiedLead,
-                className: 'bg-gradient-to-b from-[#E5DEFF]/30 to-[#D6BCFA]/40 border-purple-200/20' 
+                className: 'bg-gradient-to-b from-[#F1E6FF]/10 to-[#EAE0FF]/20 border-purple-50/20' 
               },
               { 
                 title: 'Qualified', 
                 count: '0 candidates', 
                 data: candidateData.qualified,
-                className: 'bg-gradient-to-b from-[#D6BCFA]/40 to-[#7E69AB]/30 border-purple-300/20' 
+                className: 'bg-gradient-to-b from-[#EAE0FF]/10 to-[#E0E6FF]/20 border-blue-50/20' 
               },
               { 
                 title: 'Ongoing Outreach', 
                 count: '2 candidates', 
                 data: candidateData.ongoingOutreach,
-                className: 'bg-gradient-to-b from-[#7E69AB]/30 to-[#6E59A5]/40 border-purple-400/20' 
+                className: 'bg-gradient-to-b from-[#E0E6FF]/10 to-[#D6E0FF]/20 border-indigo-50/20' 
               }
             ].map((column) => (
               <div key={column.title} className={`rounded-lg border ${column.className}`}>
