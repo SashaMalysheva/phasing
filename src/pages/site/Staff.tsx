@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -207,8 +208,8 @@ const StaffPage = () => {
                     return (
                       <div key={cert}>
                         <div className="flex justify-between items-center mb-1">
-                          <span className="text-xs text-purple-800 capitalize">{cert.replace(/_/g, ' ')}</span>
-                          <span className="text-xs text-purple-600">
+                          <span className="text-xs text-black capitalize">{cert.replace(/_/g, ' ')}</span>
+                          <span className="text-xs text-gray-600">
                             {stats.count}/{staffStats.total_staff} ({Math.round(stats.percentage)}%)
                           </span>
                         </div>
@@ -232,13 +233,13 @@ const StaffPage = () => {
                     staffRequiringAttention.slice(0, 3).map((staff, index) => (
                       <div key={index} className="flex items-start p-3 bg-purple-50/50 rounded-lg backdrop-blur-sm">
                         <div>
-                          <h4 className="text-sm font-medium text-purple-900">{staff.name}</h4>
-                          <p className="text-xs text-purple-700">{staff.role}</p>
+                          <h4 className="text-sm font-medium text-black">{staff.name}</h4>
+                          <p className="text-xs text-gray-600">{staff.role}</p>
                           <div className="mt-1">
                             {staff.issues && staff.issues.map((issue, i) => (
                               <div key={i} className="flex items-center gap-1.5">
-                                <AlertCircle className="h-3 w-3 text-[#9b87f5]" />
-                                <span className="text-xs text-purple-700">{issue}</span>
+                                <AlertCircle className="h-3 w-3 text-gray-600" />
+                                <span className="text-xs text-black">{issue}</span>
                               </div>
                             ))}
                           </div>
@@ -246,7 +247,7 @@ const StaffPage = () => {
                       </div>
                     ))
                   ) : (
-                    <div className="text-sm text-purple-700">No staff members require attention at this time.</div>
+                    <div className="text-sm text-black">No staff members require attention at this time.</div>
                   )}
                 </div>
               </CardContent>
