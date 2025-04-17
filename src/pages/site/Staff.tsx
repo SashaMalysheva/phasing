@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -221,15 +220,25 @@ const StaffPage = () => {
 
                 <div className="mt-6 pt-6 border-t border-gray-200">
                   <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <div className="text-sm font-medium text-black">{staffStats.total_staff}</div>
-                      <div className="text-xs text-gray-600">Total Staff Members</div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-black">Pharmacist</span>
+                      <span className="text-sm font-medium text-black">2</span>
                     </div>
-                    <div>
-                      <div className="text-sm font-medium text-black">
-                        {Math.round(Object.values(staffStats.certification_status).reduce((acc, curr) => acc + curr.percentage, 0) / 4)}%
-                      </div>
-                      <div className="text-xs text-gray-600">Average Completion</div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-black">Sub-I</span>
+                      <span className="text-sm font-medium text-black">3</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-black">CRC</span>
+                      <span className="text-sm font-medium text-black">2</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-black">Lab</span>
+                      <span className="text-sm font-medium text-black">6</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-black">PI</span>
+                      <span className="text-sm font-medium text-black">1</span>
                     </div>
                   </div>
                 </div>
