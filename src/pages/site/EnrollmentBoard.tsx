@@ -199,25 +199,25 @@ const EnrollmentBoard = () => {
                 title: 'Not Eligible', 
                 count: '4 candidates', 
                 data: candidateData.notEligible,
-                className: 'bg-gray-50 border border-gray-100' 
+                className: 'bg-gradient-to-b from-purple-50 to-purple-100 border-purple-200' 
               },
               { 
                 title: 'Identified Lead', 
                 count: '3 candidates', 
                 data: candidateData.identifiedLead,
-                className: 'bg-gray-100/50 border border-gray-200' 
+                className: 'bg-gradient-to-b from-purple-100 to-purple-200 border-purple-300' 
               },
               { 
                 title: 'Qualified', 
                 count: '0 candidates', 
                 data: candidateData.qualified,
-                className: 'bg-gray-200/50 border border-gray-300' 
+                className: 'bg-gradient-to-b from-purple-200 to-purple-300 border-purple-400' 
               },
               { 
                 title: 'Ongoing Outreach', 
                 count: '2 candidates', 
                 data: candidateData.ongoingOutreach,
-                className: 'bg-gray-300/50 border border-gray-400' 
+                className: 'bg-gradient-to-b from-purple-300 to-purple-400 border-purple-500' 
               }
             ].map((column) => (
               <div key={column.title} className={`rounded-lg border ${column.className}`}>
@@ -242,35 +242,11 @@ const EnrollmentBoard = () => {
 
                       {'status' in candidate && (
                         <div className="flex gap-2 mt-2 justify-end">
-                          <div 
-                            className={`p-1 rounded-full ${
-                              candidate.status.rejected 
-                                ? 'bg-red-50' 
-                                : 'bg-gray-50'
-                            }`}
-                          >
-                            <X 
-                              className={`h-4 w-4 ${
-                                candidate.status.rejected 
-                                  ? 'text-red-400' 
-                                  : 'text-gray-300'
-                              }`} 
-                            />
+                          <div className={`p-1 rounded-full ${candidate.status.rejected ? 'bg-red-50' : 'bg-gray-50'}`}>
+                            <X className={`h-4 w-4 ${candidate.status.rejected ? 'text-red-400' : 'text-gray-300'}`} />
                           </div>
-                          <div 
-                            className={`p-1 rounded-full ${
-                              candidate.status.approved 
-                                ? 'bg-gray-50' 
-                                : 'bg-gray-50'
-                            }`}
-                          >
-                            <CheckCircle 
-                              className={`h-4 w-4 ${
-                                candidate.status.approved 
-                                  ? 'text-gray-400' 
-                                  : 'text-gray-300'
-                              }`} 
-                            />
+                          <div className={`p-1 rounded-full ${candidate.status.approved ? 'bg-gray-50' : 'bg-gray-50'}`}>
+                            <CheckCircle className={`h-4 w-4 ${candidate.status.approved ? 'text-gray-400' : 'text-gray-300'}`} />
                           </div>
                         </div>
                       )}
