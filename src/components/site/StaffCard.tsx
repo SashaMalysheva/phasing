@@ -11,10 +11,10 @@ interface StaffCardProps {
   issues: string[] | null;
   experience?: number;
   documents?: {
-    cv_uploaded: boolean;
-    gcp_certification: boolean;
-    medical_license: boolean;
-    delegation_of_authority: boolean;
+    cv_uploaded?: boolean;
+    gcp_certification?: boolean;
+    medical_license?: boolean;
+    delegation_of_authority?: boolean;
   };
 }
 
@@ -70,7 +70,7 @@ const StaffCard: React.FC<StaffCardProps> = ({
             </div>
           )}
 
-          {!issues && experience && (
+          {!issues && experience !== undefined && (
             <div className="text-sm">
               <div className="flex items-center text-muted-foreground">
                 <span className="font-medium mr-2">Experience:</span> {experience} years

@@ -71,7 +71,7 @@ const StaffPage = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {Object.entries(staffStats.certification_stats).map(([cert, count]) => {
+                  {staffStats.certification_stats && Object.entries(staffStats.certification_stats).map(([cert, count]) => {
                     if (cert === "total_staff") return null;
                     const percentage = (Number(count) / staffStats.certification_stats.total_staff) * 100;
                     return (
@@ -98,7 +98,7 @@ const StaffPage = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {staffStats.staff_requiring_attention.map((staff, index) => (
+                  {staffStats.staff_requiring_attention && staffStats.staff_requiring_attention.map((staff, index) => (
                     <div key={index} className="flex items-start p-3 bg-purple-50/50 rounded-lg backdrop-blur-sm">
                       <div>
                         <h4 className="text-sm font-medium text-purple-900">{staff.name}</h4>
@@ -129,7 +129,7 @@ const StaffPage = () => {
             
             <TabsContent value="all">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {staffStats.staff_requiring_attention.map((staff, index) => (
+                {staffStats.staff_requiring_attention && staffStats.staff_requiring_attention.map((staff, index) => (
                   <StaffCard 
                     key={`incomplete-${index}`}
                     name={staff.name}
@@ -137,13 +137,14 @@ const StaffPage = () => {
                     issues={staff.issues}
                   />
                 ))}
-                {staffStats.qualified_staff.map((staff, index) => (
+                {staffStats.qualified_staff && staffStats.qualified_staff.map((staff, index) => (
                   <StaffCard 
                     key={`complete-${index}`}
                     name={staff.name}
                     role={staff.role}
                     issues={null}
-                    experience={staffStats.average_experience[staff.role as keyof typeof staffStats.average_experience]}
+                    experience={staffStats.average_experience ? 
+                      staffStats.average_experience[staff.role] : undefined}
                   />
                 ))}
               </div>
@@ -151,7 +152,7 @@ const StaffPage = () => {
             
             <TabsContent value="incomplete">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {staffStats.staff_requiring_attention.map((staff, index) => (
+                {staffStats.staff_requiring_attention && staffStats.staff_requiring_attention.map((staff, index) => (
                   <StaffCard 
                     key={`incomplete-${index}`}
                     name={staff.name}
@@ -164,13 +165,14 @@ const StaffPage = () => {
             
             <TabsContent value="complete">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {staffStats.qualified_staff.map((staff, index) => (
+                {staffStats.qualified_staff && staffStats.qualified_staff.map((staff, index) => (
                   <StaffCard 
                     key={`complete-${index}`}
                     name={staff.name}
                     role={staff.role}
                     issues={null}
-                    experience={staffStats.average_experience[staff.role as keyof typeof staffStats.average_experience]}
+                    experience={staffStats.average_experience ? 
+                      staffStats.average_experience[staff.role] : undefined}
                   />
                 ))}
               </div>

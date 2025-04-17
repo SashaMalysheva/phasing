@@ -23,21 +23,23 @@ interface StaffInfoDialogProps {
     role: string;
     issues: string[] | null;
     documents?: {
-      cv_uploaded: boolean;
-      gcp_certification: boolean;
-      medical_license: boolean;
-      delegation_of_authority: boolean;
+      cv_uploaded?: boolean;
+      gcp_certification?: boolean;
+      medical_license?: boolean;
+      delegation_of_authority?: boolean;
     };
     experience?: number;
   };
 }
 
 const StaffInfoDialog = ({ isOpen, onClose, staffMember }: StaffInfoDialogProps) => {
+  // Default all document statuses to true unless explicitly set to false
+  // This is because some staff members may not have all document fields defined
   const documents: StaffDocument[] = [
-    { type: "cv", label: "Curriculum Vitae", uploaded: staffMember.documents?.cv_uploaded ?? true },
-    { type: "gcp", label: "GCP Certification", uploaded: staffMember.documents?.gcp_certification ?? true },
-    { type: "medical_license", label: "Medical License", uploaded: staffMember.documents?.medical_license ?? true },
-    { type: "delegation", label: "Delegation of Authority", uploaded: staffMember.documents?.delegation_of_authority ?? true },
+    { type: "cv", label: "Curriculum Vitae", uploaded: staffMember.documents?.cv_uploaded !== false },
+    { type: "gcp", label: "GCP Certification", uploaded: staffMember.documents?.gcp_certification !== false },
+    { type: "medical_license", label: "Medical License", uploaded: staffMember.documents?.medical_license !== false },
+    { type: "delegation", label: "Delegation of Authority", uploaded: staffMember.documents?.delegation_of_authority !== false },
   ];
 
   return (
@@ -55,13 +57,13 @@ const StaffInfoDialog = ({ isOpen, onClose, staffMember }: StaffInfoDialogProps)
         </DialogHeader>
 
         <div className="space-y-4 mt-4">
-          {staffMember.experience && (
+          {staffMember.experience !== undefined && (
             <div className="text-sm">
               <span className="font-medium">Experience:</span> {staffMember.experience} years
             </div>
           )}
 
-          {staffMember.issues && (
+          {staffMember.issues && staffMember.issues.length > 0 && (
             <div className="bg-amber-50/50 p-3 rounded-lg border border-amber-200">
               <h4 className="text-sm font-medium text-amber-700 mb-2">Missing Items:</h4>
               <div className="flex flex-wrap gap-1">
