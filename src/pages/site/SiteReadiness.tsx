@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CustomProgress } from "@/components/ui/custom-progress";
@@ -134,8 +135,8 @@ const SiteReadiness: React.FC = () => {
             <span className="text-2xl font-bold text-black">{overallScore}%</span>
             <CustomProgress 
               value={overallScore} 
-              className="h-2 bg-black" 
-              indicatorClassName="bg-[#D6BCFA]"
+              className="h-2 bg-[#D6BCFA]" 
+              indicatorClassName="bg-[#1A1F2C]"
             />
           </div>
         </div>
