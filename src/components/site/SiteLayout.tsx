@@ -14,6 +14,7 @@ import {
   SidebarInset
 } from "@/components/ui/sidebar";
 import {
+  FileText,
   ClipboardList,
   BarChart3,
   Settings,
@@ -44,6 +45,48 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({ children }) => {
     });
   };
 
+  const menuItems = [
+    {
+      icon: ClipboardList,
+      label: "Trials",
+      path: "/site/dashboard",
+      tooltip: "Overview",
+    },
+    {
+      icon: BarChart3,
+      label: "Analytics",
+      path: "/site/analytics",
+      tooltip: "Patient Analytics",
+    },
+    {
+      icon: Settings,
+      label: "Settings",
+      path: "/site/settings",
+    },
+    {
+      icon: Users,
+      label: "Staff Panel",
+      path: "/site/staff",
+      tooltip: "Staff Analytics",
+    },
+    {
+      icon: BookOpen,
+      label: "Site Readiness Details",
+      path: "/site/readiness",
+      tooltip: "Site Details",
+    },
+    {
+      icon: Search,
+      label: "Find Matching Trials",
+      path: "/site/trials/find",
+    },
+    {
+      icon: FileText,
+      label: "Trials",
+      path: "/site/trials",
+    },
+  ];
+
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full">
@@ -55,77 +98,20 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({ children }) => {
           
           <SidebarContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={location.pathname.includes("/site/dashboard")}
-                  asChild
-                >
-                  <Link to="/site/dashboard">
-                    <ClipboardList />
-                    <span>Trials</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={location.pathname.includes("/site/analytics")}
-                  asChild
-                >
-                  <Link to="/site/analytics">
-                    <BarChart3 />
-                    <span>Analytics</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={location.pathname.includes("/site/settings")}
-                  asChild
-                >
-                  <Link to="/site/settings">
-                    <Settings />
-                    <span>Settings</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={location.pathname.includes("/site/staff")}
-                  asChild
-                >
-                  <Link to="/site/staff">
-                    <Users />
-                    <span>Staff Panel</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={location.pathname.includes("/site/readiness")}
-                  asChild
-                >
-                  <Link to="/site/readiness">
-                    <BookOpen />
-                    <span>Site Readiness Details</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={location.pathname.includes("/site/trials/find")}
-                  asChild
-                >
-                  <Link to="/site/trials/find">
-                    <Search />
-                    <span>Find Matching Trials</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {menuItems.map((item) => (
+                <SidebarMenuItem key={item.path}>
+                  <SidebarMenuButton
+                    isActive={location.pathname === item.path}
+                    tooltip={item.tooltip}
+                    asChild
+                  >
+                    <Link to={item.path}>
+                      <item.icon className="h-5 w-5" />
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarContent>
           

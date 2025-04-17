@@ -86,6 +86,7 @@ const App = () => (
                       <Route path="staff" element={<StaffPage />} />
                       <Route path="readiness" element={<SiteReadiness />} />
                       <Route path="trials/find" element={<FindMatchingTrials />} />
+                      <Route path="trials" element={<div>Trials Page</div>} />
                       <Route path="trials/:trialId/enrollment" element={<EnrollmentBoard />} />
                       <Route path="trials/:trialId/documents" element={<ReviewDocuments />} />
                       <Route path="*" element={<NotFound />} />
