@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+import { CustomProgress } from "@/components/ui/custom-progress";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle2, XCircle, AlertTriangle, FileText, Users, Clipboard, Thermometer, Lock, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -114,6 +114,10 @@ const SiteReadiness: React.FC = () => {
     {} as Record<string, number>
   );
 
+  const totalItems = Object.values(statusCounts).reduce((a, b) => a + b, 0);
+  const completedItems = statusCounts.complete || 0;
+  const pendingItems = totalItems - completedItems;
+
   return (
     <div className="space-y-8">
       <div>
@@ -123,56 +127,50 @@ const SiteReadiness: React.FC = () => {
         </p>
       </div>
 
-      {/* Summary Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="bg-white col-span-1">
-          <CardContent className="py-6">
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-xl font-semibold text-[#1A1F2C]">Overall Readiness</h3>
-                <p className="text-sm text-[#8E9196]">Site preparation progress</p>
-              </div>
-              <div className="space-y-2">
-                <div className="flex justify-between items-baseline">
-                  <span className="text-4xl font-bold text-[#16A34A]">{overallScore}%</span>
-                </div>
-                <Progress value={overallScore} className="h-2 bg-[#E6E6E6]" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+      {/* Full Width Summary Section */}
+      <div className="w-full bg-white rounded-lg border p-8 space-y-12">
+        <div className="max-w-2xl">
+          <h2 className="text-2xl font-semibold text-[#1A1F2C]">Overall Readiness</h2>
+          <p className="text-[#8E9196] text-sm mb-6">Site preparation progress</p>
+          
+          <div className="space-y-2">
+            <span className="text-6xl font-bold text-[#16A34A]">{overallScore}%</span>
+            <CustomProgress 
+              value={overallScore} 
+              className="h-3" 
+              indicatorClassName="bg-[#16A34A]"
+            />
+          </div>
+        </div>
 
-        <Card className="bg-white">
-          <CardContent className="py-6">
-            <div className="space-y-2">
-              <h3 className="text-xl font-semibold text-[#1A1F2C]">Completed Items</h3>
-              <div className="flex items-baseline gap-3">
-                <CheckCircle2 className="h-5 w-5 text-[#16A34A]" />
-                <span className="text-4xl font-bold">{statusCounts.complete || 0}</span>
-                <span className="text-[#8E9196] text-lg">of {Object.values(statusCounts).reduce((a, b) => a + b, 0)}</span>
-              </div>
-              <div className="text-[#8E9196] text-sm mt-2">
-                Successfully completed requirements
-              </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h3 className="text-xl font-semibold text-[#1A1F2C]">Completed Items</h3>
+            <div className="mt-2 flex items-baseline gap-2">
+              <span className="text-4xl font-bold text-[#1A1F2C]">{completedItems}</span>
+              <span className="text-[#8E9196]">of {totalItems}</span>
             </div>
-          </CardContent>
-        </Card>
+            <p className="text-[#8E9196] text-sm mt-1">Successfully validated requirements</p>
+          </div>
 
-        <Card className="bg-white">
-          <CardContent className="py-6">
-            <div className="space-y-2">
-              <h3 className="text-xl font-semibold text-[#1A1F2C]">Action Required</h3>
-              <div className="flex items-baseline gap-3">
-                <AlertTriangle className="h-5 w-5 text-[#F59E0B]" />
-                <span className="text-4xl font-bold">{(statusCounts.incomplete || 0) + (statusCounts.warning || 0)}</span>
-                <span className="text-[#8E9196] text-lg">items</span>
-              </div>
-              <div className="text-[#8E9196] text-sm mt-2">
-                Items needing attention
-              </div>
+          <div>
+            <h3 className="text-xl font-semibold text-[#1A1F2C]">Action Required</h3>
+            <div className="mt-2 flex items-baseline gap-2">
+              <span className="text-4xl font-bold text-[#DC2626]">{pendingItems}</span>
+              <span className="text-[#8E9196]">items</span>
             </div>
-          </CardContent>
-        </Card>
+            <p className="text-[#8E9196] text-sm mt-1">Items needing attention</p>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-semibold text-[#1A1F2C]">Time Estimate</h3>
+            <div className="mt-2 flex items-baseline gap-2">
+              <span className="text-4xl font-bold text-[#F59E0B]">{Math.ceil(pendingItems * 1.5)}</span>
+              <span className="text-[#8E9196]">days</span>
+            </div>
+            <p className="text-[#8E9196] text-sm mt-1">Estimated completion time</p>
+          </div>
+        </div>
       </div>
 
       {/* Readiness Categories Grid */}
