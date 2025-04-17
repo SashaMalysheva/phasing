@@ -1,7 +1,7 @@
 
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle2, AlertTriangle, XCircle, ArrowRight } from "lucide-react";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { CheckCircle2, AlertTriangle, XCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface ReadinessItem {
@@ -43,7 +43,7 @@ const SiteReadinessCard: React.FC<SiteReadinessCardProps> = ({ readiness }) => {
       <CardHeader className="pb-4">
         <div className="flex justify-between items-center">
           <span className="text-lg font-semibold text-[#6E59A5]">Site Readiness Status</span>
-          <span className="text-xl font-bold text-[#6E59A5]">{getReadinessPercentage()}%</span>
+          <span className="text-lg font-bold text-[#6E59A5]">{getReadinessPercentage()}%</span>
         </div>
         <p className="text-sm text-muted-foreground">
           This site maintains constant readiness. Average startup time: 2 days.
@@ -73,16 +73,9 @@ const SiteReadinessCard: React.FC<SiteReadinessCardProps> = ({ readiness }) => {
           </ul>
         </div>
       </CardContent>
-      <div className="p-4 border-t">
-        <Link 
-          to="/site/readiness" 
-          className="flex items-center justify-end text-sm text-[#9b87f5] hover:text-[#8B5CF6]"
-        >
-          View Full Readiness Report <ArrowRight className="ml-2 h-4 w-4" />
-        </Link>
-      </div>
     </Card>
   );
 };
 
 export default SiteReadinessCard;
+

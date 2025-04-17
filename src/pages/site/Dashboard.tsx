@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { SearchIcon, ArrowRight } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { useAuth } from "@/context/AuthContext";
 import { getSiteAnalytics, getSiteTrials, getSitePendingInvitations } from "@/lib/api";
 import PendingInvitationsModal from "@/components/site/PendingInvitationsModal";
-import { AlertTriangle, CheckCircle2, XCircle, SearchIcon, ArrowRight } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import SiteReadinessCard from "@/components/site/SiteReadinessCard";
 import SiteStaffCard from "@/components/site/SiteStaffCard";
 import TrialStatusBadge from "@/components/shared/TrialStatusBadge";
+import { Progress } from "@/components/ui/progress";
+import { AlertTriangle, CheckCircle2, XCircle } from "lucide-react";
 
 const SiteDashboard = () => {
   const { user } = useAuth();
@@ -107,23 +108,11 @@ const SiteDashboard = () => {
         <div className="mb-8">
           <h2 className="text-2xl font-semibold text-[#6E59A5] mb-4">Site Readiness Overview</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="relative">
+            <div>
               <SiteReadinessCard readiness={siteReadiness} />
-              <Link 
-                to="/site/readiness" 
-                className="absolute bottom-4 right-4 text-sm text-[#9b87f5] hover:text-[#8B5CF6] flex items-center"
-              >
-                View Full Readiness Report <ArrowRight className="h-4 w-4 ml-1" />
-              </Link>
             </div>
-            <div className="relative">
+            <div>
               <SiteStaffCard staffStats={analyticsData.staff_statistics} />
-              <Link 
-                to="/site/staff" 
-                className="absolute bottom-4 right-4 text-sm text-[#9b87f5] hover:text-[#8B5CF6] flex items-center"
-              >
-                View 3 more staff details <ArrowRight className="h-4 w-4 ml-1" />
-              </Link>
             </div>
           </div>
         </div>
