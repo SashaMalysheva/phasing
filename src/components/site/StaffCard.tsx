@@ -34,7 +34,9 @@ const StaffCard: React.FC<StaffCardProps> = ({
     <>
       <Card 
         className={`
-          ${hasIssues ? "border-gray-200 bg-white" : "bg-white"} 
+          ${hasIssues 
+            ? "border-[#E5DEFF] bg-[#F9F7FF]" 
+            : "border-gray-200 bg-white"} 
           cursor-pointer hover:shadow-md transition-shadow
         `}
         onClick={() => setIsDialogOpen(true)}
@@ -46,7 +48,7 @@ const StaffCard: React.FC<StaffCardProps> = ({
                 <User className="h-5 w-5 text-gray-500" />
               </div>
               <div>
-                <h3 className="font-medium">{name}</h3>
+                <h3 className="font-medium text-[#6E59A5]">{name}</h3>
                 <p className="text-sm text-muted-foreground">{role}</p>
               </div>
             </div>
@@ -57,7 +59,7 @@ const StaffCard: React.FC<StaffCardProps> = ({
                 Ready
               </Badge>
             ) : (
-              <Badge variant="outline" className="text-[#6E59A5] border-[#6E59A5] bg-white">
+              <Badge variant="outline" className="bg-[#F1F0FB] text-[#6E59A5] border-[#9B87F5]">
                 <AlertCircle className="h-3 w-3 mr-1" />
                 Needs Update
               </Badge>
@@ -68,7 +70,11 @@ const StaffCard: React.FC<StaffCardProps> = ({
             <div className="space-y-2">
               <div className="flex flex-wrap gap-1.5 mt-2">
                 {displayIssues.map((item, i) => (
-                  <Badge key={i} variant="outline" className="bg-[#F1F0FB] border-[#E5DEFF] text-[#6E59A5]">
+                  <Badge 
+                    key={i} 
+                    variant="outline" 
+                    className="bg-white border-[#9B87F5] text-[#6E59A5] border-opacity-50"
+                  >
                     {item}
                   </Badge>
                 ))}
@@ -79,7 +85,8 @@ const StaffCard: React.FC<StaffCardProps> = ({
           {!hasIssues && experience !== undefined && (
             <div className="text-sm mt-2">
               <div className="flex items-center text-muted-foreground">
-                <span className="font-medium mr-2">Experience:</span> {experience} years
+                <span className="font-medium mr-2 text-[#6E59A5]">Experience:</span> 
+                <span className="text-[#6E59A5]">{experience} years</span>
               </div>
             </div>
           )}

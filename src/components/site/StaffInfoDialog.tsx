@@ -34,8 +34,6 @@ interface StaffInfoDialogProps {
 }
 
 const StaffInfoDialog = ({ isOpen, onClose, staffMember }: StaffInfoDialogProps) => {
-  // Default all document statuses to true unless explicitly set to false
-  // This is because some staff members may not have all document fields defined
   const documents: StaffDocument[] = [
     { type: "cv", label: "Curriculum Vitae", uploaded: staffMember.documents?.cv_uploaded !== false },
     { type: "gcp", label: "GCP Certification", uploaded: staffMember.documents?.gcp_certification !== false },
@@ -47,12 +45,14 @@ const StaffInfoDialog = ({ isOpen, onClose, staffMember }: StaffInfoDialogProps)
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold flex items-center justify-between">
+          <DialogTitle className="text-xl font-semibold flex items-center justify-between text-[#6E59A5]">
             {staffMember.name}
-            <Badge variant={staffMember.issues ? "outline" : "default"} 
-                  className={staffMember.issues 
-                    ? "bg-white text-[#6E59A5] border-[#6E59A5]" 
-                    : "bg-green-100 text-green-800"}>
+            <Badge 
+              variant={staffMember.issues ? "outline" : "default"} 
+              className={staffMember.issues 
+                ? "bg-[#F1F0FB] text-[#6E59A5] border-[#9B87F5]" 
+                : "bg-green-100 text-green-800"}
+            >
               {staffMember.issues ? "Needs Update" : "Ready"}
             </Badge>
           </DialogTitle>
@@ -62,16 +62,21 @@ const StaffInfoDialog = ({ isOpen, onClose, staffMember }: StaffInfoDialogProps)
         <div className="space-y-4 mt-4">
           {staffMember.experience !== undefined && (
             <div className="text-sm">
-              <span className="font-medium">Experience:</span> {staffMember.experience} years
+              <span className="font-medium text-[#6E59A5]">Experience:</span> 
+              <span className="ml-2 text-[#6E59A5]">{staffMember.experience} years</span>
             </div>
           )}
 
           {staffMember.issues && staffMember.issues.length > 0 && (
-            <div className="bg-[#F1F0FB] p-3 rounded-lg border border-[#E5DEFF]">
+            <div className="bg-[#F9F7FF] p-3 rounded-lg border border-[#E5DEFF]">
               <h4 className="text-sm font-medium text-[#6E59A5] mb-2">Missing Items:</h4>
               <div className="flex flex-wrap gap-1.5">
                 {staffMember.issues.map((issue, i) => (
-                  <Badge key={i} variant="outline" className="bg-white border-[#E5DEFF] text-[#6E59A5]">
+                  <Badge 
+                    key={i} 
+                    variant="outline" 
+                    className="bg-white border-[#9B87F5] text-[#6E59A5] border-opacity-50"
+                  >
                     {issue}
                   </Badge>
                 ))}
@@ -80,17 +85,17 @@ const StaffInfoDialog = ({ isOpen, onClose, staffMember }: StaffInfoDialogProps)
           )}
 
           <div className="space-y-3">
-            <h4 className="text-sm font-medium">Documents</h4>
+            <h4 className="text-sm font-medium text-[#6E59A5]">Documents</h4>
             {documents.map((doc) => (
               <div
                 key={doc.type}
-                className="flex items-center justify-between p-3 bg-secondary/20 rounded-lg"
+                className="flex items-center justify-between p-3 bg-[#F9F7FF] rounded-lg border border-[#E5DEFF]"
               >
                 <div className="flex items-center gap-3">
-                  <FileText className="h-5 w-5 text-muted-foreground" />
+                  <FileText className="h-5 w-5 text-[#6E59A5]" />
                   <div>
-                    <p className="font-medium text-sm">{doc.label}</p>
-                    <p className="text-xs text-muted-foreground flex items-center gap-1">
+                    <p className="font-medium text-sm text-[#6E59A5]">{doc.label}</p>
+                    <p className="text-xs text-[#6E59A5] flex items-center gap-1">
                       {doc.uploaded ? (
                         <>
                           <CheckCircle className="h-3 w-3 text-green-500" />
