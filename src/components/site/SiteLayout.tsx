@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
@@ -52,21 +53,16 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({ children }) => {
       tooltip: "Overview",
     },
     {
-      icon: BarChart3,
-      label: "Patient Analytics",
-      path: "/site/analytics",
-      tooltip: "Patient Analytics",
+      icon: FileText,
+      label: "Trials",
+      path: "/site/trials",
+      tooltip: "Trials",
     },
     {
-      icon: Settings,
-      label: "Settings",
-      path: "/site/settings",
-    },
-    {
-      icon: Users,
-      label: "Staff Analytics",
-      path: "/site/staff",
-      tooltip: "Staff Analytics",
+      icon: Search,
+      label: "Find Matching Trials",
+      path: "/site/trials/find",
+      tooltip: "Find Matching Trials",
     },
     {
       icon: BookOpen,
@@ -75,14 +71,22 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({ children }) => {
       tooltip: "Site Details",
     },
     {
-      icon: Search,
-      label: "Find Matching Trials",
-      path: "/site/trials/find",
+      icon: BarChart3,
+      label: "Patient Analytics",
+      path: "/site/analytics",
+      tooltip: "Patient Analytics",
     },
     {
-      icon: FileText,
-      label: "Trials",
-      path: "/site/trials",
+      icon: Users,
+      label: "Staff Analytics",
+      path: "/site/staff",
+      tooltip: "Staff Analytics",
+    },
+    {
+      icon: Settings,
+      label: "Settings",
+      path: "/site/settings",
+      tooltip: "Settings",
     },
   ];
 
