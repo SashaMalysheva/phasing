@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CustomProgress } from "@/components/ui/custom-progress";
+import { Separator } from "@/components/ui/separator";
 import { 
   RefreshCw, 
   FileText,
@@ -40,6 +41,7 @@ const FindMatchingTrials = () => {
     enabled: !!user?.id,
   });
 
+  // Function to get the appropriate icon based on score
   const getScoreIcon = (score: number) => {
     if (score >= 90) return <CheckCircle className="h-4 w-4 text-green-600" />;
     if (score >= 70) return <AlertTriangle className="h-4 w-4 text-amber-600" />;
@@ -107,7 +109,7 @@ const FindMatchingTrials = () => {
           <TabsContent value="all">
             <div className="grid grid-cols-1 gap-4">
               {data.matching_trials.map((trial) => (
-                <TrialMatchCard key={trial.id} trial={trial} />
+                <TrialMatchCard key={trial.id} trial={trial} getScoreIcon={getScoreIcon} />
               ))}
             </div>
           </TabsContent>
@@ -117,7 +119,7 @@ const FindMatchingTrials = () => {
               {data.matching_trials
                 .filter(trial => trial.compatibility_score >= 90)
                 .map((trial) => (
-                  <TrialMatchCard key={trial.id} trial={trial} />
+                  <TrialMatchCard key={trial.id} trial={trial} getScoreIcon={getScoreIcon} />
                 ))}
             </div>
           </TabsContent>
@@ -127,7 +129,7 @@ const FindMatchingTrials = () => {
               {data.matching_trials
                 .filter(trial => trial.compatibility_score >= 70 && trial.compatibility_score < 90)
                 .map((trial) => (
-                  <TrialMatchCard key={trial.id} trial={trial} />
+                  <TrialMatchCard key={trial.id} trial={trial} getScoreIcon={getScoreIcon} />
                 ))}
             </div>
           </TabsContent>
@@ -154,13 +156,13 @@ const FindMatchingTrials = () => {
   );
 };
 
-const TrialMatchCard = ({ trial }: { trial: any }) => {
+interface TrialMatchCardProps {
+  trial: any;
+  getScoreIcon: (score: number) => React.ReactNode;
+}
+
+const TrialMatchCard = ({ trial, getScoreIcon }: TrialMatchCardProps) => {
   const compatibilityScore = Math.round(trial.compatibility_score);
-  const scoreColorClass = compatibilityScore >= 90 
-    ? "text-green-600" 
-    : compatibilityScore >= 70 
-      ? "text-amber-600" 
-      : "text-red-600";
   
   const eligibleRatio = (trial.eligible_patient_count / trial.total_patient_count) * 100;
   
@@ -188,8 +190,8 @@ const TrialMatchCard = ({ trial }: { trial: any }) => {
             <Tooltip>
               <TooltipTrigger>
                 <div className="flex items-center gap-1.5">
-                  <span className={`text-base font-medium ${scoreColorClass}`}>
-                    {compatibilityScore}%
+                  <span className="text-base font-medium text-gray-700">
+                    Match: {compatibilityScore}%
                   </span>
                   {getScoreIcon(compatibilityScore)}
                 </div>
@@ -202,16 +204,20 @@ const TrialMatchCard = ({ trial }: { trial: any }) => {
         </div>
       </CardHeader>
       
-      <CardContent className="pt-4 pb-2">
-        <div className="space-y-4">
-          <div className="flex items-center justify-between text-sm text-gray-600 mb-1">
-            <span>Eligible Patients</span>
-            <span className="font-medium">
-              {trial.eligible_patient_count}/{trial.total_patient_count}
-            </span>
+      <CardContent className="pt-3 pb-2">
+        <div className="space-y-3">
+          <div>
+            <div className="flex items-center justify-between text-sm text-gray-600 mb-1">
+              <span>Eligible Patients</span>
+              <span className="font-medium">
+                {trial.eligible_patient_count}/{trial.total_patient_count}
+              </span>
+            </div>
           </div>
           
-          <div className="grid gap-4">
+          <Separator className="my-2" />
+          
+          <div className="grid gap-3">
             {topRejectionReasons.length > 0 && (
               <div>
                 <h4 className="text-xs font-medium text-gray-500 mb-2">
