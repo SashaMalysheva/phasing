@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { format } from "date-fns";
@@ -245,7 +244,7 @@ const ReviewDocuments = () => {
       <div className="space-y-8">
         {/* Pending Site Review Section */}
         {pendingSiteReview.length > 0 && (
-          <Card className="border border-gray-100 bg-[#fcf7fc]/30">
+          <Card className="border border-gray-100 bg-[#fcf7fc]">
             <CardHeader className="pb-3">
               <CardTitle className="text-xl flex items-center gap-2">
                 <Clock className="h-5 w-5 text-[#6E59A5]" />
@@ -299,7 +298,7 @@ const ReviewDocuments = () => {
 
         {/* Draft Documents */}
         {draft.length > 0 && (
-          <Card className="border border-gray-100 bg-[#faf7fc]/30">
+          <Card className="border border-gray-100 bg-[#faf7fc]">
             <CardHeader className="pb-3">
               <CardTitle className="text-xl flex items-center gap-2">
                 <FileText className="h-5 w-5 text-[#6E59A5]" />
@@ -353,7 +352,7 @@ const ReviewDocuments = () => {
 
         {/* Pending Trial Review */}
         {pendingTrialReview.length > 0 && (
-          <Card className="border border-gray-100 bg-[#f8f7fc]/30">
+          <Card className="border border-gray-100 bg-[#f8f7fc]">
             <CardHeader className="pb-3">
               <CardTitle className="text-xl flex items-center gap-2">
                 <Clock className="h-5 w-5 text-[#6E59A5]" />
@@ -407,7 +406,7 @@ const ReviewDocuments = () => {
 
         {/* Completed Documents */}
         {completed.length > 0 && (
-          <Card className="border border-gray-100 bg-[#f7f7fc]/30">
+          <Card className="border border-gray-100 bg-[#f7f7fc]">
             <CardHeader className="pb-3">
               <CardTitle className="text-xl flex items-center gap-2">
                 <CheckCircle2 className="h-5 w-5 text-[#6E59A5]" />
