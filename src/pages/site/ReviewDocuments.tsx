@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { format } from "date-fns";
@@ -185,7 +184,7 @@ const ReviewDocuments = () => {
       case "completed":
         return <Badge className="bg-green-100 text-green-800 hover:bg-green-200">Completed</Badge>;
       case "pending_site_review":
-        return <Badge className="bg-amber-100 text-amber-800 hover:bg-amber-200">Pending Site Review</Badge>;
+        return <Badge className="bg-[#E5DEFF] text-[#6E59A5] hover:bg-[#E5DEFF]/80">Pending Site Review</Badge>;
       case "pending_trial_review":
         return <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200">Pending Trial Review</Badge>;
       case "draft":
@@ -242,14 +241,13 @@ const ReviewDocuments = () => {
         Review and manage documents for trial ID: {trialId}
       </p>
       
-      {/* Document sections */}
       <div className="space-y-8">
-        {/* Pending Site Review - Documents waiting for your action */}
+        {/* Pending Site Review Section */}
         {pendingSiteReview.length > 0 && (
-          <Card className="border-amber-200">
-            <CardHeader className="pb-3 bg-amber-50 rounded-t-lg">
+          <Card className="border-[#E5DEFF]">
+            <CardHeader className="pb-3 bg-[#E5DEFF]/50 rounded-t-lg">
               <CardTitle className="text-xl flex items-center gap-2">
-                <Clock className="h-5 w-5 text-amber-600" />
+                <Clock className="h-5 w-5 text-[#6E59A5]" />
                 Pending Site Review ({pendingSiteReview.length})
               </CardTitle>
             </CardHeader>
@@ -270,7 +268,7 @@ const ReviewDocuments = () => {
                   {pendingSiteReview.map((doc) => (
                     <TableRow 
                       key={doc.id} 
-                      className="cursor-pointer hover:bg-amber-50/50"
+                      className="cursor-pointer hover:bg-[#E5DEFF]/50"
                       onClick={() => handleDocumentClick(doc)}
                     >
                       <TableCell className="font-medium">{formatDocumentType(doc.document_type)}</TableCell>
@@ -285,7 +283,7 @@ const ReviewDocuments = () => {
                             setSelectedDocument(doc);
                             handleSign();
                           }}
-                          className="text-amber-600 border-amber-200 hover:bg-amber-50"
+                          className="text-[#6E59A5] border-[#E5DEFF] hover:bg-[#E5DEFF]/50"
                         >
                           <Pen className="h-4 w-4 mr-1" /> Sign
                         </Button>
