@@ -26,11 +26,13 @@ const StaffCard: React.FC<StaffCardProps> = ({
   documents,
 }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  
+  const displayIssues = issues && issues.length > 0 ? issues : null;
 
   return (
     <>
       <Card 
-        className={`${issues ? "border-amber-200 bg-amber-50/50" : ""} cursor-pointer hover:shadow-md transition-shadow`}
+        className={`${displayIssues ? "border-amber-200 bg-amber-50/50" : ""} cursor-pointer hover:shadow-md transition-shadow`}
         onClick={() => setIsDialogOpen(true)}
       >
         <CardContent className="pt-4">
@@ -45,7 +47,7 @@ const StaffCard: React.FC<StaffCardProps> = ({
               </div>
             </div>
             
-            {!issues ? (
+            {!displayIssues ? (
               <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
                 <CheckCircle className="h-3 w-3 mr-1" />
                 Ready
@@ -58,10 +60,10 @@ const StaffCard: React.FC<StaffCardProps> = ({
             )}
           </div>
           
-          {issues && issues.length > 0 && (
+          {displayIssues && (
             <div className="space-y-2">
               <div className="flex flex-wrap gap-1">
-                {issues.map((item, i) => (
+                {displayIssues.map((item, i) => (
                   <Badge key={i} variant="outline" className="bg-white">
                     {item}
                   </Badge>
@@ -70,7 +72,7 @@ const StaffCard: React.FC<StaffCardProps> = ({
             </div>
           )}
 
-          {!issues && experience !== undefined && (
+          {!displayIssues && experience !== undefined && (
             <div className="text-sm">
               <div className="flex items-center text-muted-foreground">
                 <span className="font-medium mr-2">Experience:</span> {experience} years
@@ -86,7 +88,7 @@ const StaffCard: React.FC<StaffCardProps> = ({
         staffMember={{
           name,
           role,
-          issues,
+          issues: displayIssues,
           documents,
           experience,
         }}
@@ -96,3 +98,4 @@ const StaffCard: React.FC<StaffCardProps> = ({
 };
 
 export default StaffCard;
+

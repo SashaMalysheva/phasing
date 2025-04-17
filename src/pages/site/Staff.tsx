@@ -46,7 +46,7 @@ const StaffPage = () => {
   // Safely access staffStats and provide a default value
   const staffStats: StaffStatistics | undefined = analyticsData?.staff_statistics;
 
-  // Create a complete list of qualified staff based on the data you provided
+  // Create a complete list of qualified staff based on the exact data provided
   const qualifiedStaff = React.useMemo(() => {
     if (!staffStats) return [];
     
@@ -132,40 +132,55 @@ const StaffPage = () => {
     ];
   }, [staffStats]);
 
-  // Create the correct staff requiring attention data
+  // Create the staff requiring attention data based on exact data provided
   const staffRequiringAttention = React.useMemo(() => {
     if (!staffStats) return [];
     
     return [
       {
+        name: "Staff Member 23",
+        role: "Lab",
+        issues: ["Missing GCP certification", "Medical license"]
+      },
+      {
+        name: "Staff Member 44",
+        role: "Lab",
+        issues: ["Missing GCP certification"]
+      },
+      {
+        name: "Staff Member 48",
+        role: "PI",
+        issues: ["Missing GCP certification", "Medical license"]
+      },
+      {
         name: "Dr. John Smith",
         role: "Principal Investigator",
-        needs: ["Role update or reassignment"]
+        issues: []
       },
       {
         name: "Dr. Sarah Johnson",
         role: "Sub-Investigator",
-        needs: ["Role update or reassignment"]
+        issues: []
       },
       {
         name: "Staff Member 3",
         role: "Pharmacist",
-        needs: ["GCP certification", "Role update or reassignment"]
+        issues: ["GCP certification"]
       },
       {
         name: "Staff Member 7",
         role: "Pharmacist",
-        needs: ["GCP certification", "Role update or reassignment"]
+        issues: ["GCP certification"]
       },
       {
         name: "Staff Member 9",
         role: "Sub-I",
-        needs: ["Role update or reassignment"]
+        issues: []
       },
       {
         name: "Staff Member 10",
         role: "Sub-I",
-        needs: ["GCP certification", "Role update or reassignment"]
+        issues: ["GCP certification"]
       }
     ];
   }, [staffStats]);
@@ -227,7 +242,7 @@ const StaffPage = () => {
                           <h4 className="text-sm font-medium text-purple-900">{staff.name}</h4>
                           <p className="text-xs text-purple-700">{staff.role}</p>
                           <div className="mt-1">
-                            {staff.needs && staff.needs.map((issue, i) => (
+                            {staff.issues && staff.issues.map((issue, i) => (
                               <div key={i} className="flex items-center gap-1.5">
                                 <AlertCircle className="h-3 w-3 text-purple-500" />
                                 <span className="text-xs text-purple-700">{issue}</span>
@@ -269,7 +284,7 @@ const StaffPage = () => {
                     key={`attention-${index}`}
                     name={staff.name}
                     role={staff.role}
-                    issues={staff.needs}
+                    issues={staff.issues}
                   />
                 ))}
               </div>
@@ -283,7 +298,7 @@ const StaffPage = () => {
                       key={`incomplete-${index}`}
                       name={staff.name}
                       role={staff.role}
-                      issues={staff.needs}
+                      issues={staff.issues}
                     />
                   ))
                 ) : (
@@ -329,3 +344,4 @@ const StaffPage = () => {
 };
 
 export default StaffPage;
+
