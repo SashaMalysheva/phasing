@@ -120,7 +120,7 @@ const SiteDashboard = () => {
       
       {/* Trials section */}
       <div className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4">Your Active Trials</h2>
+        <h2 className="text-2xl font-semibold text-[#6E59A5] mb-4">Your Active Trials</h2>
         
         {isLoadingTrials ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
