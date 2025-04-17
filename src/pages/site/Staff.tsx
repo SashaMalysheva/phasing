@@ -25,6 +25,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import StaffCard from "@/components/site/StaffCard";
+import SiteStaffCard from "@/components/site/SiteStaffCard";
 
 const StaffPage = () => {
   const { user } = useAuth();
@@ -57,64 +58,73 @@ const StaffPage = () => {
       ) : staffStats ? (
         <div className="space-y-6">
           {/* Certification Overview Section */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Certification Status</CardTitle>
-              <CardDescription>
-                Overall staff readiness and credential completion
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium">Ready Staff Members</span>
-                    <span>{readyStaff}/{staffStats.total_staff}</span>
-                  </div>
-                  <Progress 
-                    value={(readyStaff / staffStats.total_staff) * 100} 
-                    className="h-2 mb-6"
-                  />
-                  
-                  <div className="space-y-4">
-                    {Object.entries(staffStats.certification_status).map(([cert, status]) => (
-                      <div key={cert}>
-                        <div className="flex justify-between items-center mb-1">
-                          <span className="text-sm">{cert.replace(/_/g, ' ')}</span>
-                          <span className="text-sm">{status.count}/{staffStats.total_staff} ({status.percentage}%)</span>
-                        </div>
-                        <Progress 
-                          value={status.percentage} 
-                          className="h-2"
-                        />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="md:col-span-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Certification Status</CardTitle>
+                  <CardDescription>
+                    Overall staff readiness and credential completion
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="font-medium">Ready Staff Members</span>
+                        <span>{readyStaff}/{staffStats.total_staff}</span>
                       </div>
-                    ))}
-                  </div>
-                </div>
-                
-                <div>
-                  <h3 className="font-medium mb-4">Experience by Role</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    {Object.entries(staffStats.experience_by_role).map(([role, years]) => (
-                      <div key={role} className="bg-muted rounded-lg p-3 text-center">
-                        <div className="font-medium">{role}</div>
-                        <div className="text-xs text-muted-foreground">
-                          {staffStats.role_distribution[role] || 0} staff • {years} yrs avg
-                        </div>
+                      <Progress 
+                        value={(readyStaff / staffStats.total_staff) * 100} 
+                        className="h-2 mb-6"
+                      />
+                      
+                      <div className="space-y-4">
+                        {Object.entries(staffStats.certification_status).map(([cert, status]) => (
+                          <div key={cert}>
+                            <div className="flex justify-between items-center mb-1">
+                              <span className="text-sm">{cert.replace(/_/g, ' ')}</span>
+                              <span className="text-sm">{status.count}/{staffStats.total_staff} ({status.percentage}%)</span>
+                            </div>
+                            <Progress 
+                              value={status.percentage} 
+                              className="h-2"
+                            />
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    </div>
+                    
+                    <div>
+                      <h3 className="font-medium mb-4">Experience by Role</h3>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        {/* Add null check before Object.entries() */}
+                        {staffStats.experience_by_role && Object.entries(staffStats.experience_by_role).map(([role, years]) => (
+                          <div key={role} className="bg-muted rounded-lg p-3 text-center">
+                            <div className="font-medium">{role}</div>
+                            <div className="text-xs text-muted-foreground">
+                              {staffStats.role_distribution[role] || 0} staff • {years} yrs avg
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      <div className="mt-6">
+                        <Button className="w-full">
+                          <UserCheck className="mr-2 h-4 w-4" />
+                          Invite New Staff Member
+                        </Button>
+                      </div>
+                    </div>
                   </div>
-                  
-                  <div className="mt-6">
-                    <Button className="w-full">
-                      <UserCheck className="mr-2 h-4 w-4" />
-                      Invite New Staff Member
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+                </CardContent>
+              </Card>
+            </div>
+            
+            <div>
+              <SiteStaffCard staffStats={staffStats} />
+            </div>
+          </div>
           
           {/* Staff Members List */}
           <Tabs defaultValue="all" className="w-full">
