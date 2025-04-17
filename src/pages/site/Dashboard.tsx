@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -161,8 +162,8 @@ const SiteDashboard = () => {
                 <CardHeader className="pb-4 border-b">
                   <div className="flex justify-between items-start">
                     <div>
-                      <CardTitle className="text-xl text-black">{trial.name}</CardTitle>
-                      <p className="text-gray-600">{trial.sponsor_name}</p>
+                      <CardTitle className="text-base text-black">{trial.name}</CardTitle>
+                      <p className="text-sm text-gray-600">{trial.sponsor_name}</p>
                     </div>
                     <TrialStatusBadge status={trial.status} />
                   </div>
