@@ -1,12 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  BarChart, Bar, XAxis, YAxis, PieChart, Pie, Cell,
-  Tooltip, Legend, ResponsiveContainer 
-} from 'recharts';
-import { Activity, Users } from 'lucide-react';
+import { Users } from 'lucide-react';
 
 interface PatientStatisticsProps {
   patientStats: {
@@ -17,13 +12,6 @@ interface PatientStatisticsProps {
   };
 }
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658', '#8dd1e1'];
-const GENDER_COLORS = {
-  male: '#3b82f6',
-  female: '#ec4899',
-  other: '#8884d8'
-};
-
 const formatKeyToLabel = (key: string): string => {
   return key
     .split('_')
@@ -32,17 +20,6 @@ const formatKeyToLabel = (key: string): string => {
 };
 
 const PatientStatistics: React.FC<PatientStatisticsProps> = ({ patientStats }) => {
-  // Transform data for charts
-  const ageData = Object.entries(patientStats.age_distribution).map(([range, { count }]) => ({
-    name: range,
-    value: count
-  }));
-
-  const genderData = Object.entries(patientStats.gender_distribution).map(([gender, { count }]) => ({
-    name: formatKeyToLabel(gender),
-    value: count
-  }));
-
   const ethnicityData = Object.entries(patientStats.ethnicity_distribution)
     .map(([ethnicity, { percentage }]) => ({
       name: formatKeyToLabel(ethnicity),
@@ -52,7 +29,6 @@ const PatientStatistics: React.FC<PatientStatisticsProps> = ({ patientStats }) =
 
   return (
     <div className="container mx-auto p-6 space-y-6">
-      {/* Patient Demographics */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center">
@@ -81,16 +57,33 @@ const PatientStatistics: React.FC<PatientStatisticsProps> = ({ patientStats }) =
               </div>
             </div>
             
-            {/* Gender Distribution */}
+            {/* Enrollment Status */}
             <div>
-              <h3 className="text-lg font-medium mb-2">Gender Distribution</h3>
-              <div className="grid grid-cols-2 gap-4">
-                {Object.entries(patientStats.gender_distribution).map(([gender, data]) => (
-                  <div key={gender} className="bg-[#F1F0FB] p-4 rounded-lg text-center">
-                    <div className="text-sm text-muted-foreground mb-1 capitalize">{formatKeyToLabel(gender)}</div>
-                    <div className="text-2xl font-bold">{data.percentage}%</div>
+              <h3 className="text-lg font-medium mb-2">Enrollment Status</h3>
+              <div className="space-y-4">
+                <div>
+                  <div className="flex justify-between text-sm mb-1">
+                    <span>Current Enrollment</span>
+                    <span>15/30</span>
                   </div>
-                ))}
+                  <div className="w-full bg-[#F1F0FB] rounded-full h-2">
+                    <div 
+                      className="bg-primary h-2 rounded-full" 
+                      style={{ width: '50%' }}
+                    />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="bg-[#F1F0FB] p-3 rounded-lg">
+                    <div className="text-sm text-muted-foreground">Screening Failure</div>
+                    <div className="text-xl font-bold">12%</div>
+                  </div>
+                  <div className="bg-[#F1F0FB] p-3 rounded-lg">
+                    <div className="text-sm text-muted-foreground">Dropout Rate</div>
+                    <div className="text-xl font-bold">5%</div>
+                  </div>
+                </div>
               </div>
             </div>
 
