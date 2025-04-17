@@ -34,7 +34,7 @@ const StaffCard: React.FC<StaffCardProps> = ({
     <>
       <Card 
         className={`
-          ${hasIssues ? "border-[#9b87f5] bg-white" : "bg-white"} 
+          ${hasIssues ? "border-gray-200 bg-white" : "bg-white"} 
           cursor-pointer hover:shadow-md transition-shadow
         `}
         onClick={() => setIsDialogOpen(true)}
@@ -57,7 +57,7 @@ const StaffCard: React.FC<StaffCardProps> = ({
                 Ready
               </Badge>
             ) : (
-              <Badge variant="outline" className="bg-white text-[#9b87f5] border-[#9b87f5]">
+              <Badge variant="outline" className="text-[#6E59A5] border-[#6E59A5] bg-white">
                 <AlertCircle className="h-3 w-3 mr-1" />
                 Needs Update
               </Badge>
@@ -68,7 +68,7 @@ const StaffCard: React.FC<StaffCardProps> = ({
             <div className="space-y-2">
               <div className="flex flex-wrap gap-1.5 mt-2">
                 {displayIssues.map((item, i) => (
-                  <Badge key={i} variant="outline" className="bg-white border-[#9b87f5] text-[#9b87f5]">
+                  <Badge key={i} variant="outline" className="bg-[#F1F0FB] border-[#E5DEFF] text-[#6E59A5]">
                     {item}
                   </Badge>
                 ))}

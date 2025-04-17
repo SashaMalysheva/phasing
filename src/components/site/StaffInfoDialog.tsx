@@ -51,7 +51,7 @@ const StaffInfoDialog = ({ isOpen, onClose, staffMember }: StaffInfoDialogProps)
             {staffMember.name}
             <Badge variant={staffMember.issues ? "outline" : "default"} 
                   className={staffMember.issues 
-                    ? "bg-white text-[#9b87f5] border-[#9b87f5]" 
+                    ? "bg-white text-[#6E59A5] border-[#6E59A5]" 
                     : "bg-green-100 text-green-800"}>
               {staffMember.issues ? "Needs Update" : "Ready"}
             </Badge>
@@ -67,11 +67,11 @@ const StaffInfoDialog = ({ isOpen, onClose, staffMember }: StaffInfoDialogProps)
           )}
 
           {staffMember.issues && staffMember.issues.length > 0 && (
-            <div className="bg-[#E5DEFF] p-3 rounded-lg border border-[#9b87f5]/30">
+            <div className="bg-[#F1F0FB] p-3 rounded-lg border border-[#E5DEFF]">
               <h4 className="text-sm font-medium text-[#6E59A5] mb-2">Missing Items:</h4>
               <div className="flex flex-wrap gap-1.5">
                 {staffMember.issues.map((issue, i) => (
-                  <Badge key={i} variant="outline" className="bg-white border-[#9b87f5]/50 text-[#6E59A5]">
+                  <Badge key={i} variant="outline" className="bg-white border-[#E5DEFF] text-[#6E59A5]">
                     {issue}
                   </Badge>
                 ))}
@@ -98,7 +98,7 @@ const StaffInfoDialog = ({ isOpen, onClose, staffMember }: StaffInfoDialogProps)
                         </>
                       ) : (
                         <>
-                          <AlertCircle className="h-3 w-3 text-[#9b87f5]" />
+                          <AlertCircle className="h-3 w-3 text-[#6E59A5]" />
                           <span>Missing</span>
                         </>
                       )}
