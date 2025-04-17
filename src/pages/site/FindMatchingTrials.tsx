@@ -15,7 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Progress } from "@/components/ui/progress";
+import { CustomProgress } from "@/components/ui/custom-progress";
 import { 
   AlertCircle, 
   CheckCircle2, 
@@ -96,11 +96,11 @@ const FindMatchingTrials = () => {
             <Button onClick={() => refetch()}>Retry</Button>
           </CardContent>
         </Card>
-      ) : data?.trials && data.trials.length > 0 ? (
+      ) : data?.matching_trials && data.matching_trials.length > 0 ? (
         <Tabs defaultValue="all" className="w-full">
           <TabsList className="mb-6 bg-purple-100 dark:bg-purple-900/20 p-1">
             <TabsTrigger value="all" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">
-              All Matches ({data.trials.length})
+              All Matches ({data.matching_trials.length})
             </TabsTrigger>
             <TabsTrigger value="high" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">
               High Match (90%+)
@@ -112,7 +112,7 @@ const FindMatchingTrials = () => {
           
           <TabsContent value="all">
             <div className="grid grid-cols-1 gap-6">
-              {data.trials.map((trial) => (
+              {data.matching_trials.map((trial) => (
                 <TrialMatchCard key={trial.id} trial={trial} />
               ))}
             </div>
@@ -120,7 +120,7 @@ const FindMatchingTrials = () => {
           
           <TabsContent value="high">
             <div className="grid grid-cols-1 gap-6">
-              {data.trials
+              {data.matching_trials
                 .filter(trial => trial.compatibility_score >= 90)
                 .map((trial) => (
                   <TrialMatchCard key={trial.id} trial={trial} />
@@ -131,7 +131,7 @@ const FindMatchingTrials = () => {
           
           <TabsContent value="medium">
             <div className="grid grid-cols-1 gap-6">
-              {data.trials
+              {data.matching_trials
                 .filter(trial => trial.compatibility_score >= 70 && trial.compatibility_score < 90)
                 .map((trial) => (
                   <TrialMatchCard key={trial.id} trial={trial} />
@@ -211,7 +211,7 @@ const TrialMatchCard: React.FC<TrialCardProps> = ({ trial }) => {
                 {trial.eligible_patient_count}/{trial.total_patient_count}
               </span>
             </div>
-            <Progress 
+            <CustomProgress 
               value={eligibleRatio} 
               className="h-2 bg-purple-100"
               indicatorClassName="bg-purple-600"
