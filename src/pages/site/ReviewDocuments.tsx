@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { format } from "date-fns";
@@ -776,4 +777,38 @@ const ReviewDocuments = () => {
                 <p className="text-sm text-muted-foreground mb-1">
                   Drag & drop your file here or click to browse
                 </p>
-                <p className="text-xs text-muted-foreground
+                <p className="text-xs text-muted-foreground">
+                  Supported formats: PDF, DOCX, XLS (max 10MB)
+                </p>
+              </div>
+              <Input 
+                id="file" 
+                type="file" 
+                className="hidden" 
+                accept=".pdf,.docx,.xls,.xlsx"
+              />
+            </div>
+            
+            <div className="flex justify-end space-x-2 pt-4">
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={() => setIsUploadOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button 
+                type="submit"
+                className="bg-[#6E59A5] hover:bg-[#8B5CF6]"
+              >
+                <Upload className="h-4 w-4 mr-2" /> Upload
+              </Button>
+            </div>
+          </form>
+        </SheetContent>
+      </Sheet>
+    </div>
+  );
+};
+
+export default ReviewDocuments;
