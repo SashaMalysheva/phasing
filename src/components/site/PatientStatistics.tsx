@@ -33,7 +33,7 @@ const PatientStatistics: React.FC<PatientStatisticsProps> = ({ patientStats }) =
         <CardHeader>
           <CardTitle className="flex items-center">
             <Users className="mr-2 h-5 w-5" />
-            Patient Demographics ({patientStats.total_patients} total)
+            Patient Demographics
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -61,7 +61,7 @@ const PatientStatistics: React.FC<PatientStatisticsProps> = ({ patientStats }) =
             <div className="space-y-6">
               {/* Gender Distribution */}
               <div>
-                <h3 className="text-lg font-medium mb-2">Gender Distribution</h3>
+                <h3 className="text-lg font-medium mb-2">Gender Distribution <span className="text-sm text-muted-foreground">(300 total)</span></h3>
                 <div className="grid grid-cols-2 gap-4">
                   {Object.entries(patientStats.gender_distribution).map(([gender, data]) => (
                     <div key={gender} className="bg-[#F1F0FB] p-4 rounded-lg text-center">
@@ -89,12 +89,12 @@ const PatientStatistics: React.FC<PatientStatisticsProps> = ({ patientStats }) =
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="bg-[#F1F0FB] p-3 rounded-lg">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-[#F1F0FB] p-4 rounded-lg">
                       <div className="text-sm text-muted-foreground">Screening Failure</div>
                       <div className="text-xl font-bold">12%</div>
                     </div>
-                    <div className="bg-[#F1F0FB] p-3 rounded-lg">
+                    <div className="bg-[#F1F0FB] p-4 rounded-lg">
                       <div className="text-sm text-muted-foreground">Dropout Rate</div>
                       <div className="text-xl font-bold">5%</div>
                     </div>
