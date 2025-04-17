@@ -3,7 +3,6 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 
-// Updated interfaces to match the API response structure
 interface StaffStatisticsProps {
   staffStats: {
     total_staff: number;
@@ -28,75 +27,51 @@ const SiteStaffCard: React.FC<StaffStatisticsProps> = ({ staffStats }) => {
   const readyStaff = staffStats.total_staff - staffStats.staff_requiring_attention.length;
   const readyPercentage = (readyStaff / staffStats.total_staff) * 100;
 
-  // Transform experience data to prepare for display
-  const experienceData = Object.entries(staffStats.experience_by_role).map(([role, years]) => ({
-    role,
-    years
-  }));
-
   return (
-    <Card>
+    <Card className="bg-white/50 backdrop-blur-sm border-purple-100">
       <CardHeader>
-        <CardTitle className="flex justify-between items-center">
-          <span>Staff Readiness</span>
-          <span className="text-2xl font-bold">{Math.round(readyPercentage)}%</span>
-        </CardTitle>
+        <div className="flex justify-between items-center">
+          <CardTitle className="text-purple-900">Staff Readiness</CardTitle>
+          <span className="text-2xl font-bold text-purple-700">{Math.round(readyPercentage)}%</span>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
           <div>
             <div className="flex justify-between text-sm mb-1">
-              <span>Ready Staff</span>
-              <span>{readyStaff}/{staffStats.total_staff} Staff Members</span>
+              <span className="text-purple-800">Ready Staff</span>
+              <span className="text-purple-600">{readyStaff}/{staffStats.total_staff}</span>
             </div>
-            <Progress value={readyPercentage} className="h-2" />
+            <Progress value={readyPercentage} className="h-2 bg-purple-100" />
           </div>
           
-          <div>
-            <h4 className="text-sm font-medium mb-2">Certification Status</h4>
-            <div className="space-y-1">
+          <div className="mt-6">
+            <h4 className="text-sm font-medium text-purple-900 mb-2">Certification Status</h4>
+            <div className="space-y-2">
               {Object.entries(staffStats.certification_status).map(([cert, status]) => (
-                <div key={cert} className="grid grid-cols-4 text-sm items-center">
-                  <span className="col-span-2">{cert.replace(/_/g, ' ')}</span>
-                  <span className="text-right">{status.count}/{staffStats.total_staff}</span>
-                  <span className="pl-2">
-                    <Progress 
-                      value={status.percentage} 
-                      className="h-2"
-                    />
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-          
-          <div>
-            <h4 className="text-sm font-medium mb-2">Experience by Role</h4>
-            <div className="grid grid-cols-3 gap-2">
-              {experienceData.map(({ role, years }) => (
-                <div key={role} className="text-center p-2 bg-muted rounded-md">
-                  <div className="font-medium">{role}</div>
-                  <div className="text-xs text-muted-foreground">
-                    {staffStats.role_distribution[role] || 0} staff • {years} yrs avg
-                  </div>
+                <div key={cert} className="flex justify-between text-sm text-purple-600">
+                  <span>{cert.replace(/_/g, ' ')}</span>
+                  <span>{status.count}/{staffStats.total_staff}</span>
                 </div>
               ))}
             </div>
           </div>
           
           {staffStats.staff_requiring_attention.length > 0 && (
-            <div className="mt-4 pt-4 border-t">
-              <h4 className="text-sm font-medium mb-2">Staff Needing Updates</h4>
-              <div className="space-y-1 text-sm">
-                {staffStats.staff_requiring_attention.slice(0, 5).map((staff, index) => (
-                  <div key={index} className="flex justify-between text-muted-foreground">
-                    <span>{staff.name} ({staff.role})</span>
-                    <span>Missing: {staff.needs.join(', ')}</span>
+            <div className="mt-6 pt-4 border-t border-purple-100">
+              <h4 className="text-sm font-medium text-purple-900 mb-2">Staff Needing Updates</h4>
+              <div className="space-y-2">
+                {staffStats.staff_requiring_attention.slice(0, 3).map((staff, index) => (
+                  <div key={index} className="text-sm">
+                    <div className="font-medium text-purple-800">{staff.name}</div>
+                    <div className="text-purple-600 text-xs">
+                      Missing: {staff.needs.join(', ')}
+                    </div>
                   </div>
                 ))}
-                {staffStats.staff_requiring_attention.length > 5 && (
-                  <div className="text-xs text-muted-foreground text-center mt-2">
-                    +{staffStats.staff_requiring_attention.length - 5} more staff need updates
+                {staffStats.staff_requiring_attention.length > 3 && (
+                  <div className="text-xs text-purple-500 text-center mt-2">
+                    +{staffStats.staff_requiring_attention.length - 3} more staff need updates
                   </div>
                 )}
               </div>

@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,23 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/context/AuthContext";
 import { getSiteAnalytics } from "@/lib/api";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
-import { 
-  AlertCircle, 
-  User, 
-  FileCheck, 
-  UserCheck,
-  Clock,
-  CheckCircle2
-} from "lucide-react";
-import { 
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { AlertCircle, User } from "lucide-react";
 import StaffCard from "@/components/site/StaffCard";
 import SiteStaffCard from "@/components/site/SiteStaffCard";
 
@@ -60,9 +43,9 @@ const StaffPage = () => {
           {/* Certification Overview Section */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="md:col-span-2">
-              <Card>
+              <Card className="bg-white/50 backdrop-blur-sm border-purple-100">
                 <CardHeader>
-                  <CardTitle>Certification Status</CardTitle>
+                  <CardTitle className="text-purple-900">Certification Status</CardTitle>
                   <CardDescription>
                     Overall staff readiness and credential completion
                   </CardDescription>
@@ -71,24 +54,24 @@ const StaffPage = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
                       <div className="flex justify-between items-center mb-2">
-                        <span className="font-medium">Ready Staff Members</span>
-                        <span>{readyStaff}/{staffStats.total_staff}</span>
+                        <span className="font-medium text-purple-800">Ready Staff Members</span>
+                        <span className="text-purple-700">{readyStaff}/{staffStats.total_staff}</span>
                       </div>
                       <Progress 
                         value={(readyStaff / staffStats.total_staff) * 100} 
-                        className="h-2 mb-6"
+                        className="h-2 mb-6 bg-purple-100"
                       />
                       
                       <div className="space-y-4">
                         {Object.entries(staffStats.certification_status).map(([cert, status]) => (
                           <div key={cert}>
                             <div className="flex justify-between items-center mb-1">
-                              <span className="text-sm">{cert.replace(/_/g, ' ')}</span>
-                              <span className="text-sm">{status.count}/{staffStats.total_staff} ({status.percentage}%)</span>
+                              <span className="text-sm text-purple-800">{cert.replace(/_/g, ' ')}</span>
+                              <span className="text-sm text-purple-600">{status.count}/{staffStats.total_staff} ({status.percentage}%)</span>
                             </div>
                             <Progress 
                               value={status.percentage} 
-                              className="h-2"
+                              className="h-2 bg-purple-100"
                             />
                           </div>
                         ))}
@@ -96,24 +79,16 @@ const StaffPage = () => {
                     </div>
                     
                     <div>
-                      <h3 className="font-medium mb-4">Experience by Role</h3>
+                      <h3 className="font-medium text-purple-900 mb-4">Experience by Role</h3>
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                        {/* Add null check before Object.entries() */}
                         {staffStats.experience_by_role && Object.entries(staffStats.experience_by_role).map(([role, years]) => (
-                          <div key={role} className="bg-muted rounded-lg p-3 text-center">
-                            <div className="font-medium">{role}</div>
-                            <div className="text-xs text-muted-foreground">
+                          <div key={role} className="bg-purple-50/50 rounded-lg p-3 text-center backdrop-blur-sm">
+                            <div className="font-medium text-purple-900">{role}</div>
+                            <div className="text-xs text-purple-600">
                               {staffStats.role_distribution[role] || 0} staff • {years} yrs avg
                             </div>
                           </div>
                         ))}
-                      </div>
-                      
-                      <div className="mt-6">
-                        <Button className="w-full">
-                          <UserCheck className="mr-2 h-4 w-4" />
-                          Invite New Staff Member
-                        </Button>
                       </div>
                     </div>
                   </div>
