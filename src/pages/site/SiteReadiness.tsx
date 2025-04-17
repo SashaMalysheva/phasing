@@ -75,11 +75,11 @@ const readinessCategories = [
 const StatusIcon = ({ status }: { status: string }) => {
   switch (status) {
     case "complete":
-      return <CheckCircle2 className="h-5 w-5 text-[#16A34A]" />;
+      return <CheckCircle2 className="h-4 w-4 text-[#16A34A]" />;
     case "incomplete":
-      return <XCircle className="h-5 w-5 text-[#DC2626]" />;
+      return <XCircle className="h-4 w-4 text-[#DC2626]" />;
     case "warning":
-      return <AlertTriangle className="h-5 w-5 text-[#F59E0B]" />;
+      return <AlertTriangle className="h-4 w-4 text-[#F59E0B]" />;
     default:
       return null;
   }
