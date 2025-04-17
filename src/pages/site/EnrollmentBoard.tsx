@@ -85,7 +85,7 @@ const EnrollmentBoard = () => {
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Dashboard
           </Link>
-          <Badge variant="secondary" className="bg-blue-50 text-[#0066FF] hover:bg-blue-50">
+          <Badge variant="secondary" className="bg-gray-50 text-gray-700 hover:bg-gray-100">
             Active Trial
           </Badge>
         </div>
@@ -132,7 +132,7 @@ const EnrollmentBoard = () => {
             </Select>
           </div>
 
-          <div className="px-4 py-2 bg-blue-50 text-[#0066FF] rounded-md text-sm flex items-center">
+          <div className="px-4 py-2 bg-gray-50 text-gray-700 rounded-md text-sm flex items-center">
             <span className="mr-2">•</span>
             Active Trial & Site Selected
           </div>
