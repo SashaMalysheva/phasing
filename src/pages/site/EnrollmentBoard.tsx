@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
@@ -5,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Filter, Plus, RefreshCcw, ArrowLeft, PhoneCall, CheckCircle, X, Clock, Edit, Users } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 const stats = [
   { label: "Enrolled Participants", value: "45", change: "+5" },
@@ -75,20 +77,20 @@ const EnrollmentBoard = () => {
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Dashboard
           </Link>
-          <div className="inline-flex items-center px-2 py-1 bg-blue-50 text-[#0066FF] rounded text-xs">
+          <Badge variant="secondary" className="bg-blue-50 text-[#0066FF] hover:bg-blue-50">
             Active Trial
-          </div>
+          </Badge>
         </div>
 
-        <h1 className="text-2xl font-bold text-gray-900 mb-2 flex items-center justify-between">
+        <h1 className="text-2xl font-semibold text-gray-900 mb-2 flex items-center justify-between">
           <span>Type 2 Diabetes E1224 (Fosravuconazole) Study</span>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm">
-              <Edit className="h-4 w-4" />
+            <Button variant="outline" size="sm" className="h-9">
+              <Edit className="h-4 w-4 mr-2" />
               Edit
             </Button>
-            <Button size="sm" className="bg-[#0066FF] hover:bg-[#0052CC]">
-              <Users className="h-4 w-4" />
+            <Button size="sm" className="h-9 bg-[#0066FF] hover:bg-[#0052CC]">
+              <Users className="h-4 w-4 mr-2" />
               Manage Participants
             </Button>
           </div>
@@ -128,7 +130,7 @@ const EnrollmentBoard = () => {
           </div>
 
           <Button variant="outline" size="sm" className="ml-auto">
-            <Filter className="h-4 w-4" />
+            <Filter className="h-4 w-4 mr-2" />
             Filter
           </Button>
         </div>
@@ -139,7 +141,7 @@ const EnrollmentBoard = () => {
           <Card key={index} className="p-4">
             <div className="text-sm text-gray-500 mb-1">{stat.label}</div>
             <div className="flex items-baseline">
-              <div className="text-2xl font-semibold">{stat.value}</div>
+              <div className="text-2xl font-medium">{stat.value}</div>
               {stat.change && (
                 <span className={`ml-2 text-sm ${stat.change.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
                   {stat.change}
@@ -154,25 +156,25 @@ const EnrollmentBoard = () => {
         <TabsList className="border-b w-full justify-start space-x-8 bg-transparent rounded-none p-0">
           <TabsTrigger 
             value="enrollment" 
-            className="px-0 py-3 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-[#0066FF] bg-transparent data-[state=active]:bg-transparent"
+            className="px-0 py-3 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-[#0066FF] bg-transparent data-[state=active]:bg-transparent data-[state=active]:text-[#0066FF]"
           >
             Enrollment Board
           </TabsTrigger>
           <TabsTrigger 
             value="metrics" 
-            className="px-0 py-3 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-[#0066FF] bg-transparent data-[state=active]:bg-transparent"
+            className="px-0 py-3 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-[#0066FF] bg-transparent data-[state=active]:bg-transparent data-[state=active]:text-[#0066FF]"
           >
             Metrics & Analytics
           </TabsTrigger>
           <TabsTrigger 
             value="voice" 
-            className="px-0 py-3 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-[#0066FF] bg-transparent data-[state=active]:bg-transparent"
+            className="px-0 py-3 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-[#0066FF] bg-transparent data-[state=active]:bg-transparent data-[state=active]:text-[#0066FF]"
           >
             Voice Call Logs
           </TabsTrigger>
           <TabsTrigger 
             value="settings" 
-            className="px-0 py-3 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-[#0066FF] bg-transparent data-[state=active]:bg-transparent"
+            className="px-0 py-3 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-[#0066FF] bg-transparent data-[state=active]:bg-transparent data-[state=active]:text-[#0066FF]"
           >
             Settings
           </TabsTrigger>
@@ -192,25 +194,10 @@ const EnrollmentBoard = () => {
 
           <div className="grid grid-cols-4 gap-6">
             {[
-              { title: 'Not Eligible', data: candidateData.notEligible, count: '4 candidates' },
-              { 
-                title: 'Identified Lead',
-                data: candidateData.identifiedLead,
-                count: '3 candidates',
-                desc: 'Potential candidates identified from various sources'
-              },
-              {
-                title: 'Qualified',
-                data: candidateData.qualified,
-                count: '0 candidates',
-                desc: 'Candidates approved for further contact'
-              },
-              {
-                title: 'Ongoing Outreach',
-                data: candidateData.ongoingOutreach,
-                count: '2 candidates',
-                desc: 'Active contact with voice agent'
-              }
+              { title: 'Not Eligible', count: '4 candidates', data: candidateData.notEligible },
+              { title: 'Identified Lead', count: '3 candidates', data: candidateData.identifiedLead },
+              { title: 'Qualified', count: '0 candidates', data: candidateData.qualified },
+              { title: 'Ongoing Outreach', count: '2 candidates', data: candidateData.ongoingOutreach }
             ].map((column) => (
               <div key={column.title} className="bg-white rounded-lg border">
                 <div className="p-4 border-b">
@@ -221,9 +208,6 @@ const EnrollmentBoard = () => {
                     </Button>
                   </div>
                   <p className="text-sm text-gray-500">{column.count}</p>
-                  {column.desc && (
-                    <p className="text-sm text-gray-400 mt-1 italic">{column.desc}</p>
-                  )}
                 </div>
 
                 <div className="p-4 space-y-3">
@@ -234,45 +218,41 @@ const EnrollmentBoard = () => {
 
                       {'status' in candidate && (
                         <div className="flex gap-2 mt-2">
-                          {candidate.status.failed && (
-                            <div className="p-1.5 bg-red-100 rounded-full">
-                              <X className="h-4 w-4 text-red-600" />
-                            </div>
-                          )}
-                          {candidate.status.success && (
-                            <div className="p-1.5 bg-green-100 rounded-full">
-                              <CheckCircle className="h-4 w-4 text-green-600" />
-                            </div>
-                          )}
+                          <div className={`p-1 rounded-full ${candidate.status.failed ? 'bg-red-100' : ''}`}>
+                            <X className={`h-4 w-4 ${candidate.status.failed ? 'text-red-600' : ''}`} />
+                          </div>
+                          <div className={`p-1 rounded-full ${candidate.status.success ? 'bg-green-100' : ''}`}>
+                            <CheckCircle className={`h-4 w-4 ${candidate.status.success ? 'text-green-600' : ''}`} />
+                          </div>
                         </div>
                       )}
                       
                       {'prescreened' in candidate && (
                         <>
                           <div className="flex items-center gap-2 mt-2">
-                            <span className="inline-flex items-center px-2 py-1 bg-[#E5DEFF] text-[#6E59A5] rounded-full text-xs">
-                              <CheckCircle className="h-3 w-3 mr-1" /> 
+                            <Badge className="bg-[#E5DEFF] text-[#6E59A5] hover:bg-[#E5DEFF] flex items-center gap-1">
+                              <CheckCircle className="h-3 w-3" />
                               Prescreened
-                            </span>
-                            <span className="inline-flex items-center px-2 py-1 bg-gray-100 text-gray-600 rounded-full text-xs">
-                              <X className="h-3 w-3 mr-1" />
+                            </Badge>
+                            <Badge variant="secondary" className="flex items-center gap-1">
+                              <X className="h-3 w-3" />
                               No Visit
-                            </span>
+                            </Badge>
                           </div>
                           <div className="mt-2 space-y-1.5 text-sm">
-                            <div className="text-red-500 flex items-center">
-                              <Clock className="h-3 w-3 mr-1" />
+                            <div className="text-red-500 flex items-center gap-1">
+                              <Clock className="h-3 w-3" />
                               Last attempt: {candidate.lastAttempt}
                             </div>
-                            <div className="text-[#0066FF] flex items-center">
-                              <Clock className="h-3 w-3 mr-1" />
+                            <div className="text-[#0066FF] flex items-center gap-1">
+                              <Clock className="h-3 w-3" />
                               Next call: {candidate.nextCall}
                             </div>
                             <div className="text-gray-500">
                               {candidate.previousCalls} previous calls
                             </div>
                           </div>
-                          <Button variant="secondary" className="w-full mt-3">
+                          <Button variant="outline" className="w-full mt-3 bg-white">
                             <PhoneCall className="h-4 w-4 mr-2" />
                             Call Patient
                           </Button>
