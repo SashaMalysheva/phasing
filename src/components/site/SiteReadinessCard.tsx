@@ -2,6 +2,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle2, AlertTriangle, XCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface ReadinessItem {
   [key: string]: boolean | string;
@@ -38,9 +39,9 @@ const SiteReadinessCard: React.FC<SiteReadinessCardProps> = ({ readiness }) => {
   };
 
   return (
-    <Card>
+    <Card className="bg-[#F1F0FB]">
       <CardHeader>
-        <CardTitle className="flex justify-between items-center">
+        <CardTitle className="flex justify-between items-center text-[#6E59A5]">
           <span>Site Readiness Status</span>
           <span className="text-2xl font-bold">{getReadinessPercentage()}%</span>
         </CardTitle>
@@ -71,6 +72,13 @@ const SiteReadinessCard: React.FC<SiteReadinessCardProps> = ({ readiness }) => {
               }
             </ul>
           </div>
+          
+          <Link 
+            to="/site/readiness" 
+            className="block mt-4 text-sm text-[#9b87f5] hover:text-[#8B5CF6] text-right"
+          >
+            View Full Readiness Report →
+          </Link>
         </div>
       </CardContent>
     </Card>

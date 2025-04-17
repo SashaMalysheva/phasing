@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -69,7 +68,7 @@ const SiteDashboard = () => {
       
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-purple-900">Site Overview</h1>
+          <h1 className="text-3xl font-bold text-[#6E59A5]">Site Overview</h1>
           <p className="text-muted-foreground">Welcome, {user?.name || 'Site Admin'}</p>
         </div>
         
@@ -88,7 +87,7 @@ const SiteDashboard = () => {
           )}
           
           <Link to="/site/trials/find">
-            <Button className="bg-purple-600 hover:bg-purple-700">
+            <Button className="bg-[#9b87f5] hover:bg-[#8B5CF6]">
               <SearchIcon className="mr-2 h-4 w-4" /> Find Matching Trials
             </Button>
           </Link>
@@ -106,13 +105,13 @@ const SiteDashboard = () => {
         </div>
       ) : analyticsData && (
         <div className="mb-8">
-          <h2 className="text-2xl font-semibold text-purple-900 mb-4">Site Readiness Overview</h2>
+          <h2 className="text-2xl font-semibold text-[#6E59A5] mb-4">Site Readiness Overview</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="relative">
               <SiteReadinessCard readiness={siteReadiness} />
               <Link 
                 to="/site/readiness" 
-                className="absolute bottom-4 right-4 text-sm text-purple-600 hover:text-purple-700 flex items-center"
+                className="absolute bottom-4 right-4 text-sm text-[#9b87f5] hover:text-[#8B5CF6] flex items-center"
               >
                 View Full Readiness Report <ArrowRight className="h-4 w-4 ml-1" />
               </Link>
@@ -121,9 +120,9 @@ const SiteDashboard = () => {
               <SiteStaffCard staffStats={analyticsData.staff_statistics} />
               <Link 
                 to="/site/staff" 
-                className="absolute bottom-4 right-4 text-sm text-purple-600 hover:text-purple-700 flex items-center"
+                className="absolute bottom-4 right-4 text-sm text-[#9b87f5] hover:text-[#8B5CF6] flex items-center"
               >
-                View All Staff Details <ArrowRight className="h-4 w-4 ml-1" />
+                View 3 more staff details <ArrowRight className="h-4 w-4 ml-1" />
               </Link>
             </div>
           </div>
