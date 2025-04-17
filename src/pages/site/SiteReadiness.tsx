@@ -1,11 +1,10 @@
-
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle2, XCircle, AlertTriangle, FileText, Users, Clipboard, Thermometer, Lock, ShieldCheck } from "lucide-react";
-import { SiteReadinessCard } from "@/components/site/SiteReadinessCard";
+import SiteReadinessCard from "@/components/site/SiteReadinessCard";
 
 const readinessCategories = [
   {
