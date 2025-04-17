@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -20,6 +21,24 @@ const StaffPage = () => {
   });
   
   const staffStats = analyticsData?.staff_statistics;
+
+  const staffNeedingAttention = [
+    {
+      name: "Dr. John Smith",
+      role: "Principal Investigator",
+      needs: ["Role update or reassignment"]
+    },
+    {
+      name: "Dr. Sarah Johnson",
+      role: "Sub-Investigator",
+      needs: ["Role update or reassignment"]
+    },
+    {
+      name: "Staff Member 3",
+      role: "Pharmacist",
+      needs: ["GCP certification"]
+    }
+  ];
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -69,23 +88,7 @@ const StaffPage = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {[
-                    {
-                      name: "Dr. John Smith",
-                      role: "Principal Investigator",
-                      needs: ["Role update or reassignment"]
-                    },
-                    {
-                      name: "Dr. Sarah Johnson",
-                      role: "Sub-Investigator",
-                      needs: ["Role update or reassignment"]
-                    },
-                    {
-                      name: "Staff Member 3",
-                      role: "Pharmacist",
-                      needs: ["GCP certification"]
-                    }
-                  ].map((staff, index) => (
+                  {staffNeedingAttention.map((staff, index) => (
                     <div key={index} className="flex items-start p-3 bg-purple-50/50 rounded-lg backdrop-blur-sm">
                       <div>
                         <h4 className="text-sm font-medium text-purple-900">{staff.name}</h4>
