@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CustomProgress } from "@/components/ui/custom-progress";
@@ -163,7 +162,7 @@ const SiteReadiness: React.FC = () => {
           <div>
             <h3 className="text-sm font-semibold text-[#1A1F2C]">Time Estimate</h3>
             <div className="mt-1 flex items-baseline gap-2">
-              <span className="text-xl font-bold text-[#D6BCFA]">{Math.ceil(pendingItems * 1.5)}</span>
+              <span className="text-xl font-bold text-black">{Math.ceil(pendingItems * 1.5)}</span>
               <span className="text-[#8E9196] text-xs">days</span>
             </div>
             <p className="text-[#8E9196] text-xs mt-1">Estimated completion time</p>
