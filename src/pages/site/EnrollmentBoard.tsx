@@ -33,17 +33,26 @@ const EnrollmentBoard = () => {
       { 
         name: "James Smith", 
         source: "Community Outreach",
-        status: { failed: true, success: true }
+        status: { 
+          rejected: true, 
+          approved: true 
+        }
       },
       { 
         name: "Mary Williams", 
         source: "Doctor Referral",
-        status: { failed: true, success: true }
+        status: { 
+          rejected: true, 
+          approved: true 
+        }
       },
       { 
         name: "John Brown", 
         source: "Social Media",
-        status: { failed: true, success: true }
+        status: { 
+          rejected: true, 
+          approved: true 
+        }
       }
     ],
     qualified: [],
@@ -140,7 +149,7 @@ const EnrollmentBoard = () => {
         {stats.map((stat, index) => (
           <Card 
             key={index} 
-            className="p-4 shadow-sm rounded-lg bg-white hover:shadow-md transition-shadow duration-300"
+            className="p-4 shadow-sm rounded-lg bg-white hover:shadow-md transition-shadow duration-300 border border-gray-100"
           >
             <div className="text-sm text-gray-500 mb-2">{stat.label}</div>
             <div className="flex items-baseline">
@@ -190,48 +199,84 @@ const EnrollmentBoard = () => {
         </TabsList>
 
         <TabsContent value="enrollment" className="mt-6">
-          <div className="flex items-center gap-4 mb-6">
-            <Button variant="outline" size="sm" className="text-gray-600">
-              <RefreshCcw className="h-4 w-4 mr-2" />
-              Refresh
-            </Button>
-            <Button variant="outline" size="sm" className="text-gray-600">
-              <Filter className="h-4 w-4 mr-2" />
-              Filter
-            </Button>
-          </div>
-
           <div className="grid grid-cols-4 gap-6">
             {[
-              { title: 'Not Eligible', count: '4 candidates', data: candidateData.notEligible },
-              { title: 'Identified Lead', count: '3 candidates', data: candidateData.identifiedLead },
-              { title: 'Qualified', count: '0 candidates', data: candidateData.qualified },
-              { title: 'Ongoing Outreach', count: '2 candidates', data: candidateData.ongoingOutreach }
+              { 
+                title: 'Not Eligible', 
+                count: '4 candidates', 
+                data: candidateData.notEligible,
+                className: 'bg-gray-50 border border-gray-100' 
+              },
+              { 
+                title: 'Identified Lead', 
+                count: '3 candidates', 
+                data: candidateData.identifiedLead,
+                className: 'bg-blue-50 border border-blue-100' 
+              },
+              { 
+                title: 'Qualified', 
+                count: '0 candidates', 
+                data: candidateData.qualified,
+                className: 'bg-green-50 border border-green-100' 
+              },
+              { 
+                title: 'Ongoing Outreach', 
+                count: '2 candidates', 
+                data: candidateData.ongoingOutreach,
+                className: 'bg-purple-50 border border-purple-100' 
+              }
             ].map((column) => (
-              <div key={column.title} className="bg-white rounded-lg border">
-                <div className="p-4 border-b">
-                  <div className="flex items-center justify-between mb-1">
+              <div key={column.title} className={`rounded-lg border ${column.className}`}>
+                <div className="p-4 border-b flex items-center justify-between">
+                  <div>
                     <h3 className="font-medium text-gray-900">{column.title}</h3>
-                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                      <Plus className="h-4 w-4" />
-                    </Button>
+                    <p className="text-sm text-gray-500">{column.count}</p>
                   </div>
-                  <p className="text-sm text-gray-500">{column.count}</p>
+                  <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                    <Plus className="h-4 w-4" />
+                  </Button>
                 </div>
 
                 <div className="p-4 space-y-3">
                   {column.data.map((candidate, idx) => (
-                    <div key={idx} className="p-4 bg-gray-50 rounded-lg">
+                    <div 
+                      key={idx} 
+                      className="p-4 bg-white rounded-lg shadow-sm border border-gray-100"
+                    >
                       <div className="font-medium text-gray-900">{candidate.name}</div>
                       <div className="text-sm text-gray-500 mt-1">Source: {candidate.source}</div>
 
                       {'status' in candidate && (
                         <div className="flex gap-2 mt-2 justify-end">
-                          <div className={`p-1 rounded-full ${candidate.status.failed ? 'bg-red-100' : ''}`}>
-                            <X className={`h-4 w-4 ${candidate.status.failed ? 'text-red-600' : ''}`} />
+                          <div 
+                            className={`p-1 rounded-full ${
+                              candidate.status.rejected 
+                                ? 'bg-red-100' 
+                                : 'bg-gray-100'
+                            }`}
+                          >
+                            <X 
+                              className={`h-4 w-4 ${
+                                candidate.status.rejected 
+                                  ? 'text-red-600' 
+                                  : 'text-gray-400'
+                              }`} 
+                            />
                           </div>
-                          <div className={`p-1 rounded-full ${candidate.status.success ? 'bg-green-100' : ''}`}>
-                            <CheckCircle className={`h-4 w-4 ${candidate.status.success ? 'text-green-600' : ''}`} />
+                          <div 
+                            className={`p-1 rounded-full ${
+                              candidate.status.approved 
+                                ? 'bg-green-100' 
+                                : 'bg-gray-100'
+                            }`}
+                          >
+                            <CheckCircle 
+                              className={`h-4 w-4 ${
+                                candidate.status.approved 
+                                  ? 'text-green-600' 
+                                  : 'text-gray-400'
+                              }`} 
+                            />
                           </div>
                         </div>
                       )}
@@ -239,11 +284,11 @@ const EnrollmentBoard = () => {
                       {'prescreened' in candidate && (
                         <>
                           <div className="flex items-center gap-2 mt-2">
-                            <Badge className="bg-[#E5DEFF] text-[#6E59A5] hover:bg-[#E5DEFF] flex items-center gap-1">
+                            <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-100 flex items-center gap-1">
                               <CheckCircle className="h-3 w-3" />
                               Prescreened
                             </Badge>
-                            <Badge variant="secondary" className="flex items-center gap-1">
+                            <Badge variant="secondary" className="flex items-center gap-1 bg-gray-100 text-gray-600">
                               <X className="h-3 w-3" />
                               No Visit
                             </Badge>
@@ -253,7 +298,7 @@ const EnrollmentBoard = () => {
                               <Clock className="h-3 w-3" />
                               Last attempt: {candidate.lastAttempt}
                             </div>
-                            <div className="text-[#0066FF] flex items-center gap-1">
+                            <div className="text-blue-500 flex items-center gap-1">
                               <Clock className="h-3 w-3" />
                               Next call: {candidate.nextCall}
                             </div>
@@ -261,7 +306,7 @@ const EnrollmentBoard = () => {
                               {candidate.previousCalls} previous calls
                             </div>
                           </div>
-                          <Button variant="outline" className="w-full mt-3 bg-white">
+                          <Button variant="outline" className="w-full mt-3 bg-blue-50 hover:bg-blue-100 border-blue-200 text-blue-600">
                             <PhoneCall className="h-4 w-4 mr-2" />
                             Call Patient
                           </Button>
