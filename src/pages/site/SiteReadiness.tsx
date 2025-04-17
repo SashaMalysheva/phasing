@@ -177,55 +177,9 @@ const SiteReadiness: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-      
-      <div className="grid gap-6 md:grid-cols-2">
-        {readinessCategories.slice(0, 2).map(category => (
-          <Card key={category.id}>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <div className="mr-2 bg-primary/10 p-2 rounded-full">
-                    <CategoryIcon id={category.id} />
-                  </div>
-                  <div>
-                    <CardTitle>{category.title}</CardTitle>
-                    <CardDescription>{category.description}</CardDescription>
-                  </div>
-                </div>
-                <Badge variant={category.progress >= 85 ? "default" : category.progress >= 60 ? "outline" : "destructive"}>
-                  {category.progress}% Complete
-                </Badge>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <Progress value={category.progress} className="h-2 mb-4" />
-              
-              <div className="space-y-2">
-                {category.items.map(item => (
-                  <div key={item.id} className="flex items-center justify-between p-2 rounded-md hover:bg-muted">
-                    <div className="flex items-center">
-                      <StatusIcon status={item.status} />
-                      <span className="ml-2">{item.name}</span>
-                    </div>
-                    <Badge variant={
-                      item.status === "complete" ? "default" : 
-                      item.status === "warning" ? "outline" :
-                      "destructive"
-                    }>
-                      {item.status === "complete" ? "Complete" : 
-                       item.status === "warning" ? "Attention Needed" : 
-                       "Incomplete"}
-                    </Badge>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        {readinessCategories.slice(2, 4).reverse().map(category => (
+      <div className="grid gap-6 md:grid-cols-4">
+        {readinessCategories.map(category => (
           <Card key={category.id}>
             <CardHeader>
               <div className="flex items-center justify-between">
