@@ -233,6 +233,18 @@ const StaffPage = () => {
                     </div>
                   </div>
                 </div>
+
+                <div className="mt-6 pt-6 border-t border-gray-200">
+                  <div className="text-xs text-gray-600 mb-3">Role Distribution</div>
+                  <div className="grid grid-cols-2 gap-4">
+                    {Object.entries(staffStats.role_distribution).map(([role, count]) => (
+                      <div key={role} className="flex justify-between items-center">
+                        <span className="text-sm text-black">{role}</span>
+                        <span className="text-sm font-medium text-black">{count}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </CardContent>
             </Card>
 
