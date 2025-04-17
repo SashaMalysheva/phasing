@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -122,29 +123,6 @@ const SiteReadiness: React.FC = () => {
         </p>
       </div>
 
-      {/* Summary Cards */}
-      <Card className="bg-white">
-        <CardContent className="p-6">
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <div className="space-y-1">
-                <h3 className="text-base font-medium text-[#1A1F2C]">Overall Readiness Status</h3>
-                <p className="text-sm text-[#8E9196]">Ready Items</p>
-              </div>
-              <div className="text-right">
-                <div className="text-2xl font-semibold text-[#1A1F2C]">{overallScore}%</div>
-                <p className="text-sm text-[#8E9196]">{statusCounts.complete || 0}/{Object.values(statusCounts).reduce((a, b) => a + b, 0)}</p>
-              </div>
-            </div>
-            <Progress 
-              value={overallScore} 
-              className="h-2 bg-[#F1F0FB]" 
-              indicatorClassName="bg-[#9b87f5]"
-            />
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Readiness Categories Grid */}
       <div className="grid grid-cols-4 gap-4">
         {readinessCategories.map(category => (
@@ -172,8 +150,7 @@ const SiteReadiness: React.FC = () => {
                   </div>
                   <Progress 
                     value={category.progress} 
-                    className="h-2 bg-[#F1F0FB]"
-                    indicatorClassName="bg-[#9b87f5]"
+                    className="h-2 bg-[#F1F0FB] [&>div]:bg-[#9b87f5]"
                   />
                 </div>
               </div>
