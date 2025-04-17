@@ -138,12 +138,21 @@ const EnrollmentBoard = () => {
 
       <div className="grid grid-cols-6 gap-4 mb-8">
         {stats.map((stat, index) => (
-          <Card key={index} className="p-4">
+          <Card 
+            key={index} 
+            className="p-4 shadow-sm rounded-lg bg-white hover:shadow-md transition-shadow duration-300"
+          >
             <div className="text-sm text-gray-500 mb-2">{stat.label}</div>
             <div className="flex items-baseline">
               <div className="text-2xl font-semibold">{stat.value}</div>
               {stat.change && (
-                <span className={`ml-2 text-sm font-medium ${stat.change.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
+                <span 
+                  className={`ml-2 text-sm font-medium ${
+                    stat.change.startsWith('+') 
+                      ? 'text-green-600' 
+                      : 'text-red-600'
+                  }`}
+                >
                   {stat.change}
                 </span>
               )}
