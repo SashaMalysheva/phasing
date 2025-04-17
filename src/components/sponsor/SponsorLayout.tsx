@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
   SidebarProvider, 
   Sidebar, 
@@ -20,7 +20,6 @@ import {
   Search,
   PlusCircle,
   LogOut,
-  Menu
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";

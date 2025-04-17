@@ -12,9 +12,15 @@ import SiteLayout from "@/components/site/SiteLayout";
 // Pages
 import Login from "@/pages/Login";
 import SponsorDashboard from "@/pages/sponsor/Dashboard";
+import SponsorAnalytics from "@/pages/sponsor/Analytics";
+import SponsorSettings from "@/pages/sponsor/Settings"; 
+import SponsorFindSites from "@/pages/sponsor/FindSites";
+import SponsorCreateTrial from "@/pages/sponsor/CreateTrial";
 import SiteDashboard from "@/pages/site/Dashboard";
 import SiteAnalytics from "@/pages/site/Analytics";
+import SiteSettings from "@/pages/site/Settings";
 import StaffPage from "@/pages/site/Staff";
+import SiteReadiness from "@/pages/site/SiteReadiness";
 import FindMatchingTrials from "@/pages/site/FindMatchingTrials";
 import NotFound from "./pages/NotFound";
 
@@ -46,7 +52,10 @@ const App = () => (
                   <SponsorLayout>
                     <Routes>
                       <Route path="dashboard" element={<SponsorDashboard />} />
-                      {/* Add other sponsor routes here */}
+                      <Route path="analytics" element={<SponsorAnalytics />} />
+                      <Route path="settings" element={<SponsorSettings />} />
+                      <Route path="find-sites" element={<SponsorFindSites />} />
+                      <Route path="trials/create" element={<SponsorCreateTrial />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </SponsorLayout>
@@ -63,9 +72,10 @@ const App = () => (
                     <Routes>
                       <Route path="dashboard" element={<SiteDashboard />} />
                       <Route path="analytics" element={<SiteAnalytics />} />
+                      <Route path="settings" element={<SiteSettings />} />
                       <Route path="staff" element={<StaffPage />} />
+                      <Route path="readiness" element={<SiteReadiness />} />
                       <Route path="trials/find" element={<FindMatchingTrials />} />
-                      {/* Add other site routes here */}
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </SiteLayout>

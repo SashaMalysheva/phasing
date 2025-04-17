@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
   SidebarProvider, 
   Sidebar, 
@@ -19,8 +19,8 @@ import {
   Settings,
   Users,
   BookOpen,
+  Search,
   LogOut,
-  Menu
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
@@ -111,6 +111,18 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({ children }) => {
                   <Link to="/site/readiness">
                     <BookOpen />
                     <span>Site Readiness Details</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={location.pathname.includes("/site/trials/find")}
+                  asChild
+                >
+                  <Link to="/site/trials/find">
+                    <Search />
+                    <span>Find Matching Trials</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
