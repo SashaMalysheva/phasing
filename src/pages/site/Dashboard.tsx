@@ -5,11 +5,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/context/AuthContext";
 import { getSiteAnalytics, getSiteTrials, getSitePendingInvitations } from "@/lib/api";
 import PendingInvitationsModal from "@/components/site/PendingInvitationsModal";
-import { AlertTriangle, CheckCircle2, XCircle, SearchIcon } from "lucide-react";
+import { AlertTriangle, CheckCircle2, XCircle, SearchIcon, ArrowRight } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import SiteReadinessCard from "@/components/site/SiteReadinessCard";
 import SiteStaffCard from "@/components/site/SiteStaffCard";
@@ -70,8 +69,8 @@ const SiteDashboard = () => {
       
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold">Site Dashboard</h1>
-          <p className="text-muted-foreground">Welcome, {user?.name || 'Site'}</p>
+          <h1 className="text-3xl font-bold text-purple-900">Site Overview</h1>
+          <p className="text-muted-foreground">Welcome, {user?.name || 'Site Admin'}</p>
         </div>
         
         <div className="flex gap-4">
@@ -79,17 +78,17 @@ const SiteDashboard = () => {
             <Button 
               variant="outline" 
               onClick={() => setShowInvitations(true)}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 border-purple-200"
             >
               <span>Pending Invitations</span>
-              <span className="inline-flex items-center justify-center rounded-full bg-primary w-6 h-6 text-xs text-primary-foreground">
+              <span className="inline-flex items-center justify-center rounded-full bg-purple-100 text-purple-600 w-6 h-6 text-xs">
                 {invitationsData.total_count}
               </span>
             </Button>
           )}
           
           <Link to="/site/trials/find">
-            <Button className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700">
+            <Button className="bg-purple-600 hover:bg-purple-700">
               <SearchIcon className="mr-2 h-4 w-4" /> Find Matching Trials
             </Button>
           </Link>
@@ -107,10 +106,26 @@ const SiteDashboard = () => {
         </div>
       ) : analyticsData && (
         <div className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Site Readiness Overview</h2>
+          <h2 className="text-2xl font-semibold text-purple-900 mb-4">Site Readiness Overview</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <SiteReadinessCard readiness={siteReadiness} />
-            <SiteStaffCard staffStats={analyticsData.staff_statistics} />
+            <div className="relative">
+              <SiteReadinessCard readiness={siteReadiness} />
+              <Link 
+                to="/site/readiness" 
+                className="absolute bottom-4 right-4 text-sm text-purple-600 hover:text-purple-700 flex items-center"
+              >
+                View Full Readiness Report <ArrowRight className="h-4 w-4 ml-1" />
+              </Link>
+            </div>
+            <div className="relative">
+              <SiteStaffCard staffStats={analyticsData.staff_statistics} />
+              <Link 
+                to="/site/staff" 
+                className="absolute bottom-4 right-4 text-sm text-purple-600 hover:text-purple-700 flex items-center"
+              >
+                View All Staff Details <ArrowRight className="h-4 w-4 ml-1" />
+              </Link>
+            </div>
           </div>
         </div>
       )}

@@ -1,7 +1,8 @@
-
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 interface StaffStatisticsProps {
   staffStats: {
@@ -28,7 +29,7 @@ const SiteStaffCard: React.FC<StaffStatisticsProps> = ({ staffStats }) => {
   const readyPercentage = (readyStaff / staffStats.total_staff) * 100;
 
   return (
-    <Card className="bg-white/50 backdrop-blur-sm border-purple-100">
+    <Card className="bg-white shadow-md border-purple-100">
       <CardHeader>
         <div className="flex justify-between items-center">
           <CardTitle className="text-purple-900">Staff Readiness</CardTitle>
@@ -50,7 +51,7 @@ const SiteStaffCard: React.FC<StaffStatisticsProps> = ({ staffStats }) => {
             <div className="space-y-2">
               {Object.entries(staffStats.certification_status).map(([cert, status]) => (
                 <div key={cert} className="flex justify-between text-sm text-purple-600">
-                  <span>{cert.replace(/_/g, ' ')}</span>
+                  <span className="capitalize">{cert.replace(/_/g, ' ')}</span>
                   <span>{status.count}/{staffStats.total_staff}</span>
                 </div>
               ))}
@@ -70,9 +71,9 @@ const SiteStaffCard: React.FC<StaffStatisticsProps> = ({ staffStats }) => {
                   </div>
                 ))}
                 {staffStats.staff_requiring_attention.length > 3 && (
-                  <div className="text-xs text-purple-500 text-center mt-2">
-                    +{staffStats.staff_requiring_attention.length - 3} more staff need updates
-                  </div>
+                  <Link to="/site/staff" className="block text-sm text-purple-600 hover:text-purple-700 mt-2 flex items-center">
+                    View {staffStats.staff_requiring_attention.length - 3} more staff details <ArrowRight className="h-4 w-4 ml-1" />
+                  </Link>
                 )}
               </div>
             </div>
