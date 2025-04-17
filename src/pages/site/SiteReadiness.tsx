@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CustomProgress } from "@/components/ui/custom-progress";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, XCircle, AlertTriangle, FileText, Users, Clipboard, Thermometer, Lock, ShieldCheck } from "lucide-react";
+import { CheckCircle2, AlertTriangle, XCircle, FileText, Users, Clipboard, Thermometer, Lock, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const readinessCategories = [
@@ -123,54 +123,54 @@ const SiteReadiness: React.FC = () => {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-semibold text-[#1A1F2C] tracking-tight mb-1">Site Readiness Status</h1>
-        <p className="text-[#8E9196] text-sm">
+        <h1 className="text-xl font-semibold text-[#1A1F2C] tracking-tight mb-1">Site Readiness Status</h1>
+        <p className="text-[#8E9196] text-xs">
           Track your site's readiness and requirements for clinical trial participation
         </p>
       </div>
 
       {/* Full Width Summary Section */}
-      <div className="w-full bg-white rounded-lg border p-8 space-y-12">
+      <div className="w-full bg-white rounded-lg border p-6 space-y-8">
         <div className="max-w-2xl">
-          <h2 className="text-2xl font-semibold text-[#1A1F2C]">Overall Readiness</h2>
-          <p className="text-[#8E9196] text-sm mb-6">Site preparation progress</p>
+          <h2 className="text-xl font-semibold text-[#1A1F2C]">Overall Readiness</h2>
+          <p className="text-[#8E9196] text-xs mb-4">Site preparation progress</p>
           
-          <div className="space-y-2">
-            <span className="text-6xl font-bold text-[#16A34A]">{overallScore}%</span>
+          <div className="space-y-1">
+            <span className="text-4xl font-bold text-[#000000]">{overallScore}%</span>
             <CustomProgress 
               value={overallScore} 
-              className="h-3" 
-              indicatorClassName="bg-[#16A34A]"
+              className="h-2" 
+              indicatorClassName="bg-[#000000]"
             />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <h3 className="text-xl font-semibold text-[#1A1F2C]">Completed Items</h3>
-            <div className="mt-2 flex items-baseline gap-2">
-              <span className="text-4xl font-bold text-[#1A1F2C]">{completedItems}</span>
-              <span className="text-[#8E9196]">of {totalItems}</span>
+            <h3 className="text-sm font-semibold text-[#1A1F2C]">Completed Items</h3>
+            <div className="mt-1 flex items-baseline gap-2">
+              <span className="text-3xl font-bold text-[#1A1F2C]">{completedItems}</span>
+              <span className="text-[#8E9196] text-xs">of {totalItems}</span>
             </div>
-            <p className="text-[#8E9196] text-sm mt-1">Successfully validated requirements</p>
+            <p className="text-[#8E9196] text-xs mt-1">Successfully validated requirements</p>
           </div>
 
           <div>
-            <h3 className="text-xl font-semibold text-[#1A1F2C]">Action Required</h3>
-            <div className="mt-2 flex items-baseline gap-2">
-              <span className="text-4xl font-bold text-[#DC2626]">{pendingItems}</span>
-              <span className="text-[#8E9196]">items</span>
+            <h3 className="text-sm font-semibold text-[#1A1F2C]">Action Required</h3>
+            <div className="mt-1 flex items-baseline gap-2">
+              <span className="text-3xl font-bold text-[#DC2626]">{pendingItems}</span>
+              <span className="text-[#8E9196] text-xs">items</span>
             </div>
-            <p className="text-[#8E9196] text-sm mt-1">Items needing attention</p>
+            <p className="text-[#8E9196] text-xs mt-1">Items needing attention</p>
           </div>
 
           <div>
-            <h3 className="text-xl font-semibold text-[#1A1F2C]">Time Estimate</h3>
-            <div className="mt-2 flex items-baseline gap-2">
-              <span className="text-4xl font-bold text-[#F59E0B]">{Math.ceil(pendingItems * 1.5)}</span>
-              <span className="text-[#8E9196]">days</span>
+            <h3 className="text-sm font-semibold text-[#1A1F2C]">Time Estimate</h3>
+            <div className="mt-1 flex items-baseline gap-2">
+              <span className="text-3xl font-bold text-[#D6BCFA]">{Math.ceil(pendingItems * 1.5)}</span>
+              <span className="text-[#8E9196] text-xs">days</span>
             </div>
-            <p className="text-[#8E9196] text-sm mt-1">Estimated completion time</p>
+            <p className="text-[#8E9196] text-xs mt-1">Estimated completion time</p>
           </div>
         </div>
       </div>
