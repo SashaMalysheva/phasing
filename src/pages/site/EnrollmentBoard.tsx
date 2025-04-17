@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
@@ -190,25 +189,25 @@ const EnrollmentBoard = () => {
                 title: 'Not Eligible', 
                 count: '4 candidates', 
                 data: candidateData.notEligible,
-                className: 'bg-gradient-to-b from-[#F5E6FF]/30 to-[#E6D1FF]/20 border-purple-100/20' 
+                className: 'bg-gradient-to-b from-[#FFDEE2]/20 to-[#E5DEFF]/30 border-pink-100/20' 
               },
               { 
                 title: 'Identified Lead', 
                 count: '3 candidates', 
                 data: candidateData.identifiedLead,
-                className: 'bg-gradient-to-b from-[#E6D1FF]/30 to-[#D6BCFA]/20 border-purple-200/20' 
+                className: 'bg-gradient-to-b from-[#E5DEFF]/30 to-[#D6BCFA]/40 border-purple-200/20' 
               },
               { 
                 title: 'Qualified', 
                 count: '0 candidates', 
                 data: candidateData.qualified,
-                className: 'bg-gradient-to-b from-[#D6BCFA]/30 to-[#C5A7F2]/20 border-purple-300/20' 
+                className: 'bg-gradient-to-b from-[#D6BCFA]/40 to-[#7E69AB]/30 border-purple-300/20' 
               },
               { 
                 title: 'Ongoing Outreach', 
                 count: '2 candidates', 
                 data: candidateData.ongoingOutreach,
-                className: 'bg-gradient-to-b from-[#C5A7F2]/30 to-[#B492E6]/20 border-purple-400/20' 
+                className: 'bg-gradient-to-b from-[#7E69AB]/30 to-[#6E59A5]/40 border-purple-400/20' 
               }
             ].map((column) => (
               <div key={column.title} className={`rounded-lg border ${column.className}`}>
