@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -9,6 +10,30 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle } from "lucide-react";
 import StaffCard from "@/components/site/StaffCard";
 
+// Define correct types to match the data structure
+interface StaffStatistics {
+  total_staff: number;
+  role_distribution: Record<string, number>;
+  certification_stats: {
+    cv_uploaded: number;
+    gcp_certified: number;
+    medical_license: number;
+    delegation_of_authority: number;
+    total_staff: number;
+  };
+  average_experience: Record<string, number>;
+  qualified_staff: Array<{
+    name: string;
+    role: string;
+    issues: null;
+  }>;
+  staff_requiring_attention: Array<{
+    name: string;
+    role: string;
+    issues: string[];
+  }>;
+}
+
 const StaffPage = () => {
   const { user } = useAuth();
   
@@ -18,7 +43,8 @@ const StaffPage = () => {
     enabled: !!user?.id,
   });
   
-  const staffStats = analyticsData?.staff_statistics;
+  // Safely access staffStats and provide a default value to prevent Object.entries error
+  const staffStats: StaffStatistics | undefined = analyticsData?.staff_statistics;
 
   return (
     <div className="container mx-auto px-4 py-8">
