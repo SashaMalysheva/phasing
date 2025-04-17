@@ -152,72 +152,129 @@ export const getSiteAnalytics = async (siteId: string) => {
   
   // GET /api/v1/sites/{site_id}/analytics
   return {
-    site_id: siteId,
-    site_name: mockSites.find(s => s.id === siteId)?.name,
+    site_id: "b31ddcea-554c-42f0-9096-fd5b5c1ee137",
+    site_name: "Site 0",
     staff_statistics: {
       total_staff: 16,
-      ready_staff: 9,
-      staff_by_role: {
-        PI: { count: 2, avg_experience: 12 },
-        "Sub-I": { count: 3, avg_experience: 16.7 },
-        CRC: { count: 5, avg_experience: 10 },
-        Pharmacist: { count: 2, avg_experience: 4 },
-        Lab: { count: 4, avg_experience: 16.3 }
+      role_distribution: {
+        "Principal Investigator": 1,
+        "Sub-Investigator": 1,
+        "Pharmacist": 2,
+        "Sub-I": 3,
+        "CRC": 2,
+        "Lab": 6,
+        "PI": 1
       },
-      certifications: {
-        CV: { complete: 13, total: 16 },
-        GCP: { complete: 11, total: 16 },
-        "Medical License": { complete: 7, total: 7 },
-        "Delegation of Authority": { complete: 9, total: 16 }
+      certification_status: {
+        cv_uploaded: {
+          count: 8,
+          percentage: 50.0
+        },
+        gcp_certified: {
+          count: 8,
+          percentage: 50.0
+        },
+        medical_license: {
+          count: 11,
+          percentage: 68.8
+        },
+        delegation_of_authority: {
+          count: 4,
+          percentage: 25.0
+        }
       },
-      incomplete_staff: [
-        { name: "Dr. Johnson", role: "PI", missing: ["GCP"] },
-        { name: "Sarah Miller", role: "CRC", missing: ["CV", "GCP"] },
-        { name: "Dr. Thompson", role: "Sub-I", missing: ["CV", "Delegation of Authority"] },
-        { name: "Mark Wilson", role: "Lab", missing: ["GCP", "Delegation of Authority"] },
-        { name: "Dr. Chen", role: "Pharmacist", missing: ["CV", "Delegation of Authority"] }
+      experience_by_role: {
+        "PI": 12.0,
+        "Sub-I": 16.7,
+        "CRC": 10.0,
+        "Pharmacist": 4.0,
+        "Lab": 16.3
+      },
+      staff_requiring_attention: [
+        {
+          name: "Dr. John Smith",
+          role: "Principal Investigator",
+          needs: ["Role update or reassignment"]
+        },
+        {
+          name: "Dr. Sarah Johnson",
+          role: "Sub-Investigator",
+          needs: ["Role update or reassignment"]
+        },
+        {
+          name: "Staff Member 3",
+          role: "Pharmacist",
+          needs: ["GCP certification", "Role update or reassignment"]
+        }
       ]
     },
     patient_statistics: {
       total_patients: 300,
       age_distribution: {
-        "18-30": 45,
-        "31-40": 62,
-        "41-50": 83,
-        "51-60": 65,
-        "61-70": 35,
-        "71+": 10
+        "10-19": { count: 5, percentage: 1.7 },
+        "20-29": { count: 28, percentage: 9.3 },
+        "30-39": { count: 49, percentage: 16.3 },
+        "40-49": { count: 34, percentage: 11.3 },
+        "50-59": { count: 40, percentage: 13.3 },
+        "60-69": { count: 42, percentage: 14.0 },
+        "70-79": { count: 35, percentage: 11.7 },
+        "80-89": { count: 42, percentage: 14.0 },
+        "90-99": { count: 25, percentage: 8.3 }
       },
-      gender: { male: 140, female: 160 },
-      ethnicity: {
-        "White": 180,
-        "Black": 50,
-        "Hispanic": 40,
-        "Asian": 25,
-        "Other": 5
+      gender_distribution: {
+        "female": { count: 144, percentage: 48.0 },
+        "male": { count: 156, percentage: 52.0 }
+      },
+      ethnicity_distribution: {
+        "middle_eastern": { count: 60, percentage: 20.0 },
+        "asian": { count: 66, percentage: 22.0 },
+        "white": { count: 60, percentage: 20.0 },
+        "not_recorded": { count: 56, percentage: 18.7 },
+        "native_american": { count: 63, percentage: 21.0 },
+        "mixed_or_other": { count: 56, percentage: 18.7 },
+        "pacific_islander": { count: 44, percentage: 14.7 },
+        "site_does_not_track_ethnicity": { count: 69, percentage: 23.0 },
+        "hispanic_or_latino": { count: 46, percentage: 15.3 },
+        "black_or_african_american": { count: 66, percentage: 22.0 }
       },
       prior_therapies: {
-        "Surgery": 120,
-        "Chemotherapy": 80,
-        "Radiotherapy": 65,
-        "Immunotherapy": 30,
-        "None": 70
+        "biologics": { count: 74, percentage: 24.7 },
+        "standard_of_care": { count: 86, percentage: 28.7 },
+        "radiation": { count: 83, percentage: 27.7 },
+        "surgery": { count: 91, percentage: 30.3 },
+        "gene_therapy": { count: 90, percentage: 30.0 },
+        "experimental_agents": { count: 87, percentage: 29.0 },
+        "chemo": { count: 87, percentage: 29.0 },
+        "oral_medications": { count: 92, percentage: 30.7 },
+        "immunotherapy": { count: 81, percentage: 27.0 }
       },
-      lab_values: {
-        "Platelets": { normal: 260, low: 25, high: 15 },
-        "Hemoglobin": { normal: 240, low: 50, high: 10 },
-        "Neutrophils": { normal: 270, low: 20, high: 10 },
-        "Liver Function": { normal: 245, abnormal: 55 },
-        "Kidney Function": { normal: 260, abnormal: 40 }
+      lab_results_distribution: {
+        platelets: {
+          "normal": { count: 99, percentage: 33.0 },
+          "moderate_thrombocytopenia": { count: 92, percentage: 30.7 },
+          "mild_thrombocytopenia": { count: 109, percentage: 36.3 }
+        },
+        hemoglobin: {
+          "moderate_anemia": { count: 101, percentage: 33.7 },
+          "normal": { count: 101, percentage: 33.7 },
+          "mild_anemia": { count: 98, percentage: 32.7 }
+        },
+        neutrophils: {
+          "mild_neutropenia": { count: 106, percentage: 35.3 },
+          "moderate_neutropenia": { count: 110, percentage: 36.7 },
+          "normal": { count: 84, percentage: 28.0 }
+        },
+        liver_function: {
+          "normal": { count: 110, percentage: 36.7 },
+          "mild_impairment": { count: 92, percentage: 30.7 },
+          "moderate_impairment": { count: 98, percentage: 32.7 }
+        },
+        kidney_function: {
+          "moderate_impairment": { count: 106, percentage: 35.3 },
+          "normal": { count: 106, percentage: 35.3 },
+          "mild_impairment": { count: 88, percentage: 29.3 }
+        }
       }
-    },
-    site_readiness: {
-      data_privacy_policy: true,
-      source_agreement: true,
-      sops_storage_monitoring: "warning",
-      eregulatory_binders: true,
-      source_templates: false,
-      iata_certification: true
     }
   };
 };
