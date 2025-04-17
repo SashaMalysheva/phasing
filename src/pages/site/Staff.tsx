@@ -83,10 +83,10 @@ const StaffPage = () => {
                     {
                       name: "Staff Member 3",
                       role: "Pharmacist",
-                      needs: ["GCP certification", "Role update or reassignment"]
+                      needs: ["GCP certification"]
                     }
                   ].map((staff, index) => (
-                    <div key={index} className="flex items-start justify-between p-3 bg-purple-50/50 rounded-lg backdrop-blur-sm">
+                    <div key={index} className="flex items-start p-3 bg-purple-50/50 rounded-lg backdrop-blur-sm">
                       <div>
                         <h4 className="text-sm font-medium text-purple-900">{staff.name}</h4>
                         <p className="text-xs text-purple-700">{staff.role}</p>
@@ -124,6 +124,12 @@ const StaffPage = () => {
                     role={staff.role}
                     isComplete={false}
                     missingItems={staff.needs}
+                    documents={{
+                      cv_uploaded: false,
+                      gcp_certification: false,
+                      medical_license: false,
+                      delegation_of_authority: false,
+                    }}
                   />
                 ))}
                 {/* Add some dummy complete staff */}
@@ -151,6 +157,12 @@ const StaffPage = () => {
                     role={staff.role}
                     isComplete={false}
                     missingItems={staff.needs}
+                    documents={{
+                      cv_uploaded: false,
+                      gcp_certification: false,
+                      medical_license: false,
+                      delegation_of_authority: false,
+                    }}
                   />
                 ))}
               </div>
