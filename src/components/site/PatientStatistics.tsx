@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -6,8 +7,6 @@ import {
   Tooltip, Legend, ResponsiveContainer 
 } from 'recharts';
 import { Activity, Users, Thermometer, Heart, Pill, TestTube } from 'lucide-react';
-import { Progress } from '@/components/ui/progress';
-import { CustomProgress } from '@/components/ui/custom-progress';
 
 interface PatientStatisticsProps {
   patientStats: {
@@ -51,13 +50,6 @@ const PatientStatistics: React.FC<PatientStatisticsProps> = ({ patientStats }) =
     name: formatKeyToLabel(gender),
     value: count
   }));
-
-  const ethnicityData = Object.entries(patientStats.ethnicity_distribution)
-    .map(([ethnicity, { count }]) => ({
-      name: formatKeyToLabel(ethnicity),
-      value: count
-    }))
-    .sort((a, b) => b.value - a.value);
 
   const therapiesData = Object.entries(patientStats.prior_therapies)
     .map(([therapy, { count }]) => ({
@@ -173,7 +165,7 @@ const PatientStatistics: React.FC<PatientStatisticsProps> = ({ patientStats }) =
                 <TabsTrigger value="liver">Liver Function</TabsTrigger>
                 <TabsTrigger value="kidney">Kidney Function</TabsTrigger>
               </TabsList>
-              
+
               <TabsContent value="platelets">
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
@@ -197,7 +189,7 @@ const PatientStatistics: React.FC<PatientStatisticsProps> = ({ patientStats }) =
                   </ResponsiveContainer>
                 </div>
               </TabsContent>
-              
+
               <TabsContent value="hemoglobin">
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
@@ -221,7 +213,7 @@ const PatientStatistics: React.FC<PatientStatisticsProps> = ({ patientStats }) =
                   </ResponsiveContainer>
                 </div>
               </TabsContent>
-              
+
               <TabsContent value="neutrophils">
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
@@ -245,7 +237,7 @@ const PatientStatistics: React.FC<PatientStatisticsProps> = ({ patientStats }) =
                   </ResponsiveContainer>
                 </div>
               </TabsContent>
-              
+
               <TabsContent value="liver">
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
@@ -269,7 +261,7 @@ const PatientStatistics: React.FC<PatientStatisticsProps> = ({ patientStats }) =
                   </ResponsiveContainer>
                 </div>
               </TabsContent>
-              
+
               <TabsContent value="kidney">
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
