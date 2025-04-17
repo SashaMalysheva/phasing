@@ -213,10 +213,25 @@ const StaffPage = () => {
                             {stats.count}/{staffStats.total_staff} ({Math.round(stats.percentage)}%)
                           </span>
                         </div>
-                        <Progress value={stats.percentage} className="h-1.5 bg-purple-100" />
+                        <Progress value={stats.percentage} className="h-1.5 bg-[#F1F0FB]" />
                       </div>
                     );
                   })}
+                </div>
+
+                <div className="mt-6 pt-6 border-t border-gray-200">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <div className="text-sm font-medium text-black">{staffStats.total_staff}</div>
+                      <div className="text-xs text-gray-600">Total Staff Members</div>
+                    </div>
+                    <div>
+                      <div className="text-sm font-medium text-black">
+                        {Math.round(Object.values(staffStats.certification_status).reduce((acc, curr) => acc + curr.percentage, 0) / 4)}%
+                      </div>
+                      <div className="text-xs text-gray-600">Average Completion</div>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
