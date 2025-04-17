@@ -43,7 +43,7 @@ const SiteReadinessCard: React.FC<SiteReadinessCardProps> = ({ readiness }) => {
   const totalItems = Object.keys(readiness).length;
 
   return (
-    <Card className="bg-[#F1F0FB] h-full flex flex-col">
+    <Card className="bg-white h-full flex flex-col">
       <CardHeader className="pb-4">
         <div className="flex justify-between items-center">
           <span className="text-lg font-semibold text-[#6E59A5]">Site Readiness Status</span>
