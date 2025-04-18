@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { SearchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card"; // Adding the missing Card import
 import { useAuth } from "@/context/AuthContext";
 import { getSiteAnalytics, getSitePendingInvitations, getSiteTrials } from "@/lib/api";
 import PendingInvitationsModal from "@/components/site/PendingInvitationsModal";
