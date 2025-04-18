@@ -48,9 +48,8 @@ const SponsorLayout: React.FC<SponsorLayoutProps> = ({ children }) => {
         <Sidebar>
           <SidebarHeader className="flex items-center justify-between p-4">
             <div className="flex items-center gap-2">
-              <div className="flex -space-x-1">
-                <Square className="h-5 w-5 text-primary fill-primary" />
-                <Square className="h-5 w-5 text-primary/80 fill-primary/80" />
+              <div className="bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] rounded-sm p-1">
+                <div className="w-5 h-5 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] rounded-sm transform rotate-45"></div>
               </div>
               <div className="font-bold text-lg">Phasing.ai</div>
             </div>
@@ -133,9 +132,8 @@ const SponsorLayout: React.FC<SponsorLayoutProps> = ({ children }) => {
           <div className="flex md:hidden items-center p-4 border-b">
             <SidebarTrigger />
             <div className="flex items-center gap-2 mx-auto">
-              <div className="flex -space-x-1">
-                <Square className="h-5 w-5 text-primary fill-primary" />
-                <Square className="h-5 w-5 text-primary/80 fill-primary/80" />
+              <div className="bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] rounded-sm p-1">
+                <div className="w-5 h-5 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] rounded-sm transform rotate-45"></div>
               </div>
               <div className="font-bold text-lg">Phasing.ai</div>
             </div>
