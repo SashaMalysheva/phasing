@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Microscope, FileText, TrendingUp, Clock, Milestone } from "lucide-react";
+import { Microscope, FileText, TrendingUp } from "lucide-react";
 
 interface ActiveTrialsCardProps {
   totalTrials: number;
@@ -46,33 +46,12 @@ const ActiveTrialsCard: React.FC<ActiveTrialsCardProps> = ({
           )}
         </div>
 
-        <div className="pt-2 border-t">
-          <span className="text-sm font-medium text-gray-700">Performance Metrics</span>
-          <div className="mt-3 space-y-3">
-            <div className="flex items-center justify-between p-2 bg-green-50/30 rounded-md">
-              <div className="flex items-center">
-                <TrendingUp className="h-5 w-5 text-green-600 mr-2" />
-                <span className="text-sm text-gray-700">Total Enrollment Rate</span>
-              </div>
-              <span className="font-medium text-green-700">85%</span>
-            </div>
-
-            <div className="flex items-center justify-between p-2 bg-blue-50/30 rounded-md">
-              <div className="flex items-center">
-                <Clock className="h-5 w-5 text-blue-600 mr-2" />
-                <span className="text-sm text-gray-700">On Schedule</span>
-              </div>
-              <span className="font-medium text-blue-700">2/3</span>
-            </div>
-
-            <div className="flex items-center justify-between p-2 bg-indigo-50/30 rounded-md">
-              <div className="flex items-center">
-                <Milestone className="h-5 w-5 text-indigo-600 mr-2" />
-                <span className="text-sm text-gray-700">Key Milestones Met</span>
-              </div>
-              <span className="font-medium text-indigo-700">92%</span>
-            </div>
+        <div className="flex items-center justify-between p-2 bg-green-50/30 rounded-md">
+          <div className="flex items-center">
+            <TrendingUp className="h-5 w-5 text-green-600 mr-2" />
+            <span className="text-sm text-gray-700">Total Enrollment Rate</span>
           </div>
+          <span className="font-medium text-green-700">85%</span>
         </div>
       </CardContent>
     </Card>
