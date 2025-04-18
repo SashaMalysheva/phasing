@@ -21,8 +21,13 @@ const Trials = () => {
     enabled: !!user?.id,
   });
 
-  const handleTrialClick = (trialId: string) => {
-    navigate(`/site/trials/${trialId}/enrollment`);
+  const handleTrialClick = (trial: any) => {
+    // Navigate based on trial status
+    if (trial.status === "document_review") {
+      navigate(`/site/trials/${trial.id}/documents`);
+    } else {
+      navigate(`/site/trials/${trial.id}/enrollment`);
+    }
   };
 
   return (
@@ -46,7 +51,7 @@ const Trials = () => {
             <Card 
               key={trial.id}
               className="hover:shadow-md transition-shadow cursor-pointer"
-              onClick={() => handleTrialClick(trial.id)}
+              onClick={() => handleTrialClick(trial)}
             >
               <CardHeader className="pb-4">
                 <div className="flex justify-between items-start gap-4">
