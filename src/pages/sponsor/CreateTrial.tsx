@@ -8,11 +8,42 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { PlusCircle, Trash2, Sparkles } from "lucide-react";
+import { ProtocolUploadDialog } from "@/components/sponsor/ProtocolUploadDialog";
+
+const mockTrialData = {
+  name: "Phase 2 Oncology Trial",
+  description: "A Phase 2 Study of Novel Treatment in Patients with Advanced Solid Tumors",
+  indication: "oncology",
+  phase: "phase2",
+  studyType: "interventional",
+  allocation: "randomized",
+  masking: "double-blind",
+  inclusionCriteria: [
+    "Age between 18-75 years",
+    "Diagnosed with advanced solid tumors",
+    "ECOG performance status ≤ 2",
+    "Adequate organ function"
+  ],
+  exclusionCriteria: [
+    "Uncontrolled cardiovascular disease",
+    "Active infectious disease",
+    "Prior gene therapy",
+    "Inadequate organ function"
+  ]
+};
 
 const CreateTrial: React.FC = () => {
   const navigate = useNavigate();
   const [inclusionCriteria, setInclusionCriteria] = useState([""]);
   const [exclusionCriteria, setExclusionCriteria] = useState([""]);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [trialName, setTrialName] = useState("");
+  const [description, setDescription] = useState("");
+  const [indication, setIndication] = useState("");
+  const [phase, setPhase] = useState("");
+  const [studyType, setStudyType] = useState("");
+  const [allocation, setAllocation] = useState("");
+  const [masking, setMasking] = useState("");
 
   const addInclusionCriterion = () => {
     setInclusionCriteria([...inclusionCriteria, ""]);
@@ -50,6 +81,20 @@ const CreateTrial: React.FC = () => {
     navigate('/sponsor/find-sites');
   };
 
+  const handleUploadComplete = () => {
+    // Auto-fill form with mock data
+    setTrialName(mockTrialData.name);
+    setDescription(mockTrialData.description);
+    setIndication(mockTrialData.indication);
+    setPhase(mockTrialData.phase);
+    setStudyType(mockTrialData.studyType);
+    setAllocation(mockTrialData.allocation);
+    setMasking(mockTrialData.masking);
+    setInclusionCriteria(mockTrialData.inclusionCriteria);
+    setExclusionCriteria(mockTrialData.exclusionCriteria);
+    setDialogOpen(false);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col space-y-4">
@@ -62,7 +107,7 @@ const CreateTrial: React.FC = () => {
 
         <Button 
           className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 h-16 text-lg"
-          onClick={() => console.log("Create with AI clicked")}
+          onClick={() => setDialogOpen(true)}
         >
           <Sparkles className="mr-2 h-5 w-5" />
           Create with AI
@@ -81,7 +126,12 @@ const CreateTrial: React.FC = () => {
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="trial-name">Trial Name</Label>
-            <Input id="trial-name" placeholder="Enter trial name" />
+            <Input 
+              id="trial-name" 
+              placeholder="Enter trial name" 
+              value={trialName}
+              onChange={(e) => setTrialName(e.target.value)}
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>
@@ -89,15 +139,22 @@ const CreateTrial: React.FC = () => {
               id="description"
               placeholder="Enter trial description"
               rows={3}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="indication">Indication</Label>
-            <Input id="indication" placeholder="Enter indication" />
+            <Input 
+              id="indication" 
+              placeholder="Enter indication"
+              value={indication}
+              onChange={(e) => setIndication(e.target.value)}
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="phase">Phase</Label>
-            <Select>
+            <Select value={phase} onValueChange={setPhase}>
               <SelectTrigger>
                 <SelectValue placeholder="Select phase" />
               </SelectTrigger>
@@ -122,7 +179,7 @@ const CreateTrial: React.FC = () => {
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="study-type">Study Type</Label>
-            <Select>
+            <Select value={studyType} onValueChange={setStudyType}>
               <SelectTrigger>
                 <SelectValue placeholder="Select study type" />
               </SelectTrigger>
@@ -134,7 +191,7 @@ const CreateTrial: React.FC = () => {
           </div>
           <div className="space-y-2">
             <Label htmlFor="allocation">Allocation</Label>
-            <Select>
+            <Select value={allocation} onValueChange={setAllocation}>
               <SelectTrigger>
                 <SelectValue placeholder="Select allocation" />
               </SelectTrigger>
@@ -146,7 +203,7 @@ const CreateTrial: React.FC = () => {
           </div>
           <div className="space-y-2">
             <Label htmlFor="masking">Masking</Label>
-            <Select>
+            <Select value={masking} onValueChange={setMasking}>
               <SelectTrigger>
                 <SelectValue placeholder="Select masking" />
               </SelectTrigger>
@@ -231,6 +288,12 @@ const CreateTrial: React.FC = () => {
           Create Trial
         </Button>
       </div>
+
+      <ProtocolUploadDialog 
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        onUpload={handleUploadComplete}
+      />
     </div>
   );
 };
