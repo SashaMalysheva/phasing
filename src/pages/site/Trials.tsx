@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Search } from "lucide-react";
+import { Search, Users, FileText, Clock } from "lucide-react";
 import { getSiteTrials } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import TrialStatusBadge from "@/components/shared/TrialStatusBadge";
@@ -22,7 +22,6 @@ const Trials = () => {
   });
 
   const handleTrialClick = (trial: any) => {
-    // Navigate based on trial status
     if (trial.status === "document_review") {
       navigate(`/site/trials/${trial.id}/documents`);
     } else {
@@ -34,8 +33,8 @@ const Trials = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-black">Trials</h1>
-          <p className="text-gray-600 mt-2">Track your site's progress across different clinical studies</p>
+          <h1 className="text-3xl font-bold">Trials</h1>
+          <p className="text-muted-foreground mt-2">Track your site's progress across different clinical studies</p>
         </div>
       </div>
 
@@ -50,14 +49,15 @@ const Trials = () => {
           {trialsData.trials.map((trial) => (
             <Card 
               key={trial.id}
-              className="hover:shadow-md transition-shadow cursor-pointer"
+              className="hover:shadow-md transition-shadow cursor-pointer border border-gray-100"
               onClick={() => handleTrialClick(trial)}
             >
               <CardHeader className="pb-4">
                 <div className="flex justify-between items-start gap-4">
-                  <div>
+                  <div className="space-y-1">
                     <CardTitle className="text-xl text-gray-900">{trial.name}</CardTitle>
-                    <p className="text-sm text-gray-600">{trial.sponsor_name}</p>
+                    <p className="text-sm text-muted-foreground">{trial.sponsor_name}</p>
+                    <p className="text-sm text-gray-500">{trial.metrics.enrolled} sites participating</p>
                   </div>
                   <TrialStatusBadge status={trial.status} />
                 </div>
@@ -66,9 +66,10 @@ const Trials = () => {
               <CardContent>
                 {trial.status === "enrollment" && (
                   <div className="space-y-4">
-                    <div className="flex justify-between text-sm">
+                    <div className="flex items-center text-sm">
+                      <Users className="h-4 w-4 text-[#6E59A5] mr-2" />
                       <span className="text-muted-foreground">Enrollment Progress</span>
-                      <span className="font-medium text-[#6E59A5]">
+                      <span className="ml-auto font-medium text-[#6E59A5]">
                         {trial.metrics.enrolled} / {trial.metrics.target}
                       </span>
                     </div>
@@ -102,25 +103,28 @@ const Trials = () => {
                 
                 {trial.status === "document_review" && (
                   <div className="space-y-4">
-                    <div className="text-sm text-muted-foreground mb-2">Document Statuses:</div>
+                    <div className="flex items-center text-sm">
+                      <FileText className="h-4 w-4 text-[#6E59A5] mr-2" />
+                      <span className="text-muted-foreground">Document Review in Progress</span>
+                    </div>
+                    
                     <div className="grid grid-cols-2 gap-3">
                       <div className="flex justify-between p-2 bg-purple-50/30 rounded-md">
                         <span className="text-sm text-muted-foreground">Draft</span>
                         <span className="font-medium text-[#6E59A5]">3</span>
                       </div>
                       <div className="flex justify-between p-2 bg-purple-50/30 rounded-md">
-                        <span className="text-sm text-muted-foreground">Pending Site Review</span>
+                        <span className="text-sm text-muted-foreground">Pending Review</span>
                         <span className="font-medium text-[#6E59A5]">5</span>
                       </div>
-                      <div className="flex justify-between p-2 bg-purple-50/30 rounded-md">
-                        <span className="text-sm text-muted-foreground">Site Signed</span>
-                        <span className="font-medium text-[#6E59A5]">4</span>
-                      </div>
-                      <div className="flex justify-between p-2 bg-purple-50/30 rounded-md">
-                        <span className="text-sm text-muted-foreground">Completed</span>
-                        <span className="font-medium text-[#6E59A5]">8</span>
-                      </div>
                     </div>
+                  </div>
+                )}
+
+                {trial.status === "idle" && (
+                  <div className="flex items-center text-sm">
+                    <Clock className="h-4 w-4 text-[#6E59A5] mr-2" />
+                    <span className="text-muted-foreground">No active recruitment</span>
                   </div>
                 )}
               </CardContent>
