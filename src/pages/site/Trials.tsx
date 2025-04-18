@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -112,12 +111,12 @@ const Trials = () => {
                     </div>
                     
                     <div className="grid grid-cols-2 gap-3">
-                      <div className="flex items-center justify-between p-2 bg-purple-50/30 rounded-md">
-                        <span className="text-sm text-muted-foreground mr-2">Draft</span>
+                      <div className="flex items-center gap-1 p-2 bg-purple-50/30 rounded-md">
+                        <span className="text-sm text-muted-foreground flex-grow">Draft</span>
                         <span className="font-medium text-[#6E59A5]">3</span>
                       </div>
-                      <div className="flex items-center justify-between p-2 bg-purple-50/30 rounded-md">
-                        <span className="text-sm text-muted-foreground mr-2">Pending Review</span>
+                      <div className="flex items-center gap-1 p-2 bg-purple-50/30 rounded-md">
+                        <span className="text-sm text-muted-foreground flex-grow">Pending Review</span>
                         <span className="font-medium text-[#6E59A5]">5</span>
                       </div>
                     </div>
@@ -167,4 +166,3 @@ const Trials = () => {
 };
 
 export default Trials;
-
