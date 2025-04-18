@@ -46,12 +46,12 @@ const ActiveTrialsCard: React.FC<ActiveTrialsCardProps> = ({
           )}
         </div>
 
-        <div className="flex items-center justify-between p-2 bg-green-50/30 rounded-md">
+        <div className="flex items-center justify-between p-2 bg-purple-50/30 rounded-md">
           <div className="flex items-center">
-            <TrendingUp className="h-5 w-5 text-green-600 mr-2" />
+            <TrendingUp className="h-5 w-5 text-[#9b87f5] mr-2" />
             <span className="text-sm text-gray-700">Total Enrollment Rate</span>
           </div>
-          <span className="font-medium text-green-700">85%</span>
+          <span className="font-medium text-[#6E59A5]">85%</span>
         </div>
       </CardContent>
     </Card>
