@@ -1,7 +1,7 @@
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { MapPin, Users } from "lucide-react";
+import { MapPin, Users, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getTrialWithSites, getTrialDetails } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
 
 interface FindSitesSheetProps {
   open: boolean;
@@ -28,6 +29,7 @@ const FindSitesSheet: React.FC<FindSitesSheetProps> = ({
   trialId,
 }) => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   
   const { data: trialData, isLoading: isLoadingTrial } = useQuery({
     queryKey: ['trial', trialId],
@@ -46,6 +48,13 @@ const FindSitesSheet: React.FC<FindSitesSheetProps> = ({
   const handleViewFullDetails = () => {
     navigate(`/sponsor/trials/${trialId}`);
     onOpenChange(false);
+  };
+
+  const handleInviteSite = (siteId: string) => {
+    toast({
+      title: "Invitation Sent",
+      description: "The site has been invited to participate in the trial.",
+    });
   };
 
   const getCompatibilityVariant = (score: number) => {
@@ -94,9 +103,19 @@ const FindSitesSheet: React.FC<FindSitesSheetProps> = ({
                     {site.address}
                   </div>
                   
-                  <div className="flex items-center gap-2 text-sm">
-                    <Users className="h-4 w-4 text-muted-foreground" />
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Users className="h-4 w-4" />
                     <span>{site.eligible_patient_count} / {site.total_patient_count} eligible patients</span>
+                  </div>
+
+                  <div className="mt-4">
+                    <Button 
+                      onClick={() => handleInviteSite(site.id)}
+                      className="w-full bg-[#9b87f5] hover:bg-[#8B5CF6]"
+                    >
+                      <Send className="h-4 w-4 mr-2" />
+                      Invite Site
+                    </Button>
                   </div>
                 </div>
               ))}
