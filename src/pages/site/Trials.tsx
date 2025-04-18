@@ -129,7 +129,9 @@ const Trials = () => {
           
           <div className="flex justify-center mt-8">
             <Link to="/site/trials/find">
-              <Button className="bg-[#9b87f5] hover:bg-[#8B5CF6]">
+              <Button 
+                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700"
+              >
                 <Search className="mr-2 h-4 w-4" /> Find More Trials
               </Button>
             </Link>
