@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Dialog,
@@ -19,7 +18,7 @@ import {
   ChevronUp, 
   FileText,
   Clock,
-  CheckCircle, 
+  CircleDot, 
   AlertTriangle
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
@@ -192,8 +191,8 @@ const TrialDetailsDialog = ({ trialId, trigger }: TrialDetailsDialogProps) => {
                     <div className="flex items-center gap-1">
                       <span className="font-medium">Available across sites:</span>
                       {metrics?.isOversubscribed ? (
-                        <span className="text-green-600 font-medium flex items-center gap-1">
-                          <CheckCircle className="h-4 w-4" />
+                        <span className="text-green-700 font-medium flex items-center gap-1">
+                          <CircleDot className="h-4 w-4" />
                           Oversubscribed ({metrics.totalEligible} eligible patients)
                         </span>
                       ) : (
@@ -223,10 +222,10 @@ const TrialDetailsDialog = ({ trialId, trigger }: TrialDetailsDialogProps) => {
                               variant="outline" 
                               className={site.status === "active" 
                                 ? "bg-green-50 text-green-700 border-green-200" 
-                                : "bg-orange-50 text-orange-700 border-orange-200"
+                                : "bg-orange-50 text-orange-500 border-orange-200"
                               }
                             >
-                              {site.status === "active" ? "Active" : "In Negotiation"}
+                              {site.status === "active" ? "Active" : "Awaiting Documents"}
                             </Badge>
                           </TableCell>
                           <TableCell>{site.eligible_patient_count}</TableCell>
