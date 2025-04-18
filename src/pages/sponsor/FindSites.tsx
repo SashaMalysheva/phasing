@@ -205,6 +205,10 @@ const SiteCard = ({ site, onClick }: { site: typeof mockSites[0], onClick: () =>
                   <CheckCircle className="h-4 w-4" />
                   <span>Compatible Features: {site.features.compatible.length}</span>
                 </div>
+                <div className="flex items-center gap-2">
+                  <Building className="h-4 w-4" />
+                  <span>{site.eligiblePatients}/{site.totalPatients} eligible patients</span>
+                </div>
               </div>
             </div>
 
