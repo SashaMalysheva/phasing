@@ -1,3 +1,4 @@
+
 import React from "react";
 import { FileText, CheckCircle, AlertTriangle, XCircle } from "lucide-react";
 import { 
@@ -102,7 +103,7 @@ export const TrialMatchCard = ({ trial, getScoreIcon }: TrialMatchCardProps) => 
                               </Badge>
                             </TooltipTrigger>
                             <TooltipContent>
-                              <p className="text-xs">{count} patients rejected due to {reason.replace(/_/g, ' ')}</p>
+                              <p className="text-xs">{String(count)} patients rejected due to {reason.replace(/_/g, ' ')}</p>
                             </TooltipContent>
                           </Tooltip>
                         </TooltipProvider>

@@ -14,7 +14,7 @@ import {
   CheckCircle,
   FileText,
   Users,
-  Flask,
+  Beaker,
   Target,
   ArrowRight
 } from "lucide-react";
@@ -46,7 +46,7 @@ export const TrialDetailsDialog = ({ trial, trigger }: TrialDetailsDialogProps) 
             <div className="space-y-1">
               <div className="flex items-center gap-2">
                 <Badge variant="outline" className="bg-white">
-                  <Flask className="h-3.5 w-3.5 mr-1" />
+                  <Beaker className="h-3.5 w-3.5 mr-1" />
                   Phase {trial.phase}
                 </Badge>
                 {trial.indication && (
@@ -110,7 +110,7 @@ export const TrialDetailsDialog = ({ trial, trigger }: TrialDetailsDialogProps) 
                         <span className="text-gray-600 capitalize">
                           {reason.replace(/_/g, ' ')}
                         </span>
-                        <span className="text-gray-900 font-medium">{count}</span>
+                        <span className="text-gray-900 font-medium">{String(count)}</span>
                       </div>
                     ))}
                   </div>
