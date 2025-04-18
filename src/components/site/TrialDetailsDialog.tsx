@@ -10,12 +10,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
-  AlertTriangle,
   FileText,
-  Users,
   ArrowRight,
   ScrollText,
-  CheckCircle
+  CheckCircle,
+  AlertTriangle,
+  Users
 } from "lucide-react";
 
 interface TrialDetailsDialogProps {
@@ -25,32 +25,21 @@ interface TrialDetailsDialogProps {
 
 export const TrialDetailsDialog = ({ trial, trigger }: TrialDetailsDialogProps) => {
   const compatibilityScore = Math.round(trial.compatibility_score);
-  
-  const calculateEligiblePatients = () => {
-    // Generate a number between 1-25 based on compatibility score
-    // Higher compatibility scores get more patients
-    const minPatients = 1;
-    const maxPatients = 25;
-    
-    // Calculate a value between min and max based on compatibility percentage
-    // Use compatibility score to determine where in the range we fall
-    const eligibleCount = Math.round(minPatients + ((maxPatients - minPatients) * compatibilityScore / 100));
-    
-    // Ensure we always return at least 1 patient if score is above 0
-    return compatibilityScore > 0 ? Math.max(1, eligibleCount) : 0;
+
+  const getFeatures = () => {
+    if (compatibilityScore === 100) {
+      return {
+        compatible: ['procedures', 'lab certifications', 'languages', 'payment format'],
+        incompatible: ['equipment', 'facilities', 'budget per patient']
+      };
+    }
+    return {
+      compatible: ['procedures', 'equipment', 'facilities', 'lab certifications', 'languages'],
+      incompatible: []
+    };
   };
 
-  const sortedRejectionReasons = trial.rejection_reasons 
-    ? Object.entries(trial.rejection_reasons)
-        .sort((a, b) => (b[1] as number) - (a[1] as number))
-    : [];
-
-  const formatReason = (reason: string) => {
-    return reason
-      .split('_')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-  };
+  const features = getFeatures();
 
   return (
     <Dialog>
@@ -81,43 +70,37 @@ export const TrialDetailsDialog = ({ trial, trigger }: TrialDetailsDialogProps) 
 
           <Separator />
 
-          {/* Patient Matching Section */}
-          <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-            <h3 className="text-base font-medium text-gray-900 mb-2 flex items-center gap-2">
-              <Users className="h-4 w-4" />
-              Eligible Patients
-            </h3>
-            <div className="flex items-center gap-2">
-              {calculateEligiblePatients() === 0 ? (
-                <AlertTriangle className="h-4 w-4 text-amber-500" />
-              ) : (
-                <ScrollText className="h-4 w-4 text-blue-500" />
-              )}
-              <span className="text-sm font-medium">
-                {calculateEligiblePatients()} patients
-              </span>
-            </div>
-          </div>
-
-          {/* Exclusion Reasons Section */}
+          {/* Features Section */}
           <div>
-            <h3 className="text-base font-medium text-gray-900 mb-3">
-              📌 Most Common Exclusion Reasons
-            </h3>
-            <div className="space-y-2">
-              {sortedRejectionReasons.map(([reason, count]) => (
-                <div 
-                  key={reason}
-                  className="flex items-center justify-between text-sm text-gray-600"
-                >
-                  <span>• {formatReason(reason)}</span>
-                  <span>{String(count)} patients excluded</span>
+            <h3 className="font-medium text-base mb-4">Features</h3>
+            <div className="space-y-4">
+              <div>
+                <h4 className="text-sm font-medium mb-2">Compatible</h4>
+                <ul className="space-y-1">
+                  {features.compatible.map((feature) => (
+                    <li key={feature} className="text-sm flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              
+              {features.incompatible.length > 0 && (
+                <div>
+                  <h4 className="text-sm font-medium mb-2">Incompatible</h4>
+                  <ul className="space-y-1">
+                    {features.incompatible.map((feature) => (
+                      <li key={feature} className="text-sm flex items-center gap-2">
+                        <AlertTriangle className="h-4 w-4 text-amber-500" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              ))}
+              )}
             </div>
           </div>
-
-          <Separator />
 
           {/* Footer Actions */}
           <div className="flex items-center justify-between pt-2">
@@ -137,3 +120,4 @@ export const TrialDetailsDialog = ({ trial, trigger }: TrialDetailsDialogProps) 
     </Dialog>
   );
 };
+
