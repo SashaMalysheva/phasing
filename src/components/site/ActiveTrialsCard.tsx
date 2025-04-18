@@ -1,7 +1,8 @@
 
 import React from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Microscope, FileText } from "lucide-react";
+import { ArrowRight, Microscope, FileText } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface ActiveTrialsCardProps {
   totalTrials: number;
@@ -46,6 +47,15 @@ const ActiveTrialsCard: React.FC<ActiveTrialsCardProps> = ({
           )}
         </div>
       </CardContent>
+      
+      <div className="p-4 border-t flex justify-between items-center">
+        <Link 
+          to="/site/trials" 
+          className="flex items-center text-sm text-[#9b87f5] hover:text-[#8B5CF6]"
+        >
+          View all trials <ArrowRight className="ml-2 h-4 w-4" />
+        </Link>
+      </div>
     </Card>
   );
 };

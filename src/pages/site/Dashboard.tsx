@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { SearchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { useAuth } from "@/context/AuthContext";
 import { getSiteAnalytics, getSitePendingInvitations, getSiteTrials } from "@/lib/api";
 import PendingInvitationsModal from "@/components/site/PendingInvitationsModal";
@@ -60,41 +59,39 @@ const SiteDashboard = () => {
 
   const trialCounts = getTrialCounts();
 
-  // Get enrollment trials data
-  const getEnrollmentTrialsData = () => {
-    if (!trialsData?.trials) return [];
+  // Get enrollment trial data if available
+  const getEnrollmentData = () => {
+    if (!trialsData?.trials) return null;
     
-    return trialsData.trials
-      .filter(trial => trial.status === 'enrollment')
-      .map(trial => ({
-        name: trial.name,
-        enrolled: trial.metrics.enrolled,
-        target: trial.metrics.target,
-        identifiedLeads: trial.metrics.identified_leads,
-        qualifiedPatients: trial.metrics.qualified
-      }));
+    const enrollmentTrial = trialsData.trials.find(trial => trial.status === 'enrollment');
+    return enrollmentTrial ? {
+      name: enrollmentTrial.name,
+      enrolled: enrollmentTrial.metrics.enrolled,
+      target: enrollmentTrial.metrics.target,
+      identifiedLeads: enrollmentTrial.metrics.identified_leads,
+      qualifiedPatients: enrollmentTrial.metrics.qualified
+    } : null;
   };
 
-  const enrollmentTrials = getEnrollmentTrialsData();
+  const enrollmentData = getEnrollmentData();
 
-  // Get document trials data
-  const getDocumentTrialsData = () => {
-    if (!trialsData?.trials) return [];
+  // Get document trial data if available
+  const getDocumentData = () => {
+    if (!trialsData?.trials) return null;
     
-    return trialsData.trials
-      .filter(trial => trial.status === 'document_review')
-      .map(trial => ({
-        name: trial.name,
-        // Mock data since API doesn't provide detailed document counts
-        totalDocuments: 20,
-        draft: 3,
-        pendingReview: 5,
-        signed: 4,
-        completed: 8
-      }));
+    const documentTrial = trialsData.trials.find(trial => trial.status === 'document_review');
+    return documentTrial ? {
+      name: documentTrial.name,
+      // Mock data since API doesn't provide detailed document counts
+      totalDocuments: 20,
+      draft: 3,
+      pendingReview: 5,
+      signed: 4,
+      completed: 8
+    } : null;
   };
 
-  const documentTrials = getDocumentTrialsData();
+  const documentData = getDocumentData();
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -150,10 +147,14 @@ const SiteDashboard = () => {
             documentTrials={trialCounts.document_review}
           />
           
-          {enrollmentTrials.length > 0 ? (
+          {enrollmentData ? (
             <EnrollmentOverviewCard 
               trialCount={trialCounts.enrollment}
-              trials={enrollmentTrials}
+              trialName={enrollmentData.name}
+              enrolled={enrollmentData.enrolled}
+              target={enrollmentData.target}
+              identifiedLeads={enrollmentData.identifiedLeads}
+              qualifiedPatients={enrollmentData.qualifiedPatients}
             />
           ) : (
             <Card className="bg-white h-full flex flex-col items-center justify-center p-6">
@@ -161,10 +162,15 @@ const SiteDashboard = () => {
             </Card>
           )}
           
-          {documentTrials.length > 0 ? (
+          {documentData ? (
             <DocumentStatusCard 
               trialCount={trialCounts.document_review}
-              trials={documentTrials}
+              trialName={documentData.name}
+              totalDocuments={documentData.totalDocuments}
+              draft={documentData.draft}
+              pendingReview={documentData.pendingReview}
+              signed={documentData.signed}
+              completed={documentData.completed}
             />
           ) : (
             <Card className="bg-white h-full flex flex-col items-center justify-center p-6">
