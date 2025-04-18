@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, XCircle, Map, List, Info } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Building, Map, List, Info, Users, CheckCircle } from "lucide-react";
+import { SiteDetailsDialog } from "@/components/sponsor/SiteDetailsDialog";
 
 const mockSites = [
   {
@@ -131,179 +131,6 @@ const mockSites = [
   }
 ];
 
-const SiteCard = ({ site }: { site: typeof mockSites[0] }) => {
-  const [isInviting, setIsInviting] = useState(false);
-
-  const handleInviteSite = () => {
-    setIsInviting(true);
-    // TODO: Implement actual site invitation logic
-    setTimeout(() => {
-      setIsInviting(false);
-      // You might want to show a toast or update UI to indicate invitation sent
-    }, 2000);
-  };
-
-  return (
-    <Card className="mb-4">
-      <CardHeader className="pb-2">
-        <div className="flex justify-between items-center">
-          <CardTitle className="text-xl">{site.name}</CardTitle>
-          <Badge 
-            variant={site.compatibilityScore === 100 ? "default" : site.compatibilityScore >= 70 ? "outline" : "destructive"}
-          >
-            {site.compatibilityScore}% Compatible
-          </Badge>
-        </div>
-        <CardDescription>
-          Eligible Patients: {site.eligiblePatients}/{site.totalPatients} ({((site.eligiblePatients/site.totalPatients)*100).toFixed(1)}%)
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div>
-          <div className="flex justify-between mb-1">
-            <span className="text-sm font-medium">Compatibility</span>
-            <span className="text-sm font-medium">{site.compatibilityScore}%</span>
-          </div>
-          <Progress value={site.compatibilityScore} className="h-2" />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <h4 className="text-sm font-semibold mb-2">Compatible Features</h4>
-            <ul className="space-y-1">
-              {site.features.compatible.map(feature => (
-                <li key={feature} className="text-sm flex items-center">
-                  <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                  {feature.replace(/_/g, ' ')}
-                </li>
-              ))}
-            </ul>
-          </div>
-          
-          {site.features.incompatible.length > 0 && (
-            <div>
-              <h4 className="text-sm font-semibold mb-2">Incompatible Features</h4>
-              <ul className="space-y-1">
-                {site.features.incompatible.map(feature => (
-                  <li key={feature} className="text-sm flex items-center">
-                    <XCircle className="h-4 w-4 text-red-500 mr-2" />
-                    {feature.replace(/_/g, ' ')}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-
-        <div>
-          <h4 className="text-sm font-semibold mb-2">Top Rejection Reasons</h4>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {site.rejectionReasons.slice(0, 4).map(reason => (
-              <div key={reason.reason} className="text-sm">
-                <span className="font-medium">{reason.reason.replace(/_/g, ' ')}: </span>
-                <span>{reason.count} patients ({reason.percentage}%)</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="pt-2 flex justify-between items-center">
-          <Button 
-            variant="outline" 
-            className="w-full mr-2"
-          >
-            Send Invitation
-          </Button>
-          <Button 
-            onClick={handleInviteSite} 
-            disabled={isInviting}
-            className="w-full"
-          >
-            {isInviting ? "Inviting..." : "Invite Site"}
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
-
-const ReadinessPopover = ({ site }: { site: typeof mockSites[0] }) => {
-  return (
-    <div className="space-y-4 p-4">
-      <div>
-        <h3 className="font-semibold text-base">This site maintains constant readiness</h3>
-        <p className="text-sm text-muted-foreground">Average startup time: 2 days</p>
-      </div>
-      
-      <div>
-        <h4 className="font-medium text-sm mb-2">Readiness Checklist</h4>
-        <ul className="space-y-1">
-          <li className="text-sm flex items-center">
-            <CheckCircle className={`h-4 w-4 ${site.readiness.dataPrivacyPolicy ? 'text-green-500' : 'text-red-500'} mr-2`} />
-            Data Privacy Policy
-          </li>
-          <li className="text-sm flex items-center">
-            <CheckCircle className={`h-4 w-4 ${site.readiness.sourceAgreement ? 'text-green-500' : 'text-red-500'} mr-2`} />
-            Source Agreement
-          </li>
-          <li className="text-sm flex items-center">
-            {site.readiness.sopsStorageMonitoring ? (
-              <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-            ) : (
-              <XCircle className="h-4 w-4 text-amber-500 mr-2" />
-            )}
-            SOPs Storage Monitoring
-          </li>
-          <li className="text-sm flex items-center">
-            <CheckCircle className={`h-4 w-4 ${site.readiness.eRegulatoryBinders ? 'text-green-500' : 'text-red-500'} mr-2`} />
-            eRegulatory Binders
-          </li>
-          <li className="text-sm flex items-center">
-            {site.readiness.sourceTemplates ? (
-              <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-            ) : (
-              <XCircle className="h-4 w-4 text-red-500 mr-2" />
-            )}
-            Source Templates
-          </li>
-          <li className="text-sm flex items-center">
-            <CheckCircle className={`h-4 w-4 ${site.readiness.iataCertification ? 'text-green-500' : 'text-red-500'} mr-2`} />
-            IATA Certification
-          </li>
-        </ul>
-      </div>
-      
-      <div>
-        <h4 className="font-medium text-sm mb-2">Staff Readiness</h4>
-        <p className="text-sm">Total Staff: {site.staff.total}</p>
-        <p className="text-sm">Ready Staff: {site.staff.ready}/{site.staff.total} ({site.staff.readyPercentage}%)</p>
-        <p className="text-sm">Checklist: CV, GCP, Medical License, Delegation of Authority</p>
-        
-        <h5 className="font-medium text-sm mt-2 mb-1">Experience Summary:</h5>
-        <ul className="text-sm">
-          {Object.entries(site.staff.averageExperience).map(([role, years]) => (
-            <li key={role}>{role}: {years} yrs</li>
-          ))}
-        </ul>
-      </div>
-      
-      <div>
-        <h4 className="font-medium text-sm mb-2">Patient Pool Summary</h4>
-        <p className="text-sm">Eligible: {site.eligiblePatients}/{site.totalPatients} ({((site.eligiblePatients/site.totalPatients)*100).toFixed(1)}%)</p>
-        
-        <h5 className="font-medium text-sm mt-2 mb-1">Rejection Reasons:</h5>
-        <ul className="space-y-1">
-          {site.rejectionReasons.map(reason => (
-            <li key={reason.reason} className="text-sm">
-              {reason.reason.replace(/_/g, ' ')}: {reason.count} ({reason.percentage}%)
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-};
-
 const MapView = ({ sites }: { sites: typeof mockSites }) => {
   return (
     <div className="bg-gray-100 relative min-h-[500px] rounded-lg border flex items-center justify-center">
@@ -317,56 +144,107 @@ const MapView = ({ sites }: { sites: typeof mockSites }) => {
       
       {/* Site Markers - These would be positioned absolutely in a real implementation */}
       <div className="absolute top-1/4 left-1/4 bg-white p-2 rounded-full shadow-md">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
+        
               <div className="h-10 w-10 rounded-full bg-green-600 text-white flex items-center justify-center font-bold">
                 25
               </div>
-            </TooltipTrigger>
-            <TooltipContent className="w-80">
-              <ReadinessPopover site={mockSites[1]} />
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+            
+            
+              
+            
+          
+        
       </div>
       
       <div className="absolute bottom-1/3 right-1/3 bg-white p-2 rounded-full shadow-md">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
+        
               <div className="h-10 w-10 rounded-full bg-green-600 text-white flex items-center justify-center font-bold">
                 15
               </div>
-            </TooltipTrigger>
-            <TooltipContent className="w-80">
-              <ReadinessPopover site={mockSites[0]} />
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+            
+            
+              
+            
+          
+        
       </div>
       
       <div className="absolute top-1/2 right-1/4 bg-white p-2 rounded-full shadow-md">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
+        
               <div className="h-10 w-10 rounded-full bg-yellow-500 text-white flex items-center justify-center font-bold">
                 16
               </div>
-            </TooltipTrigger>
-            <TooltipContent className="w-80">
-              <ReadinessPopover site={mockSites[2]} />
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+            
+            
+              
+            
+          
+        
       </div>
     </div>
+  );
+};
+
+const SiteCard = ({ site, onClick }: { site: typeof mockSites[0], onClick: () => void }) => {
+  return (
+    <Card 
+      className="mb-4 hover:bg-accent/5 transition-colors cursor-pointer" 
+      onClick={onClick}
+    >
+      <CardContent className="p-6">
+        <div className="flex justify-between items-start mb-4">
+          <div>
+            <h3 className="text-lg font-semibold mb-1">{site.name}</h3>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Building className="h-4 w-4" />
+              <span>{site.eligiblePatients}/{site.totalPatients} eligible patients</span>
+            </div>
+          </div>
+          <Badge 
+            variant={site.compatibilityScore === 100 ? "default" : site.compatibilityScore >= 70 ? "secondary" : "destructive"}
+            className="bg-[#9b87f5] hover:bg-[#8B5CF6]"
+          >
+            {site.compatibilityScore}% Match
+          </Badge>
+        </div>
+
+        <div className="space-y-4">
+          <div>
+            <div className="flex justify-between mb-1">
+              <span className="text-sm font-medium">Compatibility</span>
+              <span className="text-sm font-medium">{site.compatibilityScore}%</span>
+            </div>
+            <Progress value={site.compatibilityScore} className="h-2" />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="p-3 rounded-lg bg-muted/50">
+              <Users className="h-4 w-4 mb-2 text-muted-foreground" />
+              <div className="text-sm font-medium">Ready Staff</div>
+              <div className="text-lg font-semibold">{site.staff.ready}/{site.staff.total}</div>
+            </div>
+            <div className="p-3 rounded-lg bg-muted/50">
+              <CheckCircle className="h-4 w-4 mb-2 text-muted-foreground" />
+              <div className="text-sm font-medium">Compatible Features</div>
+              <div className="text-lg font-semibold">{site.features.compatible.length}</div>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 
 const SponsorFindSites: React.FC = () => {
   const [viewMode, setViewMode] = useState<'map' | 'list'>('map');
   const [selectedTrial, setSelectedTrial] = useState<string>("Phase 2 Study in Advanced Solid Tumors");
+  const [selectedSite, setSelectedSite] = useState<typeof mockSites[0] | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleSiteClick = (site: typeof mockSites[0]) => {
+    setSelectedSite(site);
+    setDialogOpen(true);
+  };
 
   return (
     <div className="space-y-6">
@@ -384,9 +262,15 @@ const SponsorFindSites: React.FC = () => {
               <SelectValue placeholder="Select a Trial" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Phase 2 Study in Advanced Solid Tumors">Phase 2 Study in Advanced Solid Tumors</SelectItem>
-              <SelectItem value="Phase 3 Study in Breast Cancer">Phase 3 Study in Breast Cancer</SelectItem>
-              <SelectItem value="Phase 1 Study in Lung Cancer">Phase 1 Study in Lung Cancer</SelectItem>
+              <SelectItem value="Phase 2 Study in Advanced Solid Tumors">
+                Phase 2 Study in Advanced Solid Tumors
+              </SelectItem>
+              <SelectItem value="Phase 3 Study in Breast Cancer">
+                Phase 3 Study in Breast Cancer
+              </SelectItem>
+              <SelectItem value="Phase 1 Study in Lung Cancer">
+                Phase 1 Study in Lung Cancer
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -410,26 +294,39 @@ const SponsorFindSites: React.FC = () => {
           </Button>
         </div>
       </div>
-      
+
       {viewMode === 'map' ? (
         <MapView sites={mockSites} />
       ) : (
         <div className="space-y-4">
           {mockSites.map(site => (
-            <SiteCard key={site.id} site={site} />
+            <SiteCard 
+              key={site.id} 
+              site={site} 
+              onClick={() => handleSiteClick(site)}
+            />
           ))}
         </div>
       )}
+
       
       <div className="flex justify-between items-center bg-muted p-4 rounded-lg">
         <div className="flex items-center">
           <Info className="h-5 w-5 mr-2 text-blue-500" />
-          <span className="text-sm">Found {mockSites.length} compatible sites with a total of {mockSites.reduce((sum, site) => sum + site.eligiblePatients, 0)} eligible patients.</span>
+          <span className="text-sm">
+            Found {mockSites.length} compatible sites with a total of {mockSites.reduce((sum, site) => sum + site.eligiblePatients, 0)} eligible patients.
+          </span>
         </div>
         <Button variant="outline" size="sm">
           Export Results
         </Button>
       </div>
+
+      <SiteDetailsDialog 
+        site={selectedSite}
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+      />
     </div>
   );
 };
