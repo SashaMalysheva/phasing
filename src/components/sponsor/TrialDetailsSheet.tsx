@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getTrialWithSites } from "@/lib/api";
+import { getTrialWithSites, getTrialDetails } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 
 interface TrialDetailsSheetProps {
@@ -29,11 +29,21 @@ const TrialDetailsSheet: React.FC<TrialDetailsSheetProps> = ({
 }) => {
   const navigate = useNavigate();
   
-  const { data, isLoading } = useQuery({
+  // First, fetch the basic trial details to get the name
+  const { data: trialData, isLoading: isLoadingTrial } = useQuery({
+    queryKey: ['trial', trialId],
+    queryFn: () => getTrialDetails(trialId || ''),
+    enabled: !!trialId && open,
+  });
+
+  // Then fetch the trial sites data
+  const { data: sitesData, isLoading: isLoadingSites } = useQuery({
     queryKey: ['trialSites', trialId],
     queryFn: () => getTrialWithSites(trialId || ''),
     enabled: !!trialId && open,
   });
+
+  const isLoading = isLoadingTrial || isLoadingSites;
 
   const handleViewFullDetails = () => {
     navigate(`/sponsor/trials/${trialId}`);
@@ -63,10 +73,10 @@ const TrialDetailsSheet: React.FC<TrialDetailsSheetProps> = ({
           </div>
         ) : (
           <div className="py-4">
-            <h3 className="text-lg font-medium mb-4">{data?.name}</h3>
+            <h3 className="text-lg font-medium mb-4">{trialData?.name}</h3>
             
             <div className="space-y-4">
-              {data?.sites.map((site) => (
+              {sitesData?.sites.map((site) => (
                 <div 
                   key={site.id} 
                   className="border rounded-md p-4 hover:bg-muted/50 transition-colors"
