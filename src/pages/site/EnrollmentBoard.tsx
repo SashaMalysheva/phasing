@@ -81,9 +81,9 @@ const EnrollmentBoard = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-4">
-          <Link to="/site/dashboard" className="inline-flex items-center text-gray-600 hover:text-gray-900">
+          <Link to="/site/trials" className="inline-flex items-center text-gray-600 hover:text-gray-900">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Dashboard
+            Back to Trials
           </Link>
           <Badge variant="secondary" className="bg-gray-50 text-gray-700 hover:bg-gray-100">
             Active Trial

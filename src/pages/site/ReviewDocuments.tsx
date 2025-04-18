@@ -1,6 +1,5 @@
-
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { format } from "date-fns";
 import { 
   Card, 
@@ -337,6 +336,13 @@ const ReviewDocuments = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <div className="mb-4 flex items-center gap-2">
+        <Link to="/site/trials" className="inline-flex items-center text-gray-600 hover:text-gray-900">
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back to Trials
+        </Link>
+      </div>
+
       <h1 className="text-3xl font-bold text-black mb-6">Document Review</h1>
       <p className="text-muted-foreground mb-8">
         Review and manage documents for trial ID: {trialId}
@@ -776,27 +782,3 @@ const ReviewDocuments = () => {
                 accept=".pdf,.docx,.xls,.xlsx"
               />
             </div>
-            
-            <div className="flex justify-end space-x-2 pt-4">
-              <Button 
-                type="button" 
-                variant="outline" 
-                onClick={() => setIsUploadOpen(false)}
-              >
-                Cancel
-              </Button>
-              <Button 
-                type="submit"
-                className="bg-[#6E59A5] hover:bg-[#8B5CF6]"
-              >
-                Upload
-              </Button>
-            </div>
-          </form>
-        </SheetContent>
-      </Sheet>
-    </div>
-  );
-};
-
-export default ReviewDocuments;
