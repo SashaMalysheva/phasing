@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -60,7 +59,7 @@ const SiteDashboard = () => {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold text-black">Site Overview</h1>
-          <p className="text-gray-600 mt-2">Track your site's progress across different clinical studies</p>
+          <p className="text-gray-600">Welcome, {user?.name || 'Site Admin'}</p>
         </div>
         
         <div className="flex gap-4">
