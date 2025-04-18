@@ -5,8 +5,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Building, Map, List, Users, CheckCircle } from "lucide-react";
+import { Building, Map, List, Users, CheckCircle, FileText } from "lucide-react";
 import { SiteDetailsDialog } from "@/components/sponsor/SiteDetailsDialog";
+import { useToast } from "@/hooks/use-toast";
 
 const mockSites = [
   {
@@ -186,6 +187,16 @@ const MapView = ({ sites }: { sites: typeof mockSites }) => {
 };
 
 const SiteCard = ({ site, onClick }: { site: typeof mockSites[0], onClick: () => void }) => {
+  const { toast } = useToast();
+
+  const handleInvite = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toast({
+      title: "Invitation Sent",
+      description: "The site has been invited to participate in the trial.",
+    });
+  };
+
   return (
     <Card 
       className="mb-4 hover:bg-accent/5 transition-colors cursor-pointer" 
@@ -217,16 +228,33 @@ const SiteCard = ({ site, onClick }: { site: typeof mockSites[0], onClick: () =>
                 <span className="text-sm font-medium">Compatibility</span>
                 <span className="text-sm font-medium">{site.compatibilityScore}%</span>
               </div>
-              <Progress value={site.compatibilityScore} className="h-2" />
+              <Progress 
+                value={site.compatibilityScore} 
+                className="h-2 bg-purple-100" 
+                indicatorClassName="bg-[#9b87f5]"
+              />
             </div>
           </div>
           
           <Badge 
             variant={site.compatibilityScore === 100 ? "default" : site.compatibilityScore >= 70 ? "secondary" : "destructive"}
-            className="ml-4 bg-[#9b87f5] hover:bg-[#8B5CF6]"
+            className="ml-4 bg-[#9b87f5] hover:bg-[#8B5CF6] text-white"
           >
             {site.compatibilityScore}% Match
           </Badge>
+        </div>
+
+        <div className="flex justify-between items-center mt-4 pt-4 border-t">
+          <Button 
+            onClick={handleInvite}
+            className="bg-[#9b87f5] hover:bg-[#8B5CF6] text-white"
+          >
+            Invite Site
+          </Button>
+          <Button variant="outline" size="sm" className="text-gray-600">
+            <FileText className="h-4 w-4 mr-2" />
+            View Protocol
+          </Button>
         </div>
       </CardContent>
     </Card>
