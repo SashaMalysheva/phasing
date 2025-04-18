@@ -1,24 +1,29 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Search, AlertTriangle, CheckCircle } from "lucide-react";
+import { Search } from "lucide-react";
 import { getSiteTrials } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import TrialStatusBadge from "@/components/shared/TrialStatusBadge";
 
 const Trials = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   
   const { data: trialsData, isLoading } = useQuery({
     queryKey: ['siteTrials', user?.id],
     queryFn: () => getSiteTrials(user?.id || ''),
     enabled: !!user?.id,
   });
+
+  const handleTrialClick = (trialId: string) => {
+    navigate(`/site/trials/${trialId}/enrollment`);
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -40,7 +45,8 @@ const Trials = () => {
           {trialsData.trials.map((trial) => (
             <Card 
               key={trial.id}
-              className="hover:shadow-md transition-shadow"
+              className="hover:shadow-md transition-shadow cursor-pointer"
+              onClick={() => handleTrialClick(trial.id)}
             >
               <CardHeader className="pb-4">
                 <div className="flex justify-between items-start gap-4">
