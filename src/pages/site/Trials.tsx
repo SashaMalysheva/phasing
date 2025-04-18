@@ -111,13 +111,13 @@ const Trials = () => {
                     </div>
                     
                     <div className="grid grid-cols-2 gap-3">
-                      <div className="flex items-center gap-1 p-2 bg-purple-50/30 rounded-md">
-                        <span className="text-sm text-muted-foreground flex-grow">Draft</span>
-                        <span className="font-medium text-[#6E59A5]">3</span>
+                      <div className="flex items-center space-x-1 p-2 bg-purple-50/30 rounded-md">
+                        <span className="text-sm text-muted-foreground">Draft</span>
+                        <span className="font-medium text-[#6E59A5] ml-auto">3</span>
                       </div>
-                      <div className="flex items-center gap-1 p-2 bg-purple-50/30 rounded-md">
-                        <span className="text-sm text-muted-foreground flex-grow">Pending Review</span>
-                        <span className="font-medium text-[#6E59A5]">5</span>
+                      <div className="flex items-center space-x-1 p-2 bg-purple-50/30 rounded-md">
+                        <span className="text-sm text-muted-foreground">Pending Review</span>
+                        <span className="font-medium text-[#6E59A5] ml-auto">5</span>
                       </div>
                     </div>
                   </div>
