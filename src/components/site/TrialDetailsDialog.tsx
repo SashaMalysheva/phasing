@@ -46,7 +46,7 @@ export const TrialDetailsDialog = ({ trial, trigger }: TrialDetailsDialogProps) 
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold text-gray-900">
-                🧾 Phase {trial.phase} Study in {trial.indication}
+                {trial.phase ? `Phase ${trial.phase} Study in ${trial.indication}` : 'Clinical Trial'}
               </h2>
               <span className="text-sm text-gray-500">
                 Match: {compatibilityScore}%
@@ -69,7 +69,7 @@ export const TrialDetailsDialog = ({ trial, trigger }: TrialDetailsDialogProps) 
               ) : (
                 <ScrollText className="h-4 w-4 text-blue-500" />
               )}
-              <span className="text-sm">
+              <span className="text-sm font-medium">
                 {trial.eligible_patient_count} eligible / {trial.total_patient_count} total patients
               </span>
             </div>
