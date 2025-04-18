@@ -198,16 +198,16 @@ const SiteCard = ({ site, onClick }: { site: typeof mockSites[0], onClick: () =>
               <h3 className="text-lg font-semibold mb-1">{site.name}</h3>
               <div className="flex items-center gap-6 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
+                  <Building className="h-4 w-4" />
+                  <span>Eligible patients: {site.eligiblePatients}/{site.totalPatients}</span>
+                </div>
+                <div className="flex items-center gap-2">
                   <Users className="h-4 w-4" />
                   <span>Ready Staff: {site.staff.ready}/{site.staff.total}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle className="h-4 w-4" />
                   <span>Compatible Features: {site.features.compatible.length}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Building className="h-4 w-4" />
-                  <span>{site.eligiblePatients}/{site.totalPatients} eligible patients</span>
                 </div>
               </div>
             </div>
