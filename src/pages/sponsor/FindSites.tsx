@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Building, Map, List, Info, Users, CheckCircle } from "lucide-react";
+import { Building, Map, List, Users, CheckCircle } from "lucide-react";
 import { SiteDetailsDialog } from "@/components/sponsor/SiteDetailsDialog";
 
 const mockSites = [
@@ -306,19 +306,6 @@ const SponsorFindSites: React.FC = () => {
           ))}
         </div>
       )}
-
-      
-      <div className="flex justify-between items-center bg-muted p-4 rounded-lg">
-        <div className="flex items-center">
-          <Info className="h-5 w-5 mr-2 text-blue-500" />
-          <span className="text-sm">
-            Found {mockSites.length} compatible sites with a total of {mockSites.reduce((sum, site) => sum + site.eligiblePatients, 0)} eligible patients.
-          </span>
-        </div>
-        <Button variant="outline" size="sm">
-          Export Results
-        </Button>
-      </div>
 
       <SiteDetailsDialog 
         site={selectedSite}
