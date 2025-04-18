@@ -1,3 +1,4 @@
+
 import React from "react";
 import {
   Dialog,
@@ -173,7 +174,9 @@ export function SiteDetailsDialog({ site, open, onOpenChange }: SiteDetailsDialo
             <Button variant="outline" onClick={() => onOpenChange(false)}>
               Close
             </Button>
-            <Button>Invite Site</Button>
+            <Button className="border-[#9b87f5] border-2 bg-white text-black hover:bg-[#f0f0f0]">
+              Express Interest
+            </Button>
           </div>
         </div>
       </DialogContent>

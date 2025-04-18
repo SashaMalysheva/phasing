@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -230,8 +229,7 @@ const SiteCard = ({ site, onClick }: { site: typeof mockSites[0], onClick: () =>
               </div>
               <Progress 
                 value={site.compatibilityScore} 
-                className="h-2 bg-purple-100" 
-                indicatorClassName="bg-[#9b87f5]"
+                className="h-2" 
               />
             </div>
           </div>
