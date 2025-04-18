@@ -16,7 +16,8 @@ import {
   Building,
   TrendingUp,
   History,
-  MapPin
+  Check,
+  X
 } from "lucide-react";
 
 interface SiteDetailsDialogProps {
@@ -28,7 +29,6 @@ interface SiteDetailsDialogProps {
 export function SiteDetailsDialog({ site, open, onOpenChange }: SiteDetailsDialogProps) {
   if (!site) return null;
 
-  // Mock data for the new metrics (in a real app, this would come from the API)
   const performanceMetrics = {
     enrollmentRate: "85%",
     screeningSuccess: "72%",
@@ -40,12 +40,6 @@ export function SiteDetailsDialog({ site, open, onOpenChange }: SiteDetailsDialo
     "Phase II Cardiology Study (2022) - Top enrolling site",
     "Phase IV Diabetes Trial (2021) - Completed ahead of schedule"
   ];
-
-  const geographicInfo = {
-    radius: "50 mile catchment area",
-    population: "2.5M total population",
-    demographics: "Diverse urban & suburban population"
-  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -84,6 +78,41 @@ export function SiteDetailsDialog({ site, open, onOpenChange }: SiteDetailsDialo
             </div>
           </div>
 
+          {/* Features Compatibility */}
+          <div className="space-y-3">
+            <h4 className="font-medium text-sm">Features Compatibility</h4>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-sm text-green-600">
+                  <Check className="h-4 w-4" />
+                  <span className="font-medium">Compatible Features</span>
+                </div>
+                <div className="space-y-1">
+                  {site.features.compatible.map((feature: string) => (
+                    <div key={feature} className="flex items-center gap-2 text-sm">
+                      <span className="capitalize">{feature.replace(/_/g, ' ')}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {site.features.incompatible && site.features.incompatible.length > 0 && (
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-sm text-red-600">
+                    <X className="h-4 w-4" />
+                    <span className="font-medium">Incompatible Features</span>
+                  </div>
+                  <div className="space-y-1">
+                    {site.features.incompatible.map((feature: string) => (
+                      <div key={feature} className="flex items-center gap-2 text-sm">
+                        <span className="capitalize">{feature.replace(/_/g, ' ')}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* Site Performance Metrics */}
           <div className="space-y-3">
             <h4 className="font-medium text-sm flex items-center gap-2">
@@ -118,25 +147,6 @@ export function SiteDetailsDialog({ site, open, onOpenChange }: SiteDetailsDialo
                   {trial}
                 </div>
               ))}
-            </div>
-          </div>
-
-          {/* Geographic Reach */}
-          <div className="space-y-3">
-            <h4 className="font-medium text-sm flex items-center gap-2">
-              <MapPin className="h-4 w-4" />
-              Geographic Reach
-            </h4>
-            <div className="p-4 rounded-lg bg-muted space-y-2">
-              <div className="text-sm">
-                <span className="font-medium">Coverage Area:</span> {geographicInfo.radius}
-              </div>
-              <div className="text-sm">
-                <span className="font-medium">Population:</span> {geographicInfo.population}
-              </div>
-              <div className="text-sm">
-                <span className="font-medium">Demographics:</span> {geographicInfo.demographics}
-              </div>
             </div>
           </div>
 
