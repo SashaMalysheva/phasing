@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { format } from "date-fns";
@@ -45,7 +46,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CheckCircle2, FileText, Upload, Clock, FileUp, Pen, Download, Eye } from "lucide-react";
+import { CheckCircle2, FileText, Upload, Clock, FileUp, Pen, Download, Eye, ArrowLeft } from "lucide-react";
 
 // Document types for TypeScript
 interface Document {
@@ -782,3 +783,27 @@ const ReviewDocuments = () => {
                 accept=".pdf,.docx,.xls,.xlsx"
               />
             </div>
+            
+            <div className="flex justify-end space-x-2 pt-4">
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={() => setIsUploadOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button 
+                type="submit"
+                className="bg-[#6E59A5] hover:bg-[#8B5CF6]"
+              >
+                Upload
+              </Button>
+            </div>
+          </form>
+        </SheetContent>
+      </Sheet>
+    </div>
+  );
+};
+
+export default ReviewDocuments;
