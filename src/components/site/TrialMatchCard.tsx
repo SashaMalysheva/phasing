@@ -1,4 +1,3 @@
-
 import React from "react";
 import { FileText, Users, Building, CheckCircle } from "lucide-react";
 import { 
@@ -77,8 +76,9 @@ export const TrialMatchCard = ({ trial, getScoreIcon }: TrialMatchCardProps) => 
                 View Protocol
               </Button>
               <Button 
+                variant="outline"
                 size="sm" 
-                className="bg-[#8B5CF6] hover:bg-[#7C3AED] text-white"
+                className="text-gray-600 border-[#8B5CF6] hover:bg-gray-100"
               >
                 Express Interest
               </Button>
@@ -89,4 +89,3 @@ export const TrialMatchCard = ({ trial, getScoreIcon }: TrialMatchCardProps) => 
     />
   );
 };
-
