@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { PlusCircle, FileText, Users, Clock, ArrowRight } from "lucide-react";
-import { Card } from "@/components/ui/card";
+import { PlusCircle, FileText, Users, Clock } from "lucide-react";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { getSponsorDetails, getSponsorPendingInvitations } from "@/lib/api";
@@ -70,7 +70,7 @@ const SponsorDashboard = () => {
       
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-black">Sponsor Dashboard</h1>
+          <h1 className="text-3xl font-bold">Sponsor Dashboard</h1>
           <p className="text-muted-foreground">Welcome, {user?.name || 'Sponsor'}</p>
         </div>
         
@@ -82,7 +82,7 @@ const SponsorDashboard = () => {
               className="flex items-center gap-2"
             >
               <span>Pending Invitations</span>
-              <span className="flex items-center justify-center rounded-full bg-black w-5 h-5 text-xs text-white">
+              <span className="inline-flex items-center justify-center rounded-full bg-primary w-6 h-6 text-xs text-primary-foreground">
                 {invitationsData.total_count}
               </span>
             </Button>
@@ -94,7 +94,7 @@ const SponsorDashboard = () => {
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-semibold">Your Trials</h2>
           <Link to="/sponsor/trials/create">
-            <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED] text-white">
+            <Button className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700">
               <PlusCircle className="mr-2 h-4 w-4" /> Create New Trial
             </Button>
           </Link>
@@ -116,54 +116,40 @@ const SponsorDashboard = () => {
                 key={trial.id}
                 trialId={trial.id}
                 trigger={
-                  <Card key={trial.id} className="p-6 hover:bg-gray-50/50 transition-all duration-200 cursor-pointer border border-gray-100">
-                    <div className="space-y-4">
-                      <div className="flex items-start justify-between">
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-3">
-                            <h3 className="text-lg font-semibold text-gray-900">{trial.name}</h3>
-                            <TrialStatusBadge status={trial.status} />
-                          </div>
-                          <p className="text-sm text-gray-600">{trial.sites.length} {trial.sites.length === 1 ? 'site' : 'sites'} participating</p>
+                  <Card key={trial.id} className="p-6 hover:bg-gray-50/50 transition-all duration-200 cursor-pointer">
+                    <div className="flex items-start justify-between">
+                      <div className="space-y-1 flex-grow">
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-lg font-semibold text-gray-900">{trial.name}</h3>
+                          <TrialStatusBadge status={trial.status} />
                         </div>
+                        <p className="text-gray-600">{trial.sites.length} {trial.sites.length === 1 ? 'site' : 'sites'} participating</p>
                       </div>
+                    </div>
 
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center text-sm text-gray-600">
+                    <div className="mt-4 flex items-center justify-between">
+                      <div className="flex items-center text-gray-600">
+                        {getTrialIcon(trial.status)}
+                        <span className="ml-2">
                           {trial.status === "enrollment" && (
-                            <div className="flex items-center gap-2">
-                              <Users className="h-4 w-4 text-[#8B5CF6]" />
-                              <span>
-                                {trial.participants_count} enrolled
-                                {trial.target && <> / {trial.target} target</>}
-                              </span>
-                            </div>
+                            <>
+                              {trial.participants_count} enrolled
+                              {trial.target && <> / {trial.target} target</>}
+                            </>
                           )}
-                          {trial.status === "document_review" && (
-                            <div className="flex items-center gap-2">
-                              <FileText className="h-4 w-4 text-[#8B5CF6]" />
-                              <span>Document review in progress</span>
-                            </div>
-                          )}
-                          {trial.status === "idle" && (
-                            <div className="flex items-center gap-2">
-                              <Clock className="h-4 w-4 text-[#8B5CF6]" />
-                              <span>No active recruitment</span>
-                            </div>
-                          )}
-                        </div>
-                        <Button 
-                          variant="ghost"
-                          className="text-[#8B5CF6] hover:text-[#7C3AED] hover:bg-purple-50 gap-2"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleViewTrialDetails(trial.id);
-                          }}
-                        >
-                          Find Sites
-                          <ArrowRight className="h-4 w-4" />
-                        </Button>
+                          {trial.status === "document_review" && "Document review in progress"}
+                          {trial.status === "idle" && "No active recruitment"}
+                        </span>
                       </div>
+                      <Button 
+                        variant="outline" 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleViewTrialDetails(trial.id);
+                        }}
+                      >
+                        Find Sites
+                      </Button>
                     </div>
                   </Card>
                 }
