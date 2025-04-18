@@ -10,7 +10,14 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, XCircle, Users, Building, Map } from "lucide-react";
+import { 
+  CheckCircle, 
+  Users, 
+  Building,
+  TrendingUp,
+  History,
+  MapPin
+} from "lucide-react";
 
 interface SiteDetailsDialogProps {
   open: boolean;
@@ -20,6 +27,25 @@ interface SiteDetailsDialogProps {
 
 export function SiteDetailsDialog({ site, open, onOpenChange }: SiteDetailsDialogProps) {
   if (!site) return null;
+
+  // Mock data for the new metrics (in a real app, this would come from the API)
+  const performanceMetrics = {
+    enrollmentRate: "85%",
+    screeningSuccess: "72%",
+    patientRetention: "94%"
+  };
+
+  const previousTrials = [
+    "Phase III Oncology Trial (2023) - 98% retention rate",
+    "Phase II Cardiology Study (2022) - Top enrolling site",
+    "Phase IV Diabetes Trial (2021) - Completed ahead of schedule"
+  ];
+
+  const geographicInfo = {
+    radius: "50 mile catchment area",
+    population: "2.5M total population",
+    demographics: "Diverse urban & suburban population"
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -58,52 +84,58 @@ export function SiteDetailsDialog({ site, open, onOpenChange }: SiteDetailsDialo
             </div>
           </div>
 
-          {/* Features */}
+          {/* Site Performance Metrics */}
           <div className="space-y-3">
-            <h4 className="font-medium text-sm">Features</h4>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <h5 className="text-sm font-medium mb-2">Compatible</h5>
-                <ul className="space-y-1">
-                  {site.features.compatible.map((feature: string) => (
-                    <li key={feature} className="text-sm flex items-center">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      {feature.replace(/_/g, ' ')}
-                    </li>
-                  ))}
-                </ul>
+            <h4 className="font-medium text-sm flex items-center gap-2">
+              <TrendingUp className="h-4 w-4" />
+              Site Performance Metrics
+            </h4>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="p-3 rounded-lg bg-muted">
+                <div className="text-sm font-medium">Enrollment Rate</div>
+                <div className="text-lg font-bold text-primary">{performanceMetrics.enrollmentRate}</div>
               </div>
-              {site.features.incompatible.length > 0 && (
-                <div>
-                  <h5 className="text-sm font-medium mb-2">Incompatible</h5>
-                  <ul className="space-y-1">
-                    {site.features.incompatible.map((feature: string) => (
-                      <li key={feature} className="text-sm flex items-center">
-                        <XCircle className="h-4 w-4 text-destructive mr-2" />
-                        {feature.replace(/_/g, ' ')}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              <div className="p-3 rounded-lg bg-muted">
+                <div className="text-sm font-medium">Screening Success</div>
+                <div className="text-lg font-bold text-primary">{performanceMetrics.screeningSuccess}</div>
+              </div>
+              <div className="p-3 rounded-lg bg-muted">
+                <div className="text-sm font-medium">Patient Retention</div>
+                <div className="text-lg font-bold text-primary">{performanceMetrics.patientRetention}</div>
+              </div>
             </div>
           </div>
 
-          {/* Patient Stats */}
+          {/* Previous Trial Experience */}
           <div className="space-y-3">
-            <h4 className="font-medium text-sm">Patient Statistics</h4>
-            <div>
-              <div className="mb-2">
-                <span className="text-sm">Eligible Patients: </span>
-                <span className="font-medium">{site.eligiblePatients}/{site.totalPatients}</span>
+            <h4 className="font-medium text-sm flex items-center gap-2">
+              <History className="h-4 w-4" />
+              Previous Trial Experience
+            </h4>
+            <div className="space-y-2">
+              {previousTrials.map((trial, index) => (
+                <div key={index} className="p-3 rounded-lg bg-muted text-sm">
+                  {trial}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Geographic Reach */}
+          <div className="space-y-3">
+            <h4 className="font-medium text-sm flex items-center gap-2">
+              <MapPin className="h-4 w-4" />
+              Geographic Reach
+            </h4>
+            <div className="p-4 rounded-lg bg-muted space-y-2">
+              <div className="text-sm">
+                <span className="font-medium">Coverage Area:</span> {geographicInfo.radius}
               </div>
-              <div className="space-y-2">
-                {site.rejectionReasons.map((reason: any) => (
-                  <div key={reason.reason} className="flex justify-between text-sm">
-                    <span>{reason.reason.replace(/_/g, ' ')}</span>
-                    <span className="text-muted-foreground">{reason.percentage}%</span>
-                  </div>
-                ))}
+              <div className="text-sm">
+                <span className="font-medium">Population:</span> {geographicInfo.population}
+              </div>
+              <div className="text-sm">
+                <span className="font-medium">Demographics:</span> {geographicInfo.demographics}
               </div>
             </div>
           </div>
