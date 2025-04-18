@@ -1,3 +1,4 @@
+
 import React from "react";
 import { FileText, Users, Building, CheckCircle } from "lucide-react";
 import { 
@@ -52,7 +53,7 @@ export const TrialMatchCard = ({ trial, getScoreIcon }: TrialMatchCardProps) => 
               </div>
               <Badge 
                 variant={compatibilityScore === 100 ? "default" : compatibilityScore >= 70 ? "secondary" : "destructive"}
-                className="bg-[#9b87f5] hover:bg-[#8B5CF6]"
+                className="bg-[#9b87f5] hover:bg-[#8B5CF6] text-white"
               >
                 {compatibilityScore}% Match
               </Badge>
@@ -71,16 +72,16 @@ export const TrialMatchCard = ({ trial, getScoreIcon }: TrialMatchCardProps) => 
           
           <CardFooter className="border-t py-3 px-6 bg-gray-50/50">
             <div className="flex w-full justify-between items-center">
-              <Button variant="outline" size="sm" className="text-gray-600">
-                <FileText className="h-4 w-4 mr-2" />
-                View Protocol
-              </Button>
               <Button 
                 variant="outline"
                 size="sm" 
                 className="text-gray-600 border-[#8B5CF6] hover:bg-gray-100"
               >
                 Express Interest
+              </Button>
+              <Button variant="outline" size="sm" className="text-gray-600">
+                <FileText className="h-4 w-4 mr-2" />
+                View Protocol
               </Button>
             </div>
           </CardFooter>
