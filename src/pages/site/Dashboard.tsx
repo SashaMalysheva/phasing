@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { SearchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card"; // Adding the missing Card import
+import { Card } from "@/components/ui/card";
 import { useAuth } from "@/context/AuthContext";
 import { getSiteAnalytics, getSitePendingInvitations, getSiteTrials } from "@/lib/api";
 import PendingInvitationsModal from "@/components/site/PendingInvitationsModal";
@@ -126,7 +126,7 @@ const SiteDashboard = () => {
           )}
           
           <Link to="/site/trials/find">
-            <Button className="bg-[#9b87f5] hover:bg-[#8B5CF6]">
+            <Button className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white">
               <SearchIcon className="mr-2 h-4 w-4" /> Find Matching Trials
             </Button>
           </Link>
