@@ -2,12 +2,12 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { findMatchingTrials } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent } from "@/components/ui/card";
-import { Search, Map, List, XCircle, AlertTriangle, CheckCircle } from "lucide-react";
+import { Search, List, XCircle, AlertTriangle, CheckCircle } from "lucide-react";
 import { TrialMatchCard } from "@/components/site/TrialMatchCard";
+import { Button } from "@/components/ui/button";
 
 const FindMatchingTrials = () => {
   const { user } = useAuth();
@@ -32,27 +32,6 @@ const FindMatchingTrials = () => {
           <p className="text-muted-foreground mt-1">
             Discover trials that match your site's capabilities and patient population
           </p>
-        </div>
-
-        <div className="flex justify-end items-center gap-4">
-          <div className="flex gap-2">
-            <Button 
-              variant="outline" 
-              size="sm"
-              className="bg-white"
-            >
-              <Map className="h-4 w-4 mr-2" />
-              Map View
-            </Button>
-            <Button 
-              variant="default" 
-              size="sm"
-              className="bg-[#9b87f5] hover:bg-[#8B5CF6]"
-            >
-              <List className="h-4 w-4 mr-2" />
-              List View
-            </Button>
-          </div>
         </div>
 
         {isLoading ? (
@@ -97,7 +76,6 @@ const FindMatchingTrials = () => {
                 ))}
               </div>
             </TabsContent>
-          
             
             <TabsContent value="high">
               <div className="grid grid-cols-1 gap-4">
