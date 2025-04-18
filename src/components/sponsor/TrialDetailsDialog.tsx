@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Dialog,
@@ -34,6 +33,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Target, CalendarDays } from "lucide-react";
 
 interface TrialDetailsDialogProps {
   trialId: string;
@@ -143,7 +143,15 @@ const TrialDetailsDialog = ({ trialId, trigger }: TrialDetailsDialogProps) => {
         ) : trial && trialWithSites ? (
           <>
             <DialogHeader>
-              <DialogTitle className="text-xl">{trial.name}</DialogTitle>
+              <DialogTitle className="text-xl flex items-center justify-between">
+                {trial.name}
+                <div className="flex items-center gap-2 text-base font-normal text-muted-foreground">
+                  <Target className="h-4 w-4 text-purple-600" />
+                  <span>Target: </span>
+                  <span className="font-bold text-purple-700 text-lg">850</span>
+                  <span>patients</span>
+                </div>
+              </DialogTitle>
               <DialogDescription className="flex items-center gap-2">
                 <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
                   {trial.therapeutic_area}
@@ -152,10 +160,6 @@ const TrialDetailsDialog = ({ trialId, trigger }: TrialDetailsDialogProps) => {
                 <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
                   Phase {trial.phase}
                 </Badge>
-                <span className="ml-auto flex items-center gap-1">
-                  <span>🎯 Target:</span>
-                  <span className="font-semibold">{trial.enrollment_target} patients</span>
-                </span>
               </DialogDescription>
             </DialogHeader>
 
