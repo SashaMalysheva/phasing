@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Dialog,
@@ -72,16 +71,24 @@ export function SiteDetailsDialog({ site, open, onOpenChange }: SiteDetailsDialo
           {/* Staff Info */}
           <div className="space-y-3">
             <h4 className="font-medium text-sm">Staff Information</h4>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 rounded-lg bg-muted">
-                <Users className="h-4 w-4 mb-2 text-primary" />
-                <div className="text-sm font-medium">Total Staff</div>
-                <div className="text-2xl font-bold">{site.staff.total}</div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <Users className="h-4 w-4 text-primary" />
+                  <span className="text-sm font-medium">Total Staff</span>
+                  <span className="text-xl font-bold">{site.staff.total}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  <span className="text-sm font-medium">Ready Staff</span>
+                  <span className="text-xl font-bold">{site.staff.ready}</span>
+                </div>
               </div>
-              <div className="p-4 rounded-lg bg-muted">
-                <CheckCircle className="h-4 w-4 mb-2 text-green-500" />
-                <div className="text-sm font-medium">Ready Staff</div>
-                <div className="text-2xl font-bold">{site.staff.ready}</div>
+              <div className="w-1/3">
+                <Progress 
+                  value={(site.staff.ready / site.staff.total) * 100} 
+                  className="h-2" 
+                />
               </div>
             </div>
           </div>
