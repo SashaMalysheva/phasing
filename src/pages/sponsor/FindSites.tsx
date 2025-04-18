@@ -1,7 +1,7 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
@@ -247,9 +247,9 @@ const SiteCard = ({ site, onClick }: { site: typeof mockSites[0], onClick: () =>
         <div className="flex justify-between items-center mt-4 pt-4 border-t">
           <Button 
             onClick={handleInvite}
-            className="bg-[#9b87f5] hover:bg-[#8B5CF6] text-white"
+            className="border-[#9b87f5] border-2 bg-white text-black hover:bg-[#f0f0f0]"
           >
-            Invite Site
+            Express Interest
           </Button>
           <Button variant="outline" size="sm" className="text-gray-600">
             <FileText className="h-4 w-4 mr-2" />
