@@ -112,12 +112,12 @@ const Trials = () => {
                     </div>
                     
                     <div className="grid grid-cols-2 gap-3">
-                      <div className="flex justify-between p-2 bg-purple-50/30 rounded-md">
-                        <span className="text-sm text-muted-foreground">Draft</span>
+                      <div className="flex items-center justify-between p-2 bg-purple-50/30 rounded-md">
+                        <span className="text-sm text-muted-foreground mr-2">Draft</span>
                         <span className="font-medium text-[#6E59A5]">3</span>
                       </div>
-                      <div className="flex justify-between p-2 bg-purple-50/30 rounded-md">
-                        <span className="text-sm text-muted-foreground">Pending Review</span>
+                      <div className="flex items-center justify-between p-2 bg-purple-50/30 rounded-md">
+                        <span className="text-sm text-muted-foreground mr-2">Pending Review</span>
                         <span className="font-medium text-[#6E59A5]">5</span>
                       </div>
                     </div>
@@ -167,3 +167,4 @@ const Trials = () => {
 };
 
 export default Trials;
+
