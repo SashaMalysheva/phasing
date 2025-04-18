@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -9,10 +10,13 @@ import { getSponsorDetails, getSponsorPendingInvitations } from "@/lib/api";
 import PendingInvitationsModal from "@/components/sponsor/PendingInvitationsModal";
 import TrialStatusBadge from "@/components/shared/TrialStatusBadge";
 import { Skeleton } from "@/components/ui/skeleton";
+import TrialDetailsSheet from "@/components/sponsor/TrialDetailsSheet";
 
 const SponsorDashboard = () => {
   const { user } = useAuth();
   const [showInvitations, setShowInvitations] = useState(false);
+  const [selectedTrialId, setSelectedTrialId] = useState<string | null>(null);
+  const [showTrialDetails, setShowTrialDetails] = useState(false);
   
   // Fetch sponsor details
   const { data: sponsorData, isLoading: isLoadingSponsor } = useQuery({
@@ -35,6 +39,11 @@ const SponsorDashboard = () => {
     }
   }, [invitationsData]);
 
+  const handleViewTrialDetails = (trialId: string) => {
+    setSelectedTrialId(trialId);
+    setShowTrialDetails(true);
+  };
+
   const getTrialIcon = (status: string) => {
     switch (status) {
       case "enrollment":
@@ -56,6 +65,15 @@ const SponsorDashboard = () => {
           open={showInvitations}
           onClose={() => setShowInvitations(false)}
           invitations={invitationsData.pending_invitations}
+        />
+      )}
+      
+      {/* Trial Details Sheet */}
+      {selectedTrialId && (
+        <TrialDetailsSheet
+          open={showTrialDetails}
+          onOpenChange={setShowTrialDetails}
+          trialId={selectedTrialId}
         />
       )}
       
@@ -129,9 +147,12 @@ const SponsorDashboard = () => {
                       {trial.status === "idle" && "No active recruitment"}
                     </span>
                   </div>
-                  <Link to={`/sponsor/trials/${trial.id}`}>
-                    <Button variant="outline">View Details</Button>
-                  </Link>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => handleViewTrialDetails(trial.id)}
+                  >
+                    View Details
+                  </Button>
                 </div>
               </Card>
             ))}
