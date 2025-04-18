@@ -1,6 +1,7 @@
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { MapPin, Users, Send, CheckCircle2 } from "lucide-react";
+import { MapPin, Users, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -15,7 +16,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getTrialWithSites, getTrialDetails } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
-import { SiteDetailsDialog } from "./SiteDetailsDialog";
 
 interface FindSitesSheetProps {
   open: boolean;
@@ -58,8 +58,8 @@ const FindSitesSheet: React.FC<FindSitesSheetProps> = ({
   };
 
   const getCompatibilityVariant = (score: number) => {
-    if (score >= 90) return "default";
-    if (score >= 70) return "secondary";
+    if (score >= 80) return "default";
+    if (score >= 60) return "secondary";
     return "destructive";
   };
 
@@ -86,43 +86,32 @@ const FindSitesSheet: React.FC<FindSitesSheetProps> = ({
               {sitesData?.sites.map((site) => (
                 <div 
                   key={site.id} 
-                  className="border rounded-lg p-4 hover:bg-gray-50 transition-colors"
+                  className="border rounded-md p-4 hover:bg-muted/50 transition-colors"
                 >
-                  <div className="flex justify-between items-start mb-3">
+                  <div className="flex justify-between items-start mb-2">
                     <div>
                       <h4 className="font-medium">{site.name}</h4>
-                      <div className="flex items-center gap-2 text-sm text-gray-500 mt-1">
-                        <MapPin className="h-4 w-4" />
-                        {site.address}
-                      </div>
+                      <p className="text-sm text-muted-foreground">{site.description}</p>
                     </div>
                     <Badge variant={getCompatibilityVariant(site.compatibility_score)}>
-                      Match: {site.compatibility_score}%
-                      {site.compatibility_score >= 90 && (
-                        <CheckCircle2 className="h-3 w-3 ml-1" />
-                      )}
+                      {site.compatibility_score}%
                     </Badge>
                   </div>
-
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
+                  
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                    <MapPin className="h-4 w-4" />
+                    {site.address}
+                  </div>
+                  
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Users className="h-4 w-4" />
-                    <span>{site.eligible_patient_count} eligible patients</span>
+                    <span>{site.eligible_patient_count} / {site.total_patient_count} eligible patients</span>
                   </div>
 
-                  <div className="flex justify-between items-center gap-3">
-                    <SiteDetailsDialog 
-                      site={site}
-                      onInvite={handleInviteSite}
-                      trigger={
-                        <Button variant="outline" size="sm" className="flex-1">
-                          View Details
-                        </Button>
-                      }
-                    />
+                  <div className="mt-4">
                     <Button 
                       onClick={() => handleInviteSite(site.id)}
-                      size="sm"
-                      className="flex-1 bg-[#8B5CF6] hover:bg-[#7C3AED]"
+                      className="w-full bg-[#9b87f5] hover:bg-[#8B5CF6]"
                     >
                       <Send className="h-4 w-4 mr-2" />
                       Invite Site
