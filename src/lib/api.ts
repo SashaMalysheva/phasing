@@ -566,3 +566,194 @@ export const declineSiteInvitation = async (trialId: string, siteId: string) => 
   // POST /api/v1/invitations/trial-decline-site/{trial_id}/{site_id}
   return { success: true, message: "Invitation declined" };
 };
+
+// Get trial details with sites
+export const getTrialWithSites = async (trialId: string) => {
+  await simulateApiDelay();
+  
+  return {
+    sites: [
+      {
+        id: "b31ddcea-554c-42f0-9096-fd5b5c1ee137",
+        name: "American Hospital Dubai",
+        description: "Leading healthcare provider in Dubai with state-of-the-art facilities",
+        address: "19th St – Oud Metha, Dubai, UAE",
+        compatibility_score: 100,
+        eligible_patient_count: 249,
+        total_patient_count: 300,
+        rejection_reasons: {
+          age: 51
+        },
+        data_privacy_policy: true,
+        source_agreement: true,
+        sops_storage_monitoring: true,
+        eregulatory_binders: true,
+        source_templates: true,
+        iata_certification: true
+      },
+      {
+        id: "f5c3c3d9-4c4e-4c9a-8f1b-6a7b8c9d0e1f",
+        name: "Saudi German Hospital Dubai",
+        description: "Part of the largest healthcare network in the Middle East",
+        address: "Hessa St, Al Barsha 3, Dubai, UAE",
+        compatibility_score: 100,
+        eligible_patient_count: 241,
+        total_patient_count: 300,
+        rejection_reasons: {
+          age: 59
+        },
+        data_privacy_policy: true,
+        source_agreement: true,
+        sops_storage_monitoring: true,
+        eregulatory_binders: null,
+        source_templates: null,
+        iata_certification: null
+      },
+      {
+        id: "a1b2c3d4-e5f6-4a5b-8c7d-9e0f1a2b3c4d",
+        name: "King's College Hospital London – Dubai",
+        description: "World-class tertiary care hospital bringing London's medical excellence to Dubai",
+        address: "Dubai Hills, Al Khail Road, Dubai, UAE",
+        compatibility_score: 100,
+        eligible_patient_count: 247,
+        total_patient_count: 300,
+        rejection_reasons: {
+          age: 53
+        },
+        data_privacy_policy: true,
+        source_agreement: true,
+        sops_storage_monitoring: true,
+        eregulatory_binders: null,
+        source_templates: null,
+        iata_certification: null
+      },
+      {
+        id: "b2c3d4e5-f6a7-4b5c-9d0e-1f2a3b4c5d6e",
+        name: "Aster Hospital Mankhool",
+        description: "Modern healthcare facility providing comprehensive medical care",
+        address: "10th St, Al Mankhool, Bur Dubai, Dubai, UAE",
+        compatibility_score: 100,
+        eligible_patient_count: 236,
+        total_patient_count: 300,
+        rejection_reasons: {
+          age: 64
+        },
+        data_privacy_policy: true,
+        source_agreement: true,
+        sops_storage_monitoring: true,
+        eregulatory_binders: null,
+        source_templates: null,
+        iata_certification: null
+      },
+      {
+        id: "c3d4e5f6-a7b8-4c5d-0e1f-2a3b4c5d6e7f",
+        name: "Emirates Specialty Hospital",
+        description: "Specialized healthcare center in Dubai Healthcare City",
+        address: "Dubai Healthcare City, Phase 2, Dubai, UAE",
+        compatibility_score: 100,
+        eligible_patient_count: 253,
+        total_patient_count: 300,
+        rejection_reasons: {
+          age: 47
+        },
+        data_privacy_policy: true,
+        source_agreement: true,
+        sops_storage_monitoring: true,
+        eregulatory_binders: null,
+        source_templates: null,
+        iata_certification: null
+      },
+      {
+        id: "d4e5f6a7-b8c9-4d5e-1f2a-3b4c5d6e7f8a",
+        name: "Thumbay Hospital Dubai",
+        description: "Academic hospital providing advanced healthcare services",
+        address: "13th Street, Al Qusais, Dubai, UAE",
+        compatibility_score: 100,
+        eligible_patient_count: 246,
+        total_patient_count: 300,
+        rejection_reasons: {
+          age: 54
+        },
+        data_privacy_policy: true,
+        source_agreement: true,
+        sops_storage_monitoring: true,
+        eregulatory_binders: null,
+        source_templates: null,
+        iata_certification: null
+      },
+      {
+        id: "cfead04c-3c0b-459d-8fe3-24f73be33c93",
+        name: "Mediclinic City Hospital",
+        description: "Multi-specialty tertiary care hospital in Dubai Healthcare City",
+        address: "Dubai Healthcare City, Building 37, Dubai, UAE",
+        compatibility_score: 67.03296703296702,
+        eligible_patient_count: 236,
+        total_patient_count: 300,
+        rejection_reasons: {
+          age: 64
+        },
+        data_privacy_policy: true,
+        source_agreement: true,
+        sops_storage_monitoring: true,
+        eregulatory_binders: true,
+        source_templates: true,
+        iata_certification: true
+      },
+      {
+        id: "7fefaf8e-b3be-4c24-a10c-bae6746ef2ab",
+        name: "Al Zahra Hospital Dubai",
+        description: "Private multi-specialty hospital with advanced medical technology",
+        address: "Sheikh Zayed Road, Al Barsha, Dubai, UAE",
+        compatibility_score: 67.03296703296702,
+        eligible_patient_count: 242,
+        total_patient_count: 300,
+        rejection_reasons: {
+          age: 58
+        },
+        data_privacy_policy: true,
+        source_agreement: true,
+        sops_storage_monitoring: true,
+        eregulatory_binders: true,
+        source_templates: true,
+        iata_certification: true
+      },
+      {
+        id: "ea098e9a-f770-4e45-8ac8-63c98f838d49",
+        name: "Canadian Specialist Hospital",
+        description: "Leading healthcare facility providing comprehensive medical services",
+        address: "24th St, 7/1, рядом с Министерством окружающей среды и водных ресурсов, Dubai, UAE",
+        compatibility_score: 67.03296703296702,
+        eligible_patient_count: 246,
+        total_patient_count: 300,
+        rejection_reasons: {
+          age: 54
+        },
+        data_privacy_policy: true,
+        source_agreement: true,
+        sops_storage_monitoring: true,
+        eregulatory_binders: true,
+        source_templates: true,
+        iata_certification: true
+      },
+      {
+        id: "b10953e4-1590-434b-b148-223f9f5f7feb",
+        name: "Rashid Hospital",
+        description: "Major trauma center and teaching hospital in Dubai",
+        address: "315 Umm Hurair Second, Dubai, UAE",
+        compatibility_score: 50.54945054945055,
+        eligible_patient_count: 249,
+        total_patient_count: 300,
+        rejection_reasons: {
+          age: 51
+        },
+        data_privacy_policy: false,
+        source_agreement: false,
+        sops_storage_monitoring: false,
+        eregulatory_binders: false,
+        source_templates: false,
+        iata_certification: false
+      }
+    ],
+    total_count: 10
+  };
+};

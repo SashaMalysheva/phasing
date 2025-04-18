@@ -37,6 +37,9 @@ import Trials from '@/pages/site/Trials';
 // Import components
 import ProtectedRoute from '@/components/shared/ProtectedRoute';
 
+// Import the new TrialDetails page
+import TrialDetails from '@/pages/sponsor/TrialDetails';
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -69,6 +72,7 @@ const App = () => (
                       <Route path="settings" element={<SponsorSettings />} />
                       <Route path="find-sites" element={<SponsorFindSites />} />
                       <Route path="trials/create" element={<SponsorCreateTrial />} />
+                      <Route path="trials/:trialId" element={<TrialDetails />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </SponsorLayout>
