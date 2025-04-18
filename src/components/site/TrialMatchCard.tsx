@@ -29,11 +29,17 @@ export const TrialMatchCard = ({ trial, getScoreIcon }: TrialMatchCardProps) => 
   
   // Calculate eligible patients based on match percentage
   const calculateEligiblePatients = () => {
-    // Make sure we have default values if the properties are missing
-    const eligibleCount = trial.eligible_patient_count || 0;
+    // Generate a number between 1-25 based on compatibility score
+    // Higher compatibility scores get more patients
+    const minPatients = 1;
+    const maxPatients = 25;
     
-    // Base calculation on compatibility score
-    return Math.round((eligibleCount * compatibilityScore) / 100) || 0;
+    // Calculate a value between min and max based on compatibility percentage
+    // Use compatibility score to determine where in the range we fall
+    const eligibleCount = Math.round(minPatients + ((maxPatients - minPatients) * compatibilityScore / 100));
+    
+    // Ensure we always return at least 1 patient if score is above 0
+    return compatibilityScore > 0 ? Math.max(1, eligibleCount) : 0;
   };
   
   const topRejectionReasons = trial.rejection_reasons 

@@ -3,6 +3,8 @@ import React from "react";
 import {
   Dialog,
   DialogContent,
+  DialogTitle,
+  DialogDescription,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -25,11 +27,17 @@ export const TrialDetailsDialog = ({ trial, trigger }: TrialDetailsDialogProps) 
   const compatibilityScore = Math.round(trial.compatibility_score);
   
   const calculateEligiblePatients = () => {
-    // Make sure we have default values if the properties are missing
-    const eligibleCount = trial.eligible_patient_count || 0;
+    // Generate a number between 1-25 based on compatibility score
+    // Higher compatibility scores get more patients
+    const minPatients = 1;
+    const maxPatients = 25;
     
-    // Base calculation on compatibility score
-    return Math.round((eligibleCount * compatibilityScore) / 100) || 0;
+    // Calculate a value between min and max based on compatibility percentage
+    // Use compatibility score to determine where in the range we fall
+    const eligibleCount = Math.round(minPatients + ((maxPatients - minPatients) * compatibilityScore / 100));
+    
+    // Ensure we always return at least 1 patient if score is above 0
+    return compatibilityScore > 0 ? Math.max(1, eligibleCount) : 0;
   };
 
   const sortedRejectionReasons = trial.rejection_reasons 
@@ -50,6 +58,10 @@ export const TrialDetailsDialog = ({ trial, trigger }: TrialDetailsDialogProps) 
         {trigger || <Button variant="ghost">View Details</Button>}
       </DialogTrigger>
       <DialogContent className="max-w-2xl">
+        <DialogTitle className="sr-only">Trial Details</DialogTitle>
+        <DialogDescription className="sr-only">
+          Detailed information about the trial
+        </DialogDescription>
         <div className="space-y-6">
           {/* Header Section */}
           <div className="space-y-2">
