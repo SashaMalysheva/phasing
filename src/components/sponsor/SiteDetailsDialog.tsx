@@ -147,12 +147,12 @@ export function SiteDetailsDialog({ site, open, onOpenChange }: SiteDetailsDialo
               <History className="h-4 w-4" />
               Previous Trial Experience
             </h4>
-            <div className="space-y-3">
+            <div className="flex gap-4">
               {previousTrials.map((trial, index) => (
-                <div key={index} className="p-4 rounded-lg bg-muted">
-                  <div className="font-medium">{trial.name}</div>
-                  <div className="text-sm text-muted-foreground">{trial.year}</div>
-                  <div className="text-sm mt-1">{trial.performance}</div>
+                <div key={index} className="flex items-center gap-2 flex-1">
+                  <div className="text-sm font-medium">{trial.name}</div>
+                  <div className="text-xs text-muted-foreground">{trial.year}</div>
+                  <div className="text-sm">{trial.performance}</div>
                 </div>
               ))}
             </div>
