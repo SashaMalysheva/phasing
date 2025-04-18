@@ -1,22 +1,17 @@
 
 import React from "react";
-import { FileText, CheckCircle, AlertTriangle, XCircle } from "lucide-react";
+import { FileText, Users, Microscope } from "lucide-react";
 import { 
   Card, 
-  CardContent, 
+  CardContent,
   CardHeader, 
   CardTitle,
   CardFooter
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { TrialDetailsDialog } from "./TrialDetailsDialog";
 
 interface TrialMatchCardProps {
@@ -27,111 +22,77 @@ interface TrialMatchCardProps {
 export const TrialMatchCard = ({ trial, getScoreIcon }: TrialMatchCardProps) => {
   const compatibilityScore = Math.round(trial.compatibility_score);
   
-  // Calculate eligible patients based on match percentage
-  const calculateEligiblePatients = () => {
-    // Generate a number between 1-25 based on compatibility score
-    // Higher compatibility scores get more patients
-    const minPatients = 1;
-    const maxPatients = 25;
-    
-    // Calculate a value between min and max based on compatibility percentage
-    // Use compatibility score to determine where in the range we fall
-    const eligibleCount = Math.round(minPatients + ((maxPatients - minPatients) * compatibilityScore / 100));
-    
-    // Ensure we always return at least 1 patient if score is above 0
-    return compatibilityScore > 0 ? Math.max(1, eligibleCount) : 0;
-  };
-  
-  const topRejectionReasons = trial.rejection_reasons 
-    ? Object.entries(trial.rejection_reasons)
-        .sort((a, b) => (b[1] as number) - (a[1] as number))
-        .slice(0, 3)
-    : [];
-
-  const getStatusIcon = (reason: string, count: number) => {
-    if (count > 200) return <XCircle className="h-3.5 w-3.5 text-red-500" />;
-    if (count > 100) return <AlertTriangle className="h-3.5 w-3.5 text-amber-500" />;
-    return <CheckCircle className="h-3.5 w-3.5 text-green-500" />;
-  };
-  
   return (
     <TrialDetailsDialog
       trial={trial}
       trigger={
-        <Card className="overflow-hidden border-gray-200 hover:bg-gray-50/50 transition-all duration-200 cursor-pointer">
-          <CardHeader className="pb-2 space-y-2">
+        <Card className="overflow-hidden hover:shadow-md transition-all duration-200 cursor-pointer border border-gray-100">
+          <CardHeader className="pb-4">
             <div className="flex justify-between items-start gap-4">
               <div className="space-y-1">
-                <CardTitle className="text-base font-medium text-gray-900">{trial.name}</CardTitle>
-                <p className="text-sm text-gray-500">{trial.description}</p>
+                <CardTitle className="text-xl text-gray-900">{trial.name}</CardTitle>
+                <p className="text-sm text-muted-foreground">{trial.description}</p>
+                <div className="flex gap-6 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-2">
+                    <Users className="h-4 w-4" />
+                    <span>Eligible: {trial.eligible_patients || 0}/{trial.total_patients || 300}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Microscope className="h-4 w-4" />
+                    <span>Features: {trial.compatible_features?.length || 0}</span>
+                  </div>
+                </div>
               </div>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-base font-medium text-gray-700">
-                        Match: {compatibilityScore}%
-                      </span>
-                      {getScoreIcon(compatibilityScore)}
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p className="text-xs">Trial Match Score</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <Badge 
+                variant={compatibilityScore === 100 ? "default" : compatibilityScore >= 70 ? "secondary" : "destructive"}
+                className="bg-[#9b87f5] hover:bg-[#8B5CF6]"
+              >
+                {compatibilityScore}% Match
+              </Badge>
             </div>
           </CardHeader>
           
-          <CardContent className="pt-3 pb-2">
-            <div className="space-y-3">
+          <CardContent className="pb-6">
+            <div className="space-y-4">
               <div>
-                <div className="flex items-center justify-between text-sm text-gray-600 mb-1">
-                  <span>Eligible Patients</span>
-                  <span className="font-medium">
-                    {calculateEligiblePatients()}
-                  </span>
+                <div className="flex justify-between text-sm mb-1">
+                  <span className="text-muted-foreground">Compatibility</span>
+                  <span className="font-medium text-[#6E59A5]">{compatibilityScore}%</span>
                 </div>
+                <Progress value={compatibilityScore} className="h-2 bg-purple-100" />
               </div>
-              
-              <Separator className="my-2" />
-              
-              <div className="grid gap-3">
-                {topRejectionReasons.length > 0 && (
+
+              {trial.rejection_reasons && Object.keys(trial.rejection_reasons).length > 0 && (
+                <>
+                  <Separator className="my-4" />
                   <div>
-                    <h4 className="text-xs font-medium text-gray-500 mb-2">
+                    <h4 className="text-sm font-medium text-gray-700 mb-2">
                       Top Rejection Factors
                     </h4>
                     <div className="flex flex-wrap gap-2">
-                      {topRejectionReasons.map(([reason, count]) => (
-                        <TooltipProvider key={reason}>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Badge 
-                                variant="outline"
-                                className="bg-white text-gray-700 hover:bg-gray-50 border-gray-200"
-                              >
-                                {getStatusIcon(reason, count as number)}
-                                <span className="ml-1 capitalize">{reason.replace(/_/g, ' ')}</span>
-                              </Badge>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p className="text-xs">{String(count)} patients rejected due to {reason.replace(/_/g, ' ')}</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      ))}
+                      {Object.entries(trial.rejection_reasons)
+                        .sort(([, a], [, b]) => (b as number) - (a as number))
+                        .slice(0, 3)
+                        .map(([reason, count]) => (
+                          <Badge 
+                            key={reason}
+                            variant="outline"
+                            className="bg-white border-gray-200"
+                          >
+                            {reason.replace(/_/g, ' ')} ({count as number})
+                          </Badge>
+                        ))}
                     </div>
                   </div>
-                )}
-              </div>
+                </>
+              )}
             </div>
           </CardContent>
           
           <CardFooter className="border-t py-3 px-6 bg-gray-50/50">
             <div className="flex w-full justify-between items-center">
               <Button variant="outline" size="sm" className="text-gray-600">
-                <FileText className="h-4 w-4 mr-1.5" />
+                <FileText className="h-4 w-4 mr-2" />
                 View Protocol
               </Button>
               <Button 
