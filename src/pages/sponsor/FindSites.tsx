@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -133,6 +132,17 @@ const mockSites = [
 ];
 
 const SiteCard = ({ site }: { site: typeof mockSites[0] }) => {
+  const [isInviting, setIsInviting] = useState(false);
+
+  const handleInviteSite = () => {
+    setIsInviting(true);
+    // TODO: Implement actual site invitation logic
+    setTimeout(() => {
+      setIsInviting(false);
+      // You might want to show a toast or update UI to indicate invitation sent
+    }, 2000);
+  };
+
   return (
     <Card className="mb-4">
       <CardHeader className="pb-2">
@@ -197,8 +207,20 @@ const SiteCard = ({ site }: { site: typeof mockSites[0] }) => {
           </div>
         </div>
 
-        <div className="pt-2">
-          <Button className="w-full">Send Invitation</Button>
+        <div className="pt-2 flex justify-between items-center">
+          <Button 
+            variant="outline" 
+            className="w-full mr-2"
+          >
+            Send Invitation
+          </Button>
+          <Button 
+            onClick={handleInviteSite} 
+            disabled={isInviting}
+            className="w-full"
+          >
+            {isInviting ? "Inviting..." : "Invite Site"}
+          </Button>
         </div>
       </CardContent>
     </Card>
