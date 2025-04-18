@@ -192,43 +192,37 @@ const SiteCard = ({ site, onClick }: { site: typeof mockSites[0], onClick: () =>
       onClick={onClick}
     >
       <CardContent className="p-6">
-        <div className="flex justify-between items-start mb-4">
-          <div>
-            <h3 className="text-lg font-semibold mb-1">{site.name}</h3>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Building className="h-4 w-4" />
-              <span>{site.eligiblePatients}/{site.totalPatients} eligible patients</span>
+        <div className="flex justify-between items-start">
+          <div className="space-y-4 flex-1">
+            <div>
+              <h3 className="text-lg font-semibold mb-1">{site.name}</h3>
+              <div className="flex items-center gap-6 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <Users className="h-4 w-4" />
+                  <span>Ready Staff: {site.staff.ready}/{site.staff.total}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4" />
+                  <span>Compatible Features: {site.features.compatible.length}</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div className="flex justify-between mb-1">
+                <span className="text-sm font-medium">Compatibility</span>
+                <span className="text-sm font-medium">{site.compatibilityScore}%</span>
+              </div>
+              <Progress value={site.compatibilityScore} className="h-2" />
             </div>
           </div>
+          
           <Badge 
             variant={site.compatibilityScore === 100 ? "default" : site.compatibilityScore >= 70 ? "secondary" : "destructive"}
-            className="bg-[#9b87f5] hover:bg-[#8B5CF6]"
+            className="ml-4 bg-[#9b87f5] hover:bg-[#8B5CF6]"
           >
             {site.compatibilityScore}% Match
           </Badge>
-        </div>
-
-        <div className="space-y-4">
-          <div>
-            <div className="flex justify-between mb-1">
-              <span className="text-sm font-medium">Compatibility</span>
-              <span className="text-sm font-medium">{site.compatibilityScore}%</span>
-            </div>
-            <Progress value={site.compatibilityScore} className="h-2" />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="p-3 rounded-lg bg-muted/50">
-              <Users className="h-4 w-4 mb-2 text-muted-foreground" />
-              <div className="text-sm font-medium">Ready Staff</div>
-              <div className="text-lg font-semibold">{site.staff.ready}/{site.staff.total}</div>
-            </div>
-            <div className="p-3 rounded-lg bg-muted/50">
-              <CheckCircle className="h-4 w-4 mb-2 text-muted-foreground" />
-              <div className="text-sm font-medium">Compatible Features</div>
-              <div className="text-lg font-semibold">{site.features.compatible.length}</div>
-            </div>
-          </div>
         </div>
       </CardContent>
     </Card>
