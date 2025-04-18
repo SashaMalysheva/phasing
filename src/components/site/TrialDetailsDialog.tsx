@@ -41,6 +41,12 @@ export const TrialDetailsDialog = ({ trial, trigger }: TrialDetailsDialogProps) 
 
   const features = getFeatures();
 
+  const mockExclusionReasons = [
+    { reason: 'Lab Values', count: 12 },
+    { reason: 'Age', count: 8 },
+    { reason: 'Diagnosis Stage', count: 5 }
+  ];
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -69,6 +75,18 @@ export const TrialDetailsDialog = ({ trial, trigger }: TrialDetailsDialogProps) 
           </div>
 
           <Separator />
+
+          {/* Eligible Patients Section */}
+          <div className="bg-gray-50 rounded-lg p-4">
+            <h3 className="font-medium text-base mb-2 flex items-center gap-2">
+              <Users className="h-4 w-4" />
+              Eligible Patients
+            </h3>
+            <div className="flex items-center gap-2">
+              <ScrollText className="h-4 w-4 text-gray-500" />
+              <span className="text-sm font-medium">23 patients</span>
+            </div>
+          </div>
 
           {/* Features Section */}
           <div>
@@ -102,6 +120,19 @@ export const TrialDetailsDialog = ({ trial, trigger }: TrialDetailsDialogProps) 
             </div>
           </div>
 
+          {/* Exclusion Reasons Section */}
+          <div>
+            <h3 className="font-medium text-base mb-4">Most Common Exclusion Reasons</h3>
+            <div className="space-y-2">
+              {mockExclusionReasons.map((item) => (
+                <div key={item.reason} className="flex justify-between text-sm">
+                  <span>• {item.reason}</span>
+                  <span>{item.count} patients excluded</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Footer Actions */}
           <div className="flex items-center justify-between pt-2">
             <Button variant="outline" className="text-gray-600">
@@ -120,4 +151,3 @@ export const TrialDetailsDialog = ({ trial, trigger }: TrialDetailsDialogProps) 
     </Dialog>
   );
 };
-
