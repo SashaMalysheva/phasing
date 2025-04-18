@@ -21,6 +21,7 @@ import {
   BookOpen,
   Search,
   LogOut,
+  Square,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
@@ -94,7 +95,13 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({ children }) => {
       <div className="flex min-h-screen w-full">
         <Sidebar>
           <SidebarHeader className="flex items-center justify-between p-4">
-            <div className="font-bold text-lg">Phasing.ai</div>
+            <div className="flex items-center gap-2">
+              <div className="flex -space-x-1">
+                <Square className="h-5 w-5 text-primary fill-primary" />
+                <Square className="h-5 w-5 text-primary/80 fill-primary/80" />
+              </div>
+              <div className="font-bold text-lg">Phasing.ai</div>
+            </div>
             <SidebarTrigger />
           </SidebarHeader>
           
@@ -140,7 +147,13 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({ children }) => {
         <SidebarInset>
           <div className="flex md:hidden items-center p-4 border-b">
             <SidebarTrigger />
-            <div className="font-bold text-lg mx-auto">Phasing.ai</div>
+            <div className="flex items-center gap-2 mx-auto">
+              <div className="flex -space-x-1">
+                <Square className="h-5 w-5 text-primary fill-primary" />
+                <Square className="h-5 w-5 text-primary/80 fill-primary/80" />
+              </div>
+              <div className="font-bold text-lg">Phasing.ai</div>
+            </div>
           </div>
           
           <main className="flex-1 p-4 md:p-8">
