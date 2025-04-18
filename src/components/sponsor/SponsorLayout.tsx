@@ -48,11 +48,9 @@ const SponsorLayout: React.FC<SponsorLayoutProps> = ({ children }) => {
         <Sidebar>
           <SidebarHeader className="flex items-center justify-between p-4">
             <div className="flex items-center gap-2">
-              <div className="flex -space-x-1">
-                <div className="relative w-5 h-5">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] rounded-sm transform rotate-45 opacity-80"></div>
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] rounded-sm transform -rotate-45 opacity-100"></div>
-                </div>
+              <div className="relative h-6 w-5">
+                <div className="absolute top-0 right-0 w-5 h-3 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] rounded-sm"></div>
+                <div className="absolute bottom-0 right-0 w-4 h-3 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] rounded-sm"></div>
               </div>
               <div className="font-bold text-lg">Phasing.ai</div>
             </div>
@@ -135,11 +133,9 @@ const SponsorLayout: React.FC<SponsorLayoutProps> = ({ children }) => {
           <div className="flex md:hidden items-center p-4 border-b">
             <SidebarTrigger />
             <div className="flex items-center gap-2 mx-auto">
-              <div className="flex -space-x-1">
-                <div className="relative w-5 h-5">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] rounded-sm transform rotate-45 opacity-80"></div>
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] rounded-sm transform -rotate-45 opacity-100"></div>
-                </div>
+              <div className="relative h-6 w-5">
+                <div className="absolute top-0 right-0 w-5 h-3 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] rounded-sm"></div>
+                <div className="absolute bottom-0 right-0 w-4 h-3 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] rounded-sm"></div>
               </div>
               <div className="font-bold text-lg">Phasing.ai</div>
             </div>
