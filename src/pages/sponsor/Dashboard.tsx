@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -10,6 +9,7 @@ import { getSponsorDetails, getSponsorPendingInvitations } from "@/lib/api";
 import PendingInvitationsModal from "@/components/sponsor/PendingInvitationsModal";
 import TrialStatusBadge from "@/components/shared/TrialStatusBadge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Card } from "@/components/ui/card";
 
 const SponsorDashboard = () => {
   const { user } = useAuth();
@@ -39,13 +39,13 @@ const SponsorDashboard = () => {
   const getTrialIcon = (status: string) => {
     switch (status) {
       case "enrollment":
-        return <Users className="h-5 w-5 text-blue-500" />;
+        return <Users className="h-5 w-5 text-[#9b87f5]" />;
       case "document_review":
-        return <FileText className="h-5 w-5 text-amber-500" />;
+        return <FileText className="h-5 w-5 text-[#9b87f5]" />;
       case "idle":
-        return <Clock className="h-5 w-5 text-gray-500" />;
+        return <Clock className="h-5 w-5 text-[#9b87f5]" />;
       default:
-        return <FileText className="h-5 w-5 text-gray-500" />;
+        return <FileText className="h-5 w-5 text-[#9b87f5]" />;
     }
   };
 
@@ -83,8 +83,8 @@ const SponsorDashboard = () => {
       </div>
       
       {/* Trials section */}
-      <div className="mb-8">
-        <div className="flex justify-between items-center mb-4">
+      <div className="space-y-6">
+        <div className="flex justify-between items-center">
           <h2 className="text-2xl font-semibold">Your Trials</h2>
           <Link to="/sponsor/trials/create">
             <Button className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700">
@@ -94,40 +94,32 @@ const SponsorDashboard = () => {
         </div>
         
         {isLoadingSponsor ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid gap-4">
             {[1, 2, 3].map((i) => (
-              <Card key={i} className="hover:shadow-md transition-shadow">
-                <CardHeader className="pb-2">
-                  <Skeleton className="h-6 w-3/4 mb-2" />
-                  <Skeleton className="h-4 w-1/2" />
-                </CardHeader>
-                <CardContent>
-                  <Skeleton className="h-4 w-full mb-2" />
-                  <Skeleton className="h-4 w-2/3" />
-                </CardContent>
-                <CardFooter>
-                  <Skeleton className="h-9 w-full" />
-                </CardFooter>
+              <Card key={i} className="p-6">
+                <Skeleton className="h-6 w-3/4 mb-2" />
+                <Skeleton className="h-4 w-1/2" />
               </Card>
             ))}
           </div>
         ) : sponsorData?.trials && sponsorData.trials.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid gap-4">
             {sponsorData.trials.map((trial) => (
-              <Card key={trial.id} className="hover:shadow-md transition-shadow">
-                <CardHeader className="pb-2">
-                  <div className="flex justify-between items-start">
-                    <CardTitle className="text-xl">{trial.name}</CardTitle>
-                    <TrialStatusBadge status={trial.status} />
+              <Card key={trial.id} className="p-6 hover:bg-gray-50/50 transition-all duration-200">
+                <div className="flex items-start justify-between">
+                  <div className="space-y-1 flex-grow">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-semibold text-gray-900">{trial.name}</h3>
+                      <TrialStatusBadge status={trial.status} />
+                    </div>
+                    <p className="text-gray-600">{trial.sites.length} {trial.sites.length === 1 ? 'site' : 'sites'} participating</p>
                   </div>
-                  <CardDescription>
-                    {trial.sites.length} {trial.sites.length === 1 ? 'site' : 'sites'} participating
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center gap-2">
+                </div>
+
+                <div className="mt-4 flex items-center justify-between">
+                  <div className="flex items-center text-gray-600">
                     {getTrialIcon(trial.status)}
-                    <span>
+                    <span className="ml-2">
                       {trial.status === "enrollment" && (
                         <>
                           {trial.participants_count} enrolled
@@ -138,25 +130,23 @@ const SponsorDashboard = () => {
                       {trial.status === "idle" && "No active recruitment"}
                     </span>
                   </div>
-                </CardContent>
-                <CardFooter>
-                  <Link to={`/sponsor/trials/${trial.id}`} className="w-full">
-                    <Button variant="outline" className="w-full">View Details</Button>
+                  <Link to={`/sponsor/trials/${trial.id}`}>
+                    <Button variant="outline">View Details</Button>
                   </Link>
-                </CardFooter>
+                </div>
               </Card>
             ))}
           </div>
         ) : (
-          <Card>
-            <CardContent className="flex flex-col items-center justify-center py-10">
-              <p className="text-muted-foreground text-center mb-4">
+          <Card className="p-8">
+            <div className="text-center">
+              <p className="text-muted-foreground mb-4">
                 You don't have any trials yet.
               </p>
               <Link to="/sponsor/trials/create">
                 <Button>Create Your First Trial</Button>
               </Link>
-            </CardContent>
+            </div>
           </Card>
         )}
       </div>
