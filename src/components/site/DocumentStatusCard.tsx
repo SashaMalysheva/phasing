@@ -1,8 +1,7 @@
 
 import React from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { ArrowRight, FileCheck } from "lucide-react";
-import { Link } from "react-router-dom";
+import { FileCheck } from "lucide-react";
 
 interface DocumentStatusCardProps {
   trialCount: number;
@@ -58,15 +57,6 @@ const DocumentStatusCard: React.FC<DocumentStatusCardProps> = ({
           </div>
         </div>
       </CardContent>
-      
-      <div className="p-4 border-t flex justify-between items-center">
-        <Link 
-          to="/site/review-documents" 
-          className="flex items-center text-sm text-[#9b87f5] hover:text-[#8B5CF6]"
-        >
-          Review documents <ArrowRight className="ml-2 h-4 w-4" />
-        </Link>
-      </div>
     </Card>
   );
 };
