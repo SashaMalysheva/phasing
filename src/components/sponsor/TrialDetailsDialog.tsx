@@ -43,7 +43,9 @@ const TrialDetailsDialog = ({ trialId, trigger }: TrialDetailsDialogProps) => {
           <>
             <DialogHeader>
               <DialogTitle>{trial.name}</DialogTitle>
-              <DialogDescription>{trial.description}</DialogDescription>
+              <DialogDescription>
+                {trial.therapeutic_area} - Phase {trial.phase}
+              </DialogDescription>
             </DialogHeader>
 
             <div className="grid gap-6 py-4">
@@ -51,43 +53,50 @@ const TrialDetailsDialog = ({ trialId, trigger }: TrialDetailsDialogProps) => {
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm">
                     <ScrollText className="h-4 w-4 text-muted-foreground" />
-                    <span>Protocol: {trial.protocol_number}</span>
+                    <span>Status: {trial.status}</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
                     <Users className="h-4 w-4 text-muted-foreground" />
-                    <span>Target Enrollment: {trial.target_enrollment}</span>
+                    <span>Target Enrollment: {trial.enrollment_target}</span>
                   </div>
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm">
                     <CalendarRange className="h-4 w-4 text-muted-foreground" />
-                    <span>Phase: {trial.phase}</span>
+                    <span>Start Date: {new Date(trial.start_date).toLocaleDateString()}</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
-                    <Building2 className="h-4 w-4 text-muted-foreground" />
-                    <span>Sponsor: {trial.sponsor_name}</span>
+                    <CalendarRange className="h-4 w-4 text-muted-foreground" />
+                    <span>End Date: {new Date(trial.end_date).toLocaleDateString()}</span>
                   </div>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <h4 className="font-medium">Study Details</h4>
-                <p className="text-sm text-muted-foreground">{trial.detailed_description}</p>
+                <h4 className="font-medium">Current Progress</h4>
+                <div className="flex items-center gap-2">
+                  <div className="w-full bg-gray-200 rounded-full h-2.5">
+                    <div 
+                      className="bg-purple-600 h-2.5 rounded-full" 
+                      style={{ width: `${(trial.current_enrollment / trial.enrollment_target) * 100}%` }}
+                    ></div>
+                  </div>
+                  <span className="text-sm text-muted-foreground">
+                    {trial.current_enrollment} of {trial.enrollment_target} enrolled
+                  </span>
+                </div>
               </div>
 
-              {trial.criteria && (
-                <div className="space-y-2">
-                  <h4 className="font-medium">Key Criteria</h4>
-                  <div className="grid gap-2">
-                    {Object.entries(trial.criteria).map(([key, value]) => (
-                      <div key={key} className="text-sm">
-                        <span className="font-medium">{key.replace(/_/g, ' ')}: </span>
-                        <span className="text-muted-foreground">{value}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+              <div className="space-y-2">
+                <h4 className="font-medium">Protocol Information</h4>
+                <p className="text-sm text-muted-foreground">
+                  The protocol file for this trial is available for download: {trial.protocol_file}
+                </p>
+                <Button variant="outline" size="sm" className="mt-2">
+                  <ScrollText className="h-4 w-4 mr-2" />
+                  View Protocol
+                </Button>
+              </div>
             </div>
           </>
         ) : (
