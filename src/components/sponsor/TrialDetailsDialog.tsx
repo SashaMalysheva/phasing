@@ -20,7 +20,8 @@ import {
   Clock,
   CircleDot, 
   AlertTriangle,
-  CheckCircle2 // Added this import for the check circle icon
+  CheckCircle2,
+  Target
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { getTrialDetails, getTrialWithSites } from "@/lib/api";
@@ -33,7 +34,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Target, CalendarDays } from "lucide-react";
 
 interface TrialDetailsDialogProps {
   trialId: string;
@@ -146,9 +146,9 @@ const TrialDetailsDialog = ({ trialId, trigger }: TrialDetailsDialogProps) => {
               <DialogTitle className="text-xl flex items-center justify-between">
                 {trial.name}
                 <div className="flex items-center gap-2 text-base font-normal text-muted-foreground">
-                  <Target className="h-4 w-4 text-purple-600" />
+                  <Target className="h-4 w-4 text-black" />
                   <span>Target: </span>
-                  <span className="font-bold text-purple-700 text-lg">850</span>
+                  <span className="font-bold text-black text-lg">850</span>
                   <span>patients</span>
                 </div>
               </DialogTitle>
@@ -156,8 +156,7 @@ const TrialDetailsDialog = ({ trialId, trigger }: TrialDetailsDialogProps) => {
                 <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
                   {trial.therapeutic_area}
                 </Badge>
-                <span>–</span>
-                <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
                   Phase {trial.phase}
                 </Badge>
               </DialogDescription>
@@ -174,11 +173,11 @@ const TrialDetailsDialog = ({ trialId, trigger }: TrialDetailsDialogProps) => {
                   </div>
                   <div className="space-y-1">
                     <div className="flex items-center gap-2 text-sm">
-                      <CalendarRange className="h-4 w-4 text-muted-foreground" />
+                      <CalendarRange className="h-4 w-4 text-black" />
                       <span>Start: {new Date(trial.start_date).toLocaleDateString()}</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
-                      <Clock className="h-4 w-4 text-muted-foreground" />
+                      <Clock className="h-4 w-4 text-black" />
                       <span>End: {new Date(trial.end_date).toLocaleDateString()}</span>
                     </div>
                   </div>
@@ -193,7 +192,7 @@ const TrialDetailsDialog = ({ trialId, trigger }: TrialDetailsDialogProps) => {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-sm font-medium flex items-center gap-1">
-                      <CheckCircle2 className="h-4 w-4 text-green-500" />
+                      <CheckCircle2 className="h-4 w-4 text-black" />
                       {trial.current_enrollment} of {trial.enrollment_target} patients enrolled 
                       ({Math.round((trial.current_enrollment / trial.enrollment_target) * 100)}% complete)
                     </span>
@@ -211,7 +210,7 @@ const TrialDetailsDialog = ({ trialId, trigger }: TrialDetailsDialogProps) => {
                     <div className="flex items-center gap-1">
                       <span className="font-medium">Available across sites:</span>
                       {metrics?.isOversubscribed ? (
-                        <span className="text-green-700 font-medium flex items-center gap-1">
+                        <span className="text-black font-medium flex items-center gap-1">
                           <CircleDot className="h-4 w-4" />
                           Oversubscribed ({metrics.totalEligible} eligible patients)
                         </span>
@@ -243,8 +242,8 @@ const TrialDetailsDialog = ({ trialId, trigger }: TrialDetailsDialogProps) => {
                             <Badge 
                               variant="outline" 
                               className={siteInfo.status === "active" 
-                                ? "bg-green-50 text-green-700 border-green-200" 
-                                : "bg-orange-50 text-orange-500 border-orange-200"
+                                ? "bg-purple-50 text-purple-700 border-purple-200" 
+                                : "bg-purple-50 text-purple-500 border-purple-200"
                               }
                             >
                               {siteInfo.status === "active" ? "Active" : "Awaiting Documents"}
@@ -285,17 +284,14 @@ const TrialDetailsDialog = ({ trialId, trigger }: TrialDetailsDialogProps) => {
                 {/* Summary under table */}
                 <div className="space-y-1 text-sm">
                   <div className="flex items-center gap-1">
-                    <span className="text-green-600">🔒</span>
                     <span className="font-medium">Confirmed:</span>
                     <span>{metrics?.confirmedPatients} enrolled</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <span className="text-orange-500">🕓</span>
                     <span className="font-medium">Pending:</span>
                     <span>{metrics?.pendingEligible} eligible patients (waiting for document upload)</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <span className="text-blue-600">🟢</span>
                     <span className="font-medium">Projected Total:</span>
                     <span>
                       {metrics?.confirmedPatients} + {metrics?.pendingEligible} = {metrics?.projectedTotal} patients
@@ -304,7 +300,7 @@ const TrialDetailsDialog = ({ trialId, trigger }: TrialDetailsDialogProps) => {
                   </div>
                   
                   {metrics?.needMorePatients && (
-                    <div className="mt-2 flex items-center gap-1 text-amber-600">
+                    <div className="mt-2 flex items-center gap-1 text-black">
                       <AlertTriangle className="h-4 w-4" />
                       <span>Still need to recruit more patients or add a new site</span>
                     </div>
