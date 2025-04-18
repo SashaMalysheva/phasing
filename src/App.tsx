@@ -31,6 +31,9 @@ import FindMatchingTrials from '@/pages/site/FindMatchingTrials';
 import EnrollmentBoard from '@/pages/site/EnrollmentBoard';
 import ReviewDocuments from '@/pages/site/ReviewDocuments';
 
+// Import the new Trials page
+import Trials from '@/pages/site/Trials';
+
 // Import components
 import ProtectedRoute from '@/components/shared/ProtectedRoute';
 
@@ -85,8 +88,8 @@ const App = () => (
                       <Route path="settings" element={<SiteSettings />} />
                       <Route path="staff" element={<StaffPage />} />
                       <Route path="readiness" element={<SiteReadiness />} />
+                      <Route path="trials" element={<Trials />} />
                       <Route path="trials/find" element={<FindMatchingTrials />} />
-                      <Route path="trials" element={<div>Trials Page</div>} />
                       <Route path="trials/:trialId/enrollment" element={<EnrollmentBoard />} />
                       <Route path="trials/:trialId/documents" element={<ReviewDocuments />} />
                       <Route path="*" element={<NotFound />} />

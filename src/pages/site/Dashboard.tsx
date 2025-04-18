@@ -1,36 +1,23 @@
-
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { SearchIcon, ArrowRight } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { SearchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
-import { getSiteAnalytics, getSiteTrials, getSitePendingInvitations } from "@/lib/api";
+import { getSiteAnalytics, getSitePendingInvitations } from "@/lib/api";
 import PendingInvitationsModal from "@/components/site/PendingInvitationsModal";
 import { Skeleton } from "@/components/ui/skeleton";
 import SiteReadinessCard from "@/components/site/SiteReadinessCard";
 import SiteStaffCard from "@/components/site/SiteStaffCard";
-import TrialStatusBadge from "@/components/shared/TrialStatusBadge";
-import { Progress } from "@/components/ui/progress";
-import { AlertTriangle, CheckCircle2, XCircle } from "lucide-react";
 
 const SiteDashboard = () => {
   const { user } = useAuth();
-  const navigate = useNavigate();
   const [showInvitations, setShowInvitations] = useState(false);
   
   // Fetch site analytics
   const { data: analyticsData, isLoading: isLoadingAnalytics } = useQuery({
     queryKey: ['siteAnalytics', user?.id],
     queryFn: () => getSiteAnalytics(user?.id || ''),
-    enabled: !!user?.id,
-  });
-  
-  // Fetch site trials
-  const { data: trialsData, isLoading: isLoadingTrials } = useQuery({
-    queryKey: ['siteTrials', user?.id],
-    queryFn: () => getSiteTrials(user?.id || ''),
     enabled: !!user?.id,
   });
   
@@ -56,31 +43,6 @@ const SiteDashboard = () => {
     eregulatory_binders: true,
     source_templates: false,
     iata_certification: true
-  };
-
-  const handleTrialClick = (trial: any) => {
-    if (trial.status === "enrollment") {
-      navigate(`/site/trials/${trial.id}/enrollment`);
-    } else if (trial.status === "document_review") {
-      navigate(`/site/trials/${trial.id}/documents`);
-    }
-  };
-
-  // Mock document status counts
-  const documentStatusCounts = {
-    draft: 3,
-    pending_site_review: 5,
-    pending_trial_review: 2,
-    site_signed: 4,
-    trial_signed: 1,
-    completed: 8
-  };
-
-  const formatStatusLabel = (status: string) => {
-    return status
-      .split('_')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
   };
 
   return (
@@ -122,6 +84,7 @@ const SiteDashboard = () => {
         </div>
       </div>
       
+      {/* Site Analytics Section */}
       {isLoadingAnalytics ? (
         <div className="mb-8">
           <Skeleton className="h-8 w-48 mb-4" />
@@ -140,102 +103,6 @@ const SiteDashboard = () => {
           </div>
         </div>
       )}
-      
-      {/* Trials section */}
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold text-black mb-4">Trials</h2>
-        
-        {isLoadingTrials ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[1, 2].map((i) => (
-              <Skeleton key={i} className="h-48" />
-            ))}
-          </div>
-        ) : trialsData?.trials && trialsData.trials.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {trialsData.trials.map((trial) => (
-              <Card 
-                key={trial.id} 
-                className="bg-white hover:shadow-md transition-shadow cursor-pointer"
-                onClick={() => handleTrialClick(trial)}
-              >
-                <CardHeader className="pb-4 border-b">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <CardTitle className="text-base text-black">{trial.name}</CardTitle>
-                      <p className="text-sm text-gray-600">{trial.sponsor_name}</p>
-                    </div>
-                    <TrialStatusBadge status={trial.status} />
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-4">
-                  {trial.status === "enrollment" && (
-                    <div className="space-y-4">
-                      <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">Enrollment Progress</span>
-                        <span className="font-medium text-[#6E59A5]">{trial.metrics.enrolled} / {trial.metrics.target}</span>
-                      </div>
-                      <Progress 
-                        value={(trial.metrics.enrolled / trial.metrics.target) * 100} 
-                        className="h-2 bg-purple-100"
-                      />
-                      
-                      <div className="grid grid-cols-3 gap-4 mt-4 p-2 bg-purple-50/50 rounded-md">
-                        <div className="text-center">
-                          <div className="text-lg font-medium text-[#6E59A5]">{trial.metrics.identified_leads}</div>
-                          <div className="text-xs text-muted-foreground">Identified</div>
-                        </div>
-                        <div className="text-center border-x border-purple-100">
-                          <div className="text-lg font-medium text-[#6E59A5]">{trial.metrics.qualified}</div>
-                          <div className="text-xs text-muted-foreground">Qualified</div>
-                        </div>
-                        <div className="text-center">
-                          <div className="text-lg font-medium text-[#6E59A5]">{trial.metrics.ongoing_outreach}</div>
-                          <div className="text-xs text-muted-foreground">Outreach</div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {trial.status === "document_review" && (
-                    <div className="space-y-4">
-                      <div className="text-sm text-muted-foreground mb-2">Document Statuses:</div>
-                      <div className="grid grid-cols-2 gap-3">
-                        {Object.entries(documentStatusCounts).map(([status, count]) => (
-                          <div 
-                            key={status}
-                            className="flex items-center justify-between p-2 rounded-md bg-purple-50/30 hover:bg-purple-50/50 transition-colors"
-                          >
-                            <span className="text-sm text-muted-foreground">
-                              {formatStatusLabel(status)}
-                            </span>
-                            <span className="font-medium text-[#6E59A5] min-w-[2rem] text-center">
-                              {count}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        ) : (
-          <Card>
-            <CardContent className="flex flex-col items-center justify-center py-10">
-              <p className="text-muted-foreground text-center mb-4">
-                You're not participating in any trials yet.
-              </p>
-              <Link to="/site/trials/find">
-                <Button className="bg-[#9b87f5] hover:bg-[#6E59A5] transition-colors">
-                  Find Matching Trials
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-        )}
-      </div>
     </div>
   );
 };
