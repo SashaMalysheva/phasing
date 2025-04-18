@@ -25,9 +25,11 @@ export const TrialDetailsDialog = ({ trial, trigger }: TrialDetailsDialogProps) 
   const compatibilityScore = Math.round(trial.compatibility_score);
   
   const calculateEligiblePatients = () => {
-    // Calculate eligible patients based on match percentage
-    const basePatients = 23;
-    return Math.round(basePatients * (compatibilityScore / 100));
+    // Make sure we have default values if the properties are missing
+    const eligibleCount = trial.eligible_patient_count || 0;
+    
+    // Base calculation on compatibility score
+    return Math.round((eligibleCount * compatibilityScore) / 100) || 0;
   };
 
   const sortedRejectionReasons = trial.rejection_reasons 
@@ -123,4 +125,3 @@ export const TrialDetailsDialog = ({ trial, trigger }: TrialDetailsDialogProps) 
     </Dialog>
   );
 };
-

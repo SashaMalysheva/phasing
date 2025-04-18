@@ -29,8 +29,11 @@ export const TrialMatchCard = ({ trial, getScoreIcon }: TrialMatchCardProps) => 
   
   // Calculate eligible patients based on match percentage
   const calculateEligiblePatients = () => {
+    // Make sure we have default values if the properties are missing
+    const eligibleCount = trial.eligible_patient_count || 0;
+    
     // Base calculation on compatibility score
-    return Math.round(trial.eligible_patient_count * (compatibilityScore / 100));
+    return Math.round((eligibleCount * compatibilityScore) / 100) || 0;
   };
   
   const topRejectionReasons = trial.rejection_reasons 
