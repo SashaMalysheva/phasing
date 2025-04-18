@@ -1,6 +1,6 @@
 
 import React from "react";
-import { FileText, Users, Microscope } from "lucide-react";
+import { FileText, Users, Building, CheckCircle } from "lucide-react";
 import { 
   Card, 
   CardContent,
@@ -11,7 +11,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Separator } from "@/components/ui/separator";
 import { TrialDetailsDialog } from "./TrialDetailsDialog";
 
 interface TrialMatchCardProps {
@@ -21,6 +20,11 @@ interface TrialMatchCardProps {
 
 export const TrialMatchCard = ({ trial, getScoreIcon }: TrialMatchCardProps) => {
   const compatibilityScore = Math.round(trial.compatibility_score);
+
+  // Calculate ready staff numbers (mocked for now, should come from API)
+  const readyStaff = trial.ready_staff || 9;
+  const totalStaff = trial.total_staff || 16;
+  const compatibleFeatures = trial.compatible_features?.length || 5;
   
   return (
     <TrialDetailsDialog
@@ -34,12 +38,16 @@ export const TrialMatchCard = ({ trial, getScoreIcon }: TrialMatchCardProps) => 
                 <p className="text-sm text-muted-foreground">{trial.description}</p>
                 <div className="flex gap-6 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4" />
-                    <span>Eligible: {trial.eligible_patients || 0}/{trial.total_patients || 300}</span>
+                    <Building className="h-4 w-4" />
+                    <span>Eligible patients: {trial.eligible_patients || 0}/{trial.total_patients || 300}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Microscope className="h-4 w-4" />
-                    <span>Features: {trial.compatible_features?.length || 0}</span>
+                    <Users className="h-4 w-4" />
+                    <span>Ready Staff: {readyStaff}/{totalStaff}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4" />
+                    <span>Compatible Features: {compatibleFeatures}</span>
                   </div>
                 </div>
               </div>
@@ -53,39 +61,12 @@ export const TrialMatchCard = ({ trial, getScoreIcon }: TrialMatchCardProps) => 
           </CardHeader>
           
           <CardContent className="pb-6">
-            <div className="space-y-4">
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="text-muted-foreground">Compatibility</span>
-                  <span className="font-medium text-[#6E59A5]">{compatibilityScore}%</span>
-                </div>
-                <Progress value={compatibilityScore} className="h-2 bg-purple-100" />
+            <div>
+              <div className="flex justify-between text-sm mb-1">
+                <span className="text-muted-foreground">Compatibility</span>
+                <span className="font-medium text-[#6E59A5]">{compatibilityScore}%</span>
               </div>
-
-              {trial.rejection_reasons && Object.keys(trial.rejection_reasons).length > 0 && (
-                <>
-                  <Separator className="my-4" />
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-700 mb-2">
-                      Top Rejection Factors
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {Object.entries(trial.rejection_reasons)
-                        .sort(([, a], [, b]) => (b as number) - (a as number))
-                        .slice(0, 3)
-                        .map(([reason, count]) => (
-                          <Badge 
-                            key={reason}
-                            variant="outline"
-                            className="bg-white border-gray-200"
-                          >
-                            {reason.replace(/_/g, ' ')} ({count as number})
-                          </Badge>
-                        ))}
-                    </div>
-                  </div>
-                </>
-              )}
+              <Progress value={compatibilityScore} className="h-2 bg-purple-100" />
             </div>
           </CardContent>
           
@@ -108,3 +89,4 @@ export const TrialMatchCard = ({ trial, getScoreIcon }: TrialMatchCardProps) => 
     />
   );
 };
+
