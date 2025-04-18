@@ -48,7 +48,7 @@ export const TrialDetailsDialog = ({ trial, trigger }: TrialDetailsDialogProps) 
               <h2 className="text-xl font-semibold text-gray-900">
                 {trial.name}
               </h2>
-              <span className="text-sm text-gray-500">
+              <span className="text-lg font-bold text-gray-900 ml-4">
                 Match: {compatibilityScore}%
               </span>
             </div>
