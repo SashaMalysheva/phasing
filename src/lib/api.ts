@@ -128,19 +128,19 @@ export const getSponsorDetails = async (sponsorId: string) => {
         status: "enrollment",
         participants_count: 15,
         target: 30,
-        sites: ["site_1", "site_3"]
+        sites: ["site_1", "site_2"] // Two sites
       },
       {
         id: "trial_456",
         name: "Phase 3 Cardiovascular Study",
         status: "document_review",
-        sites: ["site_2", "site_4"]
+        sites: ["site_4"] // One site
       },
       {
         id: "trial_789",
         name: "Phase 1 Diabetes Study",
         status: "idle",
-        sites: []
+        sites: [] // No sites
       }
     ]
   };
