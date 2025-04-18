@@ -19,7 +19,7 @@ const ActiveTrialsCard: React.FC<ActiveTrialsCardProps> = ({
       <CardHeader className="pb-4">
         <div className="flex justify-between items-center">
           <span className="text-lg font-semibold text-black">Active Trials</span>
-          <span className="text-xl font-bold text-black">{totalTrials}</span>
+          <span className="text-sm font-medium text-gray-600">{totalTrials} trial</span>
         </div>
       </CardHeader>
       
