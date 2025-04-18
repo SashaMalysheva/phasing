@@ -57,43 +57,46 @@ const Trials = () => {
                   <div className="space-y-1">
                     <CardTitle className="text-xl text-gray-900">{trial.name}</CardTitle>
                     <p className="text-sm text-muted-foreground">{trial.sponsor_name}</p>
-                    <p className="text-sm text-gray-500">{trial.metrics.enrolled} sites participating</p>
+                    <p className="text-sm text-gray-500">
+                      {/* Add a null check for metrics and provide fallback value */}
+                      {trial.metrics?.enrolled || 0} sites participating
+                    </p>
                   </div>
                   <TrialStatusBadge status={trial.status} />
                 </div>
               </CardHeader>
               
               <CardContent>
-                {trial.status === "enrollment" && (
+                {trial.status === "enrollment" && trial.metrics && (
                   <div className="space-y-4">
                     <div className="flex items-center text-sm">
                       <Users className="h-4 w-4 text-[#6E59A5] mr-2" />
                       <span className="text-muted-foreground">Enrollment Progress</span>
                       <span className="ml-auto font-medium text-[#6E59A5]">
-                        {trial.metrics.enrolled} / {trial.metrics.target}
+                        {trial.metrics.enrolled || 0} / {trial.metrics.target || 0}
                       </span>
                     </div>
                     <Progress 
-                      value={(trial.metrics.enrolled / trial.metrics.target) * 100} 
+                      value={trial.metrics.target ? ((trial.metrics.enrolled || 0) / trial.metrics.target) * 100 : 0} 
                       className="h-2 bg-purple-100"
                     />
                     
                     <div className="grid grid-cols-3 gap-4 mt-2 p-2 bg-purple-50/50 rounded-md">
                       <div className="text-center">
                         <div className="text-lg font-medium text-[#6E59A5]">
-                          {trial.metrics.identified_leads}
+                          {trial.metrics.identified_leads || 0}
                         </div>
                         <div className="text-xs text-muted-foreground">Identified</div>
                       </div>
                       <div className="text-center border-x border-purple-100">
                         <div className="text-lg font-medium text-[#6E59A5]">
-                          {trial.metrics.qualified}
+                          {trial.metrics.qualified || 0}
                         </div>
                         <div className="text-xs text-muted-foreground">Qualified</div>
                       </div>
                       <div className="text-center">
                         <div className="text-lg font-medium text-[#6E59A5]">
-                          {trial.metrics.ongoing_outreach}
+                          {trial.metrics.ongoing_outreach || 0}
                         </div>
                         <div className="text-xs text-muted-foreground">Outreach</div>
                       </div>
