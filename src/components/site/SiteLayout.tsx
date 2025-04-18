@@ -96,8 +96,11 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({ children }) => {
         <Sidebar>
           <SidebarHeader className="flex items-center justify-between p-4">
             <div className="flex items-center gap-2">
-              <div className="bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] rounded-sm p-1">
-                <div className="w-5 h-5 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] rounded-sm transform rotate-45"></div>
+              <div className="flex -space-x-1">
+                <div className="relative w-5 h-5">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] rounded-sm transform rotate-45 opacity-80"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] rounded-sm transform -rotate-45 opacity-100"></div>
+                </div>
               </div>
               <div className="font-bold text-lg">Phasing.ai</div>
             </div>
@@ -147,8 +150,11 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({ children }) => {
           <div className="flex md:hidden items-center p-4 border-b">
             <SidebarTrigger />
             <div className="flex items-center gap-2 mx-auto">
-              <div className="bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] rounded-sm p-1">
-                <div className="w-5 h-5 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] rounded-sm transform rotate-45"></div>
+              <div className="flex -space-x-1">
+                <div className="relative w-5 h-5">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] rounded-sm transform rotate-45 opacity-80"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#9b87f5] to-[#7E69AB] rounded-sm transform -rotate-45 opacity-100"></div>
+                </div>
               </div>
               <div className="font-bold text-lg">Phasing.ai</div>
             </div>
