@@ -11,7 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { CalendarIcon, PlusCircle, Trash2 } from "lucide-react";
+import { CalendarIcon, PlusCircle, Trash2, Sparkles } from "lucide-react";
 
 const CreateTrial: React.FC = () => {
   const [inclusionCriteria, setInclusionCriteria] = useState([""]);
@@ -51,11 +51,21 @@ const CreateTrial: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Create New Trial</h1>
-        <p className="text-muted-foreground">
-          Define the parameters and criteria for your clinical trial.
-        </p>
+      <div className="flex flex-col space-y-4">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Create New Trial</h1>
+          <p className="text-muted-foreground">
+            Define the parameters and criteria for your clinical trial.
+          </p>
+        </div>
+
+        <Button 
+          className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 h-16 text-lg"
+          onClick={() => console.log("Create with AI clicked")}
+        >
+          <Sparkles className="mr-2 h-5 w-5" />
+          Create with AI
+        </Button>
       </div>
 
       <Separator />
