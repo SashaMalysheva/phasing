@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent } from "@/components/ui/card";
-import { RefreshCw, Search, Map, List, XCircle, AlertTriangle, CheckCircle } from "lucide-react";
+import { Search, Map, List, XCircle, AlertTriangle, CheckCircle } from "lucide-react";
 import { TrialMatchCard } from "@/components/site/TrialMatchCard";
 
 const FindMatchingTrials = () => {
@@ -34,17 +34,7 @@ const FindMatchingTrials = () => {
           </p>
         </div>
 
-        <div className="flex justify-between items-center gap-4">
-          <Button 
-            variant="outline" 
-            onClick={() => refetch()}
-            className="bg-white hover:bg-gray-50"
-            size="sm"
-          >
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Refresh Results
-          </Button>
-
+        <div className="flex justify-end items-center gap-4">
           <div className="flex gap-2">
             <Button 
               variant="outline" 
@@ -141,7 +131,6 @@ const FindMatchingTrials = () => {
                 Please check back later.
               </p>
               <Button onClick={() => refetch()} size="sm" variant="outline">
-                <RefreshCw className="h-4 w-4 mr-2" />
                 Refresh Search
               </Button>
             </CardContent>
