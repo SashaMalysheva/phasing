@@ -9,7 +9,6 @@ import { getSponsorDetails, getSponsorPendingInvitations } from "@/lib/api";
 import PendingInvitationsModal from "@/components/sponsor/PendingInvitationsModal";
 import TrialStatusBadge from "@/components/shared/TrialStatusBadge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Card } from "@/components/ui/card";
 
 const SponsorDashboard = () => {
   const { user } = useAuth();
