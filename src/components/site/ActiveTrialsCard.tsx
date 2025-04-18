@@ -51,7 +51,7 @@ const ActiveTrialsCard: React.FC<ActiveTrialsCardProps> = ({
             <TrendingUp className="h-5 w-5 text-[#9b87f5] mr-2" />
             <span className="text-sm text-gray-700">Total Enrollment Rate</span>
           </div>
-          <span className="font-medium text-[#6E59A5]">85%</span>
+          <span className="font-medium text-[#6E59A5] text-base">85%</span>
         </div>
       </CardContent>
     </Card>
