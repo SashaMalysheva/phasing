@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
@@ -47,7 +46,7 @@ const SponsorLayout: React.FC<SponsorLayoutProps> = ({ children }) => {
       <div className="flex min-h-screen w-full">
         <Sidebar>
           <SidebarHeader className="flex items-center justify-between p-4">
-            <div className="font-bold text-lg">Uber Trial</div>
+            <div className="font-bold text-lg">Phasing.ai</div>
             <SidebarTrigger />
           </SidebarHeader>
           
@@ -126,7 +125,7 @@ const SponsorLayout: React.FC<SponsorLayoutProps> = ({ children }) => {
         <SidebarInset>
           <div className="flex md:hidden items-center p-4 border-b">
             <SidebarTrigger />
-            <div className="font-bold text-lg mx-auto">Uber Trial</div>
+            <div className="font-bold text-lg mx-auto">Phasing.ai</div>
           </div>
           
           <main className="flex-1 p-4 md:p-8">
