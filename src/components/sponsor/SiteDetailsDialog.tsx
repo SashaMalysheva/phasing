@@ -10,7 +10,15 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, XCircle, Users, Building, Map } from "lucide-react";
+import { 
+  CheckCircle, 
+  XCircle, 
+  Users, 
+  Building, 
+  TrendingUp,
+  History,
+  BarChart
+} from "lucide-react";
 
 interface SiteDetailsDialogProps {
   open: boolean;
@@ -20,6 +28,26 @@ interface SiteDetailsDialogProps {
 
 export function SiteDetailsDialog({ site, open, onOpenChange }: SiteDetailsDialogProps) {
   if (!site) return null;
+
+  // Mock data for performance metrics and trial experience
+  const performanceMetrics = {
+    enrollmentRate: "85%",
+    screeningSuccess: "78%",
+    retentionRate: "92%"
+  };
+
+  const previousTrials = [
+    {
+      name: "Phase 3 Oncology Trial",
+      year: "2023",
+      performance: "Exceeded enrollment targets by 15%"
+    },
+    {
+      name: "Phase 2 Cardiovascular Study",
+      year: "2022",
+      performance: "98% patient retention rate"
+    }
+  ];
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -89,6 +117,48 @@ export function SiteDetailsDialog({ site, open, onOpenChange }: SiteDetailsDialo
             </div>
           </div>
 
+          {/* Site Performance Metrics */}
+          <div className="space-y-3">
+            <h4 className="font-medium text-sm flex items-center gap-2">
+              <BarChart className="h-4 w-4" />
+              Site Performance Metrics
+            </h4>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="p-4 rounded-lg bg-muted">
+                <TrendingUp className="h-4 w-4 mb-2 text-primary" />
+                <div className="text-sm font-medium">Enrollment Rate</div>
+                <div className="text-2xl font-bold">{performanceMetrics.enrollmentRate}</div>
+              </div>
+              <div className="p-4 rounded-lg bg-muted">
+                <CheckCircle className="h-4 w-4 mb-2 text-green-500" />
+                <div className="text-sm font-medium">Screening Success</div>
+                <div className="text-2xl font-bold">{performanceMetrics.screeningSuccess}</div>
+              </div>
+              <div className="p-4 rounded-lg bg-muted">
+                <Users className="h-4 w-4 mb-2 text-primary" />
+                <div className="text-sm font-medium">Retention Rate</div>
+                <div className="text-2xl font-bold">{performanceMetrics.retentionRate}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Previous Trial Experience */}
+          <div className="space-y-3">
+            <h4 className="font-medium text-sm flex items-center gap-2">
+              <History className="h-4 w-4" />
+              Previous Trial Experience
+            </h4>
+            <div className="space-y-3">
+              {previousTrials.map((trial, index) => (
+                <div key={index} className="p-4 rounded-lg bg-muted">
+                  <div className="font-medium">{trial.name}</div>
+                  <div className="text-sm text-muted-foreground">{trial.year}</div>
+                  <div className="text-sm mt-1">{trial.performance}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Patient Stats */}
           <div className="space-y-3">
             <h4 className="font-medium text-sm">Patient Statistics</h4>
@@ -96,14 +166,6 @@ export function SiteDetailsDialog({ site, open, onOpenChange }: SiteDetailsDialo
               <div className="mb-2">
                 <span className="text-sm">Eligible Patients: </span>
                 <span className="font-medium">{site.eligiblePatients}/{site.totalPatients}</span>
-              </div>
-              <div className="space-y-2">
-                {site.rejectionReasons.map((reason: any) => (
-                  <div key={reason.reason} className="flex justify-between text-sm">
-                    <span>{reason.reason.replace(/_/g, ' ')}</span>
-                    <span className="text-muted-foreground">{reason.percentage}%</span>
-                  </div>
-                ))}
               </div>
             </div>
           </div>
