@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
@@ -6,7 +5,6 @@ import {
   Sidebar, 
   SidebarContent,
   SidebarHeader,
-  SidebarFooter,
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
@@ -15,10 +13,9 @@ import {
 } from "@/components/ui/sidebar";
 import {
   ClipboardList,
-  BarChart3,
-  Settings,
   Search,
   PlusCircle,
+  Settings,
   LogOut,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -68,30 +65,6 @@ const SponsorLayout: React.FC<SponsorLayoutProps> = ({ children }) => {
               
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  isActive={location.pathname.includes("/sponsor/analytics")}
-                  asChild
-                >
-                  <Link to="/sponsor/analytics">
-                    <BarChart3 />
-                    <span>Analytics</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={location.pathname.includes("/sponsor/settings")}
-                  asChild
-                >
-                  <Link to="/sponsor/settings">
-                    <Settings />
-                    <span>Settings</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              
-              <SidebarMenuItem>
-                <SidebarMenuButton
                   isActive={location.pathname.includes("/sponsor/find-sites")}
                   asChild
                 >
@@ -110,6 +83,18 @@ const SponsorLayout: React.FC<SponsorLayoutProps> = ({ children }) => {
                   <Link to="/sponsor/trials/create">
                     <PlusCircle />
                     <span>Create Trial</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              
+              <SidebarMenuItem className="mt-auto">
+                <SidebarMenuButton
+                  isActive={location.pathname.includes("/sponsor/settings")}
+                  asChild
+                >
+                  <Link to="/sponsor/settings">
+                    <Settings />
+                    <span>Settings</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
