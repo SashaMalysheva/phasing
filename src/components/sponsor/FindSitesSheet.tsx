@@ -1,7 +1,7 @@
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { MapPin, Users, CheckCircle2, XCircle } from "lucide-react";
+import { MapPin, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -16,27 +16,25 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getTrialWithSites, getTrialDetails } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 
-interface TrialDetailsSheetProps {
+interface FindSitesSheetProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   trialId: string;
 }
 
-const TrialDetailsSheet: React.FC<TrialDetailsSheetProps> = ({
+const FindSitesSheet: React.FC<FindSitesSheetProps> = ({
   open,
   onOpenChange,
   trialId,
 }) => {
   const navigate = useNavigate();
   
-  // First, fetch the basic trial details to get the name
   const { data: trialData, isLoading: isLoadingTrial } = useQuery({
     queryKey: ['trial', trialId],
     queryFn: () => getTrialDetails(trialId || ''),
     enabled: !!trialId && open,
   });
 
-  // Then fetch the trial sites data
   const { data: sitesData, isLoading: isLoadingSites } = useQuery({
     queryKey: ['trialSites', trialId],
     queryFn: () => getTrialWithSites(trialId || ''),
@@ -60,9 +58,9 @@ const TrialDetailsSheet: React.FC<TrialDetailsSheetProps> = ({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className="sm:max-w-lg w-full overflow-y-auto">
         <SheetHeader>
-          <SheetTitle>Trial Details</SheetTitle>
+          <SheetTitle>Find Sites</SheetTitle>
           <SheetDescription>
-            Quick overview of trial sites and their compatibility
+            Available sites and their compatibility scores
           </SheetDescription>
         </SheetHeader>
 
@@ -117,4 +115,4 @@ const TrialDetailsSheet: React.FC<TrialDetailsSheetProps> = ({
   );
 };
 
-export default TrialDetailsSheet;
+export default FindSitesSheet;

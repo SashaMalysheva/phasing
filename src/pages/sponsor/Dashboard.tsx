@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -10,7 +9,8 @@ import { getSponsorDetails, getSponsorPendingInvitations } from "@/lib/api";
 import PendingInvitationsModal from "@/components/sponsor/PendingInvitationsModal";
 import TrialStatusBadge from "@/components/shared/TrialStatusBadge";
 import { Skeleton } from "@/components/ui/skeleton";
-import TrialDetailsSheet from "@/components/sponsor/TrialDetailsSheet";
+import FindSitesSheet from "@/components/sponsor/FindSitesSheet";
+import TrialDetailsDialog from "@/components/sponsor/TrialDetailsDialog";
 
 const SponsorDashboard = () => {
   const { user } = useAuth();
@@ -68,15 +68,6 @@ const SponsorDashboard = () => {
         />
       )}
       
-      {/* Trial Details Sheet */}
-      {selectedTrialId && (
-        <TrialDetailsSheet
-          open={showTrialDetails}
-          onOpenChange={setShowTrialDetails}
-          trialId={selectedTrialId}
-        />
-      )}
-      
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold">Sponsor Dashboard</h1>
@@ -99,7 +90,6 @@ const SponsorDashboard = () => {
         </div>
       </div>
       
-      {/* Trials section */}
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-semibold">Your Trials</h2>
@@ -122,39 +112,48 @@ const SponsorDashboard = () => {
         ) : sponsorData?.trials && sponsorData.trials.length > 0 ? (
           <div className="grid gap-4">
             {sponsorData.trials.map((trial) => (
-              <Card key={trial.id} className="p-6 hover:bg-gray-50/50 transition-all duration-200">
-                <div className="flex items-start justify-between">
-                  <div className="space-y-1 flex-grow">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold text-gray-900">{trial.name}</h3>
-                      <TrialStatusBadge status={trial.status} />
+              <TrialDetailsDialog
+                key={trial.id}
+                trialId={trial.id}
+                trigger={
+                  <Card key={trial.id} className="p-6 hover:bg-gray-50/50 transition-all duration-200 cursor-pointer">
+                    <div className="flex items-start justify-between">
+                      <div className="space-y-1 flex-grow">
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-lg font-semibold text-gray-900">{trial.name}</h3>
+                          <TrialStatusBadge status={trial.status} />
+                        </div>
+                        <p className="text-gray-600">{trial.sites.length} {trial.sites.length === 1 ? 'site' : 'sites'} participating</p>
+                      </div>
                     </div>
-                    <p className="text-gray-600">{trial.sites.length} {trial.sites.length === 1 ? 'site' : 'sites'} participating</p>
-                  </div>
-                </div>
 
-                <div className="mt-4 flex items-center justify-between">
-                  <div className="flex items-center text-gray-600">
-                    {getTrialIcon(trial.status)}
-                    <span className="ml-2">
-                      {trial.status === "enrollment" && (
-                        <>
-                          {trial.participants_count} enrolled
-                          {trial.target && <> / {trial.target} target</>}
-                        </>
-                      )}
-                      {trial.status === "document_review" && "Document review in progress"}
-                      {trial.status === "idle" && "No active recruitment"}
-                    </span>
-                  </div>
-                  <Button 
-                    variant="outline" 
-                    onClick={() => handleViewTrialDetails(trial.id)}
-                  >
-                    View Details
-                  </Button>
-                </div>
-              </Card>
+                    <div className="mt-4 flex items-center justify-between">
+                      <div className="flex items-center text-gray-600">
+                        {getTrialIcon(trial.status)}
+                        <span className="ml-2">
+                          {trial.status === "enrollment" && (
+                            <>
+                              {trial.participants_count} enrolled
+                              {trial.target && <> / {trial.target} target</>}
+                            </>
+                          )}
+                          {trial.status === "document_review" && "Document review in progress"}
+                          {trial.status === "idle" && "No active recruitment"}
+                        </span>
+                      </div>
+                      <Button 
+                        variant="outline" 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleViewTrialDetails(trial.id);
+                        }}
+                      >
+                        Find Sites
+                      </Button>
+                    </div>
+                  </Card>
+                }
+              />
             ))}
           </div>
         ) : (
@@ -170,6 +169,15 @@ const SponsorDashboard = () => {
           </Card>
         )}
       </div>
+
+      {/* Find Sites Sheet */}
+      {selectedTrialId && (
+        <FindSitesSheet
+          open={showTrialDetails}
+          onOpenChange={setShowTrialDetails}
+          trialId={selectedTrialId}
+        />
+      )}
     </div>
   );
 };
