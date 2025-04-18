@@ -27,7 +27,11 @@ interface TrialMatchCardProps {
 export const TrialMatchCard = ({ trial, getScoreIcon }: TrialMatchCardProps) => {
   const compatibilityScore = Math.round(trial.compatibility_score);
   
-  const eligibleRatio = (trial.eligible_patient_count / trial.total_patient_count) * 100;
+  // Calculate eligible patients based on match percentage
+  const calculateEligiblePatients = () => {
+    // Base calculation on compatibility score
+    return Math.round(trial.eligible_patient_count * (compatibilityScore / 100));
+  };
   
   const topRejectionReasons = trial.rejection_reasons 
     ? Object.entries(trial.rejection_reasons)
@@ -76,7 +80,7 @@ export const TrialMatchCard = ({ trial, getScoreIcon }: TrialMatchCardProps) => 
                 <div className="flex items-center justify-between text-sm text-gray-600 mb-1">
                   <span>Eligible Patients</span>
                   <span className="font-medium">
-                    {trial.eligible_patient_count}/{trial.total_patient_count}
+                    {calculateEligiblePatients()}
                   </span>
                 </div>
               </div>
