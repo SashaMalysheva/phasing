@@ -34,6 +34,12 @@ const TrialDetails = () => {
     );
   }
 
+  const getCompatibilityVariant = (score: number) => {
+    if (score >= 80) return "default";
+    if (score >= 60) return "secondary";
+    return "destructive";
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">Trial Sites</h1>
@@ -70,8 +76,7 @@ const TrialDetails = () => {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant={site.compatibility_score >= 80 ? "success" : 
-                              site.compatibility_score >= 60 ? "warning" : "destructive"}>
+                      <Badge variant={getCompatibilityVariant(site.compatibility_score)}>
                         {site.compatibility_score}%
                       </Badge>
                     </TableCell>
