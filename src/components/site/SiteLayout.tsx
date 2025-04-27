@@ -47,46 +47,52 @@ const SiteLayout: React.FC<SiteLayoutProps> = ({ children }) => {
 
   const menuItems = [
     {
+      icon: Square,
+      label: "My Task",
+      path: "/my-task",
+      tooltip: "My Task",
+    },
+    {
       icon: ClipboardList,
       label: "Overview",
-      path: "/site/dashboard",
+      path: "/",
       tooltip: "Overview",
-    },
-    {
-      icon: FileText,
-      label: "Trials",
-      path: "/site/trials",
-      tooltip: "Trials",
-    },
-    {
-      icon: Search,
-      label: "Find Matching Trials",
-      path: "/site/trials/find",
-      tooltip: "Find Matching Trials",
     },
     {
       icon: BookOpen,
       label: "Site Details",
-      path: "/site/readiness",
+      path: "/readiness",
       tooltip: "Site Details",
     },
     {
       icon: BarChart3,
-      label: "Patient Analytics",
-      path: "/site/analytics",
-      tooltip: "Patient Analytics",
+      label: "Enrollment Board",
+      path: "/trials/trial_123/enrollment",
+      tooltip: "Enrollment Board",
     },
     {
       icon: Users,
       label: "Staff Analytics",
-      path: "/site/staff",
+      path: "/staff",
       tooltip: "Staff Analytics",
     },
     {
       icon: Settings,
       label: "Settings",
-      path: "/site/settings",
+      path: "/settings",
       tooltip: "Settings",
+    },
+    {
+      icon: Square,
+      label: "Audit and logs",
+      path: "/audit-logs",
+      tooltip: "Audit and logs",
+    },
+    {
+      icon: Square,
+      label: "My communication",
+      path: "/my-communication",
+      tooltip: "My communication",
     },
   ];
 

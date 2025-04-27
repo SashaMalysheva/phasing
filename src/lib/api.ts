@@ -15,33 +15,10 @@ const mockSites = [
   { id: "site_9", name: "Evergreen Medical Research", number: 9 },
 ];
 
-const mockSponsors = [
-  { id: "sponsor_0", name: "Nova Pharma", number: 0 },
-  { id: "sponsor_1", name: "Helix Biotech", number: 1 },
-  { id: "sponsor_2", name: "Quantum Therapeutics", number: 2 },
-];
-
 // Helper for simulating API delays
 const simulateApiDelay = () => new Promise(resolve => setTimeout(resolve, 800));
 
-// Type definitions
-export type UserRole = "sponsor" | "site" | null;
-
-// Login functions
-export const loginSponsor = async (sponsorNumber: number) => {
-  await simulateApiDelay();
-  
-  // In a real app, this would be an actual API call
-  // GET /api/v1/sponsors/lookup/{sponsor_number}
-  const sponsor = mockSponsors.find(s => s.number === sponsorNumber);
-  
-  if (!sponsor) {
-    throw new Error("Invalid sponsor number");
-  }
-  
-  return sponsor;
-};
-
+// Login function
 export const loginSite = async (siteNumber: number) => {
   await simulateApiDelay();
   
@@ -54,41 +31,6 @@ export const loginSite = async (siteNumber: number) => {
   }
   
   return site;
-};
-
-export const getUserRole = (): UserRole => {
-  const savedUser = localStorage.getItem("uberTrialUser");
-  if (!savedUser) return null;
-  
-  try {
-    const userData = JSON.parse(savedUser);
-    return userData.role || null;
-  } catch (e) {
-    console.error("Failed to parse saved user role", e);
-    return null;
-  }
-};
-
-// Fetch pending invitations for sponsors
-export const getSponsorPendingInvitations = async (sponsorId: string) => {
-  await simulateApiDelay();
-  
-  // GET /api/v1/sponsors/{sponsor_number}/pending_invitations
-  return {
-    sponsor_id: sponsorId,
-    sponsor_name: mockSponsors.find(s => s.id === sponsorId)?.name,
-    pending_invitations: [
-      {
-        trial_id: "trial_123",
-        trial_name: "Phase 2 Oncology Study",
-        site_id: "site_1",
-        site_name: "Valley Clinical Trials",
-        compatibility_score: 87,
-        date_requested: new Date().toISOString(),
-      }
-    ],
-    total_count: 1
-  };
 };
 
 // Fetch pending invitations for sites
@@ -113,47 +55,14 @@ export const getSitePendingInvitations = async (siteId: string) => {
   };
 };
 
-// Get sponsor details
-export const getSponsorDetails = async (sponsorId: string) => {
-  await simulateApiDelay();
-  
-  // GET /api/v1/sponsors/{sponsor_id}
-  return {
-    id: sponsorId,
-    name: mockSponsors.find(s => s.id === sponsorId)?.name,
-    trials: [
-      {
-        id: "trial_123",
-        name: "Phase 2 Oncology Study",
-        status: "enrollment",
-        participants_count: 15,
-        target: 30,
-        sites: ["site_1", "site_2"] // Two sites
-      },
-      {
-        id: "trial_456",
-        name: "Phase 3 Cardiovascular Study",
-        status: "document_review",
-        sites: ["site_4"] // One site
-      },
-      {
-        id: "trial_789",
-        name: "Phase 1 Diabetes Study",
-        status: "idle",
-        sites: [] // No sites
-      }
-    ]
-  };
-};
-
 // Get site analytics
 export const getSiteAnalytics = async (siteId: string) => {
   await simulateApiDelay();
   
   // GET /api/v1/sites/{site_id}/analytics
   return {
-    site_id: "b31ddcea-554c-42f0-9096-fd5b5c1ee137",
-    site_name: "Site 0",
+    site_id: siteId,
+    site_name: mockSites.find(s => s.id === siteId)?.name,
     staff_statistics: {
       total_staff: 16,
       role_distribution: {
@@ -340,106 +249,6 @@ export const getSiteTrials = async (siteId: string) => {
   };
 };
 
-// Get trial details
-export const getTrialDetails = async (trialId: string) => {
-  await simulateApiDelay();
-  
-  // GET /api/v1/trials/{trial_id}
-  return {
-    id: trialId,
-    name: trialId === "trial_123" ? "Phase 2 Oncology Study" : 
-          trialId === "trial_456" ? "Phase 3 Cardiovascular Study" : 
-          "Phase 1 Diabetes Study",
-    phase: trialId === "trial_123" ? 2 : 
-           trialId === "trial_456" ? 3 : 1,
-    status: trialId === "trial_123" ? "enrollment" : 
-            trialId === "trial_456" ? "document_review" : "idle",
-    therapeutic_area: trialId === "trial_123" ? "Oncology" : 
-                       trialId === "trial_456" ? "Cardiovascular" : "Endocrinology",
-    enrollment_target: 30,
-    current_enrollment: 15,
-    protocol_file: "protocol.pdf",
-    start_date: "2023-01-15",
-    end_date: "2024-06-30"
-  };
-};
-
-// Get trial sites
-export const getTrialSites = async (trialId: string) => {
-  await simulateApiDelay();
-  
-  // GET /api/v1/relationships/trials/{trial_id}/sites
-  return {
-    trial_id: trialId,
-    sites: [
-      {
-        id: "site_1",
-        name: "Valley Clinical Trials",
-        status: "active",
-        enrollment: {
-          identified: 18,
-          prescreened: 12,
-          qualified: 7,
-          enrolled: 5
-        }
-      },
-      {
-        id: "site_3",
-        name: "Coastal Clinical Studies",
-        status: "active",
-        enrollment: {
-          identified: 26,
-          prescreened: 15,
-          qualified: 10,
-          enrolled: 8
-        }
-      }
-    ]
-  };
-};
-
-// Find matching sites for a trial
-export const findMatchingSites = async (trialId: string) => {
-  await simulateApiDelay();
-  
-  // GET /api/v1/trials/{trial_id}/find-matching-sites
-  return {
-    trial_id: trialId,
-    matching_sites: [
-      {
-        id: "site_2",
-        name: "Metro Medical Research",
-        location: { lat: 34.0522, lng: -118.2437 },
-        compatibility_score: 94,
-        eligible_patients: 28,
-        total_patients: 300,
-        compatible_features: ["procedures", "equipment", "facilities"],
-        incompatible_features: [],
-        rejection_reasons: {
-          age: 10,
-          diagnosis_date: 5,
-          comorbidities: 3
-        }
-      },
-      {
-        id: "site_5",
-        name: "Riverside Medical Center",
-        location: { lat: 33.9806, lng: -117.3755 },
-        compatibility_score: 82,
-        eligible_patients: 19,
-        total_patients: 265,
-        compatible_features: ["procedures", "facilities"],
-        incompatible_features: ["equipment"],
-        rejection_reasons: {
-          age: 8,
-          lab_values: 12,
-          prior_therapies: 7
-        }
-      }
-    ]
-  };
-};
-
 // Find matching trials for a site
 export const findMatchingTrials = async (siteId: string) => {
   await simulateApiDelay();
@@ -492,51 +301,12 @@ export const findMatchingTrials = async (siteId: string) => {
             }
           }
         ]
-      },
-      {
-        id: "trial_102",
-        name: "Phase 3 Cardiovascular Trial",
-        sponsor_id: "sponsor_1", 
-        sponsor_name: "Helix Biotech",
-        phase: 3,
-        compatibility_score: 85,
-        eligible_patients: 18,
-        total_patients: 300,
-        location: { lat: 51.5074, lng: -0.1278 },
-        compatible_features: ["procedures", "equipment", "facilities"],
-        incompatible_features: ["payment_system"],
-        rejection_reasons: {
-          age: 10,
-          comorbidities: 8
-        }
-      },
-      {
-        id: "trial_103",
-        name: "Phase 2 Oncology Study",
-        sponsor_id: "sponsor_2",
-        sponsor_name: "Quantum Therapeutics",
-        phase: 2,
-        compatibility_score: 94,
-        eligible_patients: 25,
-        total_patients: 300,
-        location: { lat: 48.8566, lng: 2.3522 },
-        compatible_features: ["procedures", "equipment", "facilities", "lab_certifications", "languages"],
-        incompatible_features: [],
-        rejection_reasons: {
-          diagnosis_date: 15
-        }
       }
     ]
   };
 };
 
 // Invitation handling functions
-export const sendTrialInviteToSite = async (trialId: string, siteId: string) => {
-  await simulateApiDelay();
-  // POST /api/v1/invitations/trial-invite-site/{trial_id}/{site_id}
-  return { success: true, message: "Invitation sent successfully" };
-};
-
 export const sendSiteInviteToTrial = async (siteId: string, trialId: string) => {
   await simulateApiDelay();
   // POST /api/v1/invitations/site-invite-trial/{site_id}/{trial_id}
@@ -555,205 +325,3 @@ export const declineTrialInvitation = async (siteId: string, trialId: string) =>
   return { success: true, message: "Invitation declined" };
 };
 
-export const acceptSiteInvitation = async (trialId: string, siteId: string) => {
-  await simulateApiDelay();
-  // POST /api/v1/invitations/trial-accept-site/{trial_id}/{site_id}
-  return { success: true, message: "Invitation accepted" };
-};
-
-export const declineSiteInvitation = async (trialId: string, siteId: string) => {
-  await simulateApiDelay();
-  // POST /api/v1/invitations/trial-decline-site/{trial_id}/{site_id}
-  return { success: true, message: "Invitation declined" };
-};
-
-// Get trial details with sites
-export const getTrialWithSites = async (trialId: string) => {
-  await simulateApiDelay();
-  
-  return {
-    sites: [
-      {
-        id: "b31ddcea-554c-42f0-9096-fd5b5c1ee137",
-        name: "American Hospital Dubai",
-        description: "Leading healthcare provider in Dubai with state-of-the-art facilities",
-        address: "19th St – Oud Metha, Dubai, UAE",
-        compatibility_score: 100,
-        eligible_patient_count: 249,
-        total_patient_count: 300,
-        rejection_reasons: {
-          age: 51
-        },
-        data_privacy_policy: true,
-        source_agreement: true,
-        sops_storage_monitoring: true,
-        eregulatory_binders: true,
-        source_templates: true,
-        iata_certification: true
-      },
-      {
-        id: "f5c3c3d9-4c4e-4c9a-8f1b-6a7b8c9d0e1f",
-        name: "Saudi German Hospital Dubai",
-        description: "Part of the largest healthcare network in the Middle East",
-        address: "Hessa St, Al Barsha 3, Dubai, UAE",
-        compatibility_score: 100,
-        eligible_patient_count: 241,
-        total_patient_count: 300,
-        rejection_reasons: {
-          age: 59
-        },
-        data_privacy_policy: true,
-        source_agreement: true,
-        sops_storage_monitoring: true,
-        eregulatory_binders: null,
-        source_templates: null,
-        iata_certification: null
-      },
-      {
-        id: "a1b2c3d4-e5f6-4a5b-8c7d-9e0f1a2b3c4d",
-        name: "King's College Hospital London – Dubai",
-        description: "World-class tertiary care hospital bringing London's medical excellence to Dubai",
-        address: "Dubai Hills, Al Khail Road, Dubai, UAE",
-        compatibility_score: 100,
-        eligible_patient_count: 247,
-        total_patient_count: 300,
-        rejection_reasons: {
-          age: 53
-        },
-        data_privacy_policy: true,
-        source_agreement: true,
-        sops_storage_monitoring: true,
-        eregulatory_binders: null,
-        source_templates: null,
-        iata_certification: null
-      },
-      {
-        id: "b2c3d4e5-f6a7-4b5c-9d0e-1f2a3b4c5d6e",
-        name: "Aster Hospital Mankhool",
-        description: "Modern healthcare facility providing comprehensive medical care",
-        address: "10th St, Al Mankhool, Bur Dubai, Dubai, UAE",
-        compatibility_score: 100,
-        eligible_patient_count: 236,
-        total_patient_count: 300,
-        rejection_reasons: {
-          age: 64
-        },
-        data_privacy_policy: true,
-        source_agreement: true,
-        sops_storage_monitoring: true,
-        eregulatory_binders: null,
-        source_templates: null,
-        iata_certification: null
-      },
-      {
-        id: "c3d4e5f6-a7b8-4c5d-0e1f-2a3b4c5d6e7f",
-        name: "Emirates Specialty Hospital",
-        description: "Specialized healthcare center in Dubai Healthcare City",
-        address: "Dubai Healthcare City, Phase 2, Dubai, UAE",
-        compatibility_score: 100,
-        eligible_patient_count: 253,
-        total_patient_count: 300,
-        rejection_reasons: {
-          age: 47
-        },
-        data_privacy_policy: true,
-        source_agreement: true,
-        sops_storage_monitoring: true,
-        eregulatory_binders: null,
-        source_templates: null,
-        iata_certification: null
-      },
-      {
-        id: "d4e5f6a7-b8c9-4d5e-1f2a-3b4c5d6e7f8a",
-        name: "Thumbay Hospital Dubai",
-        description: "Academic hospital providing advanced healthcare services",
-        address: "13th Street, Al Qusais, Dubai, UAE",
-        compatibility_score: 100,
-        eligible_patient_count: 246,
-        total_patient_count: 300,
-        rejection_reasons: {
-          age: 54
-        },
-        data_privacy_policy: true,
-        source_agreement: true,
-        sops_storage_monitoring: true,
-        eregulatory_binders: null,
-        source_templates: null,
-        iata_certification: null
-      },
-      {
-        id: "cfead04c-3c0b-459d-8fe3-24f73be33c93",
-        name: "Mediclinic City Hospital",
-        description: "Multi-specialty tertiary care hospital in Dubai Healthcare City",
-        address: "Dubai Healthcare City, Building 37, Dubai, UAE",
-        compatibility_score: 67.03296703296702,
-        eligible_patient_count: 236,
-        total_patient_count: 300,
-        rejection_reasons: {
-          age: 64
-        },
-        data_privacy_policy: true,
-        source_agreement: true,
-        sops_storage_monitoring: true,
-        eregulatory_binders: true,
-        source_templates: true,
-        iata_certification: true
-      },
-      {
-        id: "7fefaf8e-b3be-4c24-a10c-bae6746ef2ab",
-        name: "Al Zahra Hospital Dubai",
-        description: "Private multi-specialty hospital with advanced medical technology",
-        address: "Sheikh Zayed Road, Al Barsha, Dubai, UAE",
-        compatibility_score: 67.03296703296702,
-        eligible_patient_count: 242,
-        total_patient_count: 300,
-        rejection_reasons: {
-          age: 58
-        },
-        data_privacy_policy: true,
-        source_agreement: true,
-        sops_storage_monitoring: true,
-        eregulatory_binders: true,
-        source_templates: true,
-        iata_certification: true
-      },
-      {
-        id: "ea098e9a-f770-4e45-8ac8-63c98f838d49",
-        name: "Canadian Specialist Hospital",
-        description: "Leading healthcare facility providing comprehensive medical services",
-        address: "24th St, 7/1, рядом с Министерством окружающей среды и водных ресурсов, Dubai, UAE",
-        compatibility_score: 67.03296703296702,
-        eligible_patient_count: 246,
-        total_patient_count: 300,
-        rejection_reasons: {
-          age: 54
-        },
-        data_privacy_policy: true,
-        source_agreement: true,
-        sops_storage_monitoring: true,
-        eregulatory_binders: true,
-        source_templates: true,
-        iata_certification: true
-      },
-      {
-        id: "b10953e4-1590-434b-b148-223f9f5f7feb",
-        name: "Rashid Hospital",
-        description: "Major trauma center and teaching hospital in Dubai",
-        address: "315 Umm Hurair Second, Dubai, UAE",
-        compatibility_score: 50.54945054945055,
-        eligible_patient_count: 249,
-        total_patient_count: 300,
-        rejection_reasons: {
-          age: 51
-        },
-        data_privacy_policy: false,
-        source_agreement: false,
-        sops_storage_monitoring: false,
-        eregulatory_binders: false,
-        source_templates: false,
-        iata_certification: false
-      }
-    ],
-    total_count: 10
-  };
-};
